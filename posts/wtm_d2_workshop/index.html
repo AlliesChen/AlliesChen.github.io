@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>WTM - D2 workshop 活動心得 | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="murmur">
+<meta name="description" content="Reflecting on WTM D2 Workshop">
+<meta name="author" content="Yu-Pang">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="WTM - D2 workshop 活動心得" />
+<meta property="og:description" content="Reflecting on WTM D2 Workshop" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/wtm_d2_workshop/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-26T19:58:58&#43;08:00" />
+<meta property="article:modified_time" content="2022-09-26T19:58:58&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="WTM - D2 workshop 活動心得"/>
+<meta name="twitter:description" content="Reflecting on WTM D2 Workshop"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "WTM - D2 workshop 活動心得",
+      "item": "https://AlliesChen.github.io/posts/wtm_d2_workshop/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "WTM - D2 workshop 活動心得",
+  "name": "WTM - D2 workshop 活動心得",
+  "description": "Reflecting on WTM D2 Workshop",
+  "keywords": [
+    "murmur"
+  ],
+  "articleBody": "活動表訂從9:40到17:30，實際製作應該是5個小時左右，當天是一組四個組員，兩個工程師搭兩個設計師。\n題目是 WTM 官網註冊頁及首頁，我只做了首頁…另一位工程師除了註冊頁，還能給大家開發及設計的建議，希望自己也能慢慢朝這個方向邁進。\n這次實作要的技術東西都看過，都沒自己深入想過、做過😅，沒能好好的判斷作法，寫個筆記警惕一下自己：\nWeb Vitals 載入造成的版面位移，忘了寫個預設值的情況下可能影響web指標中的累積佈局偏移(CLS)，而且使用者要點東西的時候版面跳掉應該是蠻差的體驗。\nReact React 18 的 useEffect 在 render 時會跑兩次，原因參考這篇文章。\n正常在元件中使用 setTimeout 來觸發 re-render 拿 state 不會有更新位址的問題，想太多了 - 寫了個例子。這個作法我用來實踐題目中輪播圖功能。\n會有事的是在Line群上看到群友提出的這個情境；在useEffect中使用setTimeout必須配合 useRef 來更新 re-render 後的 state 位址，才能穩定的每秒倒數並考慮更新的 state - 該情境可行的解法。\n至於不會穩定的每秒倒數則是我嘗試想解題時的這個例子；每次觸發按鈕確實更新了 log 中的 state，但計時也會跟著重置，連按的情況下就會等最後一下按完開始算一秒才有 log。😥\nTailwind CSS Tailwind CSS 預設的 utilities 想用自訂值只要個加方框…\n透過CDN引入一樣可以寫 configure, utilities 和用官方 plugin，作法參考官方文件。我應用這個在漢堡選單的展開，寫了個影格及動畫。\n關於codesandbox 不知道怎麼解，但純記錄下來：\n嘗試了在 codesandbox 用非CDN的方式引入 Tailwind CSS，看了幾個設定好的環境，不是把 stylesheet 整個輸出出來，就是要改Node.js做環境，但我只是想要不顯示scrollbar…。\n環境跑 HMR 時好像會讓 useEffect 變得怪怪的，有狀態殘留、重複觸發，但重整後又沒事了，也可能是我的寫法不安全造成的？🤔\n沒有確認好展示時要用的環境，雖然開發時有跟工程夥伴說好用codesandbox的mobile preview為基準開發，但它這個preview就算是用內建的open in new window，版面也會變得不同，也沒再跟全部組員確認demo時會用什麼環境，結果就有很重要的東西跑板了…\n不知道為什麼做著做著中原本抓的到的svg就抓不到了…把那個檔案改個名字又正常了。\nMurmur 輪播圖的功能不知道一開始我怎麼寫的，useEffect 的安全機制讓 state 一直以2為間距在跳，搞不懂機制的情況下後面在 transform 跟 transition 間的設定卡了很久…該學習用 Swiper 了。\nreact-router 也是更新的很勤，google要怎麼達成history.pushState() 的效果看到要用 useHistory ，試了一下一直報錯說沒有這個函式，才又發現 v6 開始變成 useNavigate。\n",
+  "wordCount" : "91",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-09-26T19:58:58+08:00",
+  "dateModified": "2022-09-26T19:58:58+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pang"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/wtm_d2_workshop/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/categories/" title="categories">
+                    <span>categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      WTM - D2 workshop 活動心得
+    </h1>
+    <div class="post-description">
+      Reflecting on WTM D2 Workshop
+    </div>
+    <div class="post-meta"><span title='2022-09-26 19:58:58 +0800 CST'>September 26, 2022</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/wtm_d2_workshop.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#web-vitals">Web Vitals</a></li>
+    <li><a href="#react">React</a></li>
+    <li><a href="#tailwind-css">Tailwind CSS</a></li>
+    <li><a href="#關於codesandbox">關於codesandbox</a></li>
+    <li><a href="#murmur">Murmur</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>活動表訂從9:40到17:30，實際製作應該是5個小時左右，當天是一組四個組員，兩個工程師搭兩個設計師。</p>
+<p>題目是 WTM 官網註冊頁及首頁，我只做了首頁&hellip;另一位工程師除了註冊頁，還能給大家開發及設計的建議，希望自己也能慢慢朝這個方向邁進。</p>
+<p>這次實作要的技術東西都看過，都沒自己深入想過、做過😅，沒能好好的判斷作法，寫個筆記警惕一下自己：</p>
+<h2 id="web-vitals">Web Vitals<a hidden class="anchor" aria-hidden="true" href="#web-vitals">#</a></h2>
+<p><code>&lt;img&gt;</code>載入造成的版面位移，忘了寫個預設值的情況下可能影響<a href="https://web.dev/vitals/">web指標</a>中的累積佈局偏移(CLS)，而且使用者要點東西的時候版面跳掉應該是蠻差的體驗。</p>
+<h2 id="react">React<a hidden class="anchor" aria-hidden="true" href="#react">#</a></h2>
+<ol>
+<li>
+<p>React 18 的 <code>useEffect</code> 在 render 時會跑兩次，原因參考<a href="https://blog.bitsrc.io/react-v18-0-useeffect-bug-why-do-effects-run-twice-39babecede93">這篇文章</a>。</p>
+</li>
+<li>
+<p>正常在元件中使用 <code>setTimeout</code> 來觸發 re-render 拿 state 不會有更新位址的問題，想太多了 - <a href="https://codepen.io/allieschen/pen/WNJXwBq">寫了個例子</a>。這個作法我用來實踐題目中輪播圖功能。</p>
+<p>會有事的是在Line群上看到群友提出的<a href="https://codepen.io/huibizhang/pen/rNdPpJx?editors=0011">這個情境</a>；在useEffect中使用setTimeout必須配合 <code>useRef</code> 來更新 re-render 後的 state 位址，才能穩定的每秒倒數並考慮更新的 state - <a href="https://codepen.io/huibizhang/pen/yLKZvNO?editors=0011">該情境可行的解法</a>。</p>
+<p>至於不會穩定的每秒倒數則是我嘗試想解題時的<a href="https://codepen.io/allieschen/pen/poLGpGv">這個例子</a>；每次觸發按鈕確實更新了 log 中的 state，但計時也會跟著重置，連按的情況下就會等最後一下按完開始算一秒才有 log。😥</p>
+</li>
+</ol>
+<h2 id="tailwind-css">Tailwind CSS<a hidden class="anchor" aria-hidden="true" href="#tailwind-css">#</a></h2>
+<ol>
+<li>
+<p>Tailwind CSS 預設的 utilities 想用<a href="https://tailwindcss.com/docs/width#arbitrary-values">自訂值</a>只要個加方框&hellip;</p>
+</li>
+<li>
+<p>透過CDN引入一樣可以寫 configure, utilities 和用官方 plugin，作法參考<a href="https://tailwindcss.com/docs/installation/play-cdn">官方文件</a>。我應用這個在漢堡選單的展開，寫了個影格及動畫。</p>
+</li>
+</ol>
+<h2 id="關於codesandbox">關於codesandbox<a hidden class="anchor" aria-hidden="true" href="#關於codesandbox">#</a></h2>
+<p>不知道怎麼解，但純記錄下來：</p>
+<ol>
+<li>
+<p>嘗試了在 codesandbox 用非CDN的方式引入 Tailwind CSS，看了幾個設定好的環境，不是把 stylesheet 整個輸出出來，就是要改Node.js做環境，但我只是想要不顯示scrollbar&hellip;。</p>
+</li>
+<li>
+<p>環境跑 HMR 時好像會讓 <code>useEffect</code> 變得怪怪的，有狀態殘留、重複觸發，但重整後又沒事了，也可能是我的寫法不安全造成的？🤔</p>
+</li>
+<li>
+<p>沒有確認好展示時要用的環境，雖然開發時有跟工程夥伴說好用codesandbox的mobile preview為基準開發，但它這個preview就算是用內建的open in new window，版面也會變得不同，也沒再跟全部組員確認demo時會用什麼環境，結果就有很重要的東西跑板了&hellip;</p>
+</li>
+<li>
+<p>不知道為什麼做著做著<code>&lt;img&gt;</code>中原本抓的到的svg就抓不到了&hellip;把那個檔案改個名字又正常了。</p>
+</li>
+</ol>
+<h2 id="murmur">Murmur<a hidden class="anchor" aria-hidden="true" href="#murmur">#</a></h2>
+<p>輪播圖的功能不知道一開始我怎麼寫的，<code>useEffect</code> 的安全機制讓 <code>state</code> 一直以2為間距在跳，搞不懂機制的情況下後面在 <code>transform</code> 跟 <code>transition</code> 間的設定卡了很久&hellip;該學習用 <a href="https://swiperjs.com/">Swiper</a> 了。</p>
+<p>react-router 也是更新的很勤，google要怎麼達成<code>history.pushState()</code> 的效果看到要用 <code>useHistory</code> ，試了一下一直報錯說沒有這個函式，才又發現 v6 開始變成 <code>useNavigate</code>。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/murmur/">murmur</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://AlliesChen.github.io/posts/unexpected_intersection_type/">
+    <span class="title">Next »</span>
+    <br>
+    <span>TypeScript：Union被判為Intersection</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

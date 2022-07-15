@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>那些網頁開發的名詞 | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="murmur">
+<meta name="description" content="Those technical terms for web dev">
+<meta name="author" content="Yu-Pung">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="那些網頁開發的名詞" />
+<meta property="og:description" content="Those technical terms for web dev" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/web-dev-terms/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-16T19:20:00&#43;08:00" />
+<meta property="article:modified_time" content="2022-07-16T19:20:00&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="那些網頁開發的名詞"/>
+<meta name="twitter:description" content="Those technical terms for web dev"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "那些網頁開發的名詞",
+      "item": "https://AlliesChen.github.io/posts/web-dev-terms/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "那些網頁開發的名詞",
+  "name": "那些網頁開發的名詞",
+  "description": "Those technical terms for web dev",
+  "keywords": [
+    "murmur"
+  ],
+  "articleBody": "這篇文章是我在職訓班時寫來釐清這堆術語的，稍微更新了比較理解的部份（前端），但到了現在我也還在更了解他們中（後端和網路的部份），有錯誤的部份還請不吝指教。\n文中資料來自以下兩篇The Odin Project的主題，或由其中導向的網頁提供：\nIntroduction to the back end Introduction to frameworks 要開發一個網站，你需要選擇伺服器、資料庫、程式語言、框架及前端工具，這些開發技術一個個堆起來，被稱為堆疊(stack)1\n這篇文章的末段有提到幾個知名網站使用的軟體堆疊。\n前端 Front end 前端，又稱client-side1，通常是指應用HTML標識(markup), CSS演示(presentation), JavaScript編程(scripting)。\nJavaScript有很多函式庫(library)可用，如jQuery，React(他寫自己是library)以及框架，如Angular, Vue等，幫助簡化及快速開發1。基本上，可以把框架想成有制定使用慣例的函式庫，選擇某個框架意味著要使用對應的框架生態圈，比如狀態管理（處理資料流），Vue的話就會用Vuex或Pinia，React的話可能是Context或Redux。\n這篇文章提供了前端與後端的比較。\n後端 Back end 後端，又稱server-side1；指運作在server端的應用，由於脫離了使用者瀏覽器相容性的限制，有大量的程式語言被應用在這塊。\n主流的語言有：PHP, ASP.NET(C#), Ruby, Python, Node.js2和Java, Go等。\n這些語言又延伸出對應的框架(framework)來幫助開發者們實踐功能，如Ruby on Rails, Laravel(PHP), Django(Python)…等。\n普遍被提到的WordPress，就是一個將前端及後端整合起來的開源(open source)框架，建立在安裝了PHP的資料庫(database)，並允許設計者透過CSS, jQuery及JavaSript。3\n什麼是後端開發 翻譯自TechTerms – Backend\n以程式術語來說，後端是數據訪問層(data access layer)，前端是(presentation layer)表現層。\n後端的運作流程大致如：\n處理網頁送來的要求(request) 執行語法(PHP, ASP, JSP, etc.)來產生HTML 使用SQL查詢(queries)—某個特定主題(article)，然後訪問(accessing)該主題在資料庫中的資料。 儲存並更新資料庫 加密或解密資料 處理檔案上傳與下載 透過JavaScript運算使用者輸入的資訊 後端包括哪些部分及各部分的名稱 參考自Codecademy的這篇文章 – Back-End Web Architecture：\n客戶端(clients)：任何發送要求給後端的東西 伺服器(server)：接收需求的電腦 應用(app)：運行在伺服器上，接收要求，從資料庫取回資訊並送出回應(response) 資料庫(database)：組織及保管資料 前面提到的這篇文章前段也有把client side, server side的軟體堆疊做成圖片幫助理解。\n網頁應用需要一個伺服器來處理來自客戶端的需求，在這一塊的兩個主流的角色是：1\nApache Nginx 伺服器上的應用，會基於HTTP verb及Uniform Resource Identifier(URI)決定如何回應客戶端送來的要求；HTTP verb與URI成對，被稱為route，配對他們與客戶端要求的行為稱作routing。\n部分應用會被稱為中介軟體(middleware)；即伺服器在接收及發送回應的過程中被執行的程式。\n中介軟體可能會修改要求(modify request)，且通常結束在傳送控制(passing control)給另一個中介軟體，而不是發送回應。\n但最終，在中介軟體發送HTTP response給客戶端後，結束這一個request-response cycle。\n常見的應用有Express(Node.js)或Ruby on Rails來簡化這個邏輯(the logic of routing)。\n伺服器的回應(response)有哪些 取決於資料形式，例如：\nHTML file JSON data HTTP status code: e.g. 404 Not Found, 401 Unauthorized, 500 Internal Server Error 後端的資料存在哪裡 資料庫(database)：常見於後端應用，保存資料並減少主機CPU及記憶體的負載，讓資料在伺服器發生錯誤或失去電力時能保留下來。\n目前有兩種資料庫，關聯式(relational)和非關聯式(non-relational)資料庫並且向下分枝，各有各的長處與短處，以下是常見的資料庫例子：1\nMySQL(關聯式) PostgreSQL(關聯式) MongoDB(非關聯式) 網頁應用也需要一個暫存系統來減少資料庫的負載，並處理大量的流量(traffic)，Memcached和Redis是最廣為使用的暫存系統。\nWeb API 分兩個層面解釋，首先是API – Application Programming Interface(API)是一個被清楚定義的辦法(method)，用來處理各個不同軟體元件間的溝通。\n基本上可以聯想成是電腦的那些插孔，USB你可用插隨身碟，HDMI可以接螢幕；程式中會寫你要怎麼呼叫這支程式，比如JavaScript的console.log(msg)，可以讓你印出msg在瀏覽器的console(按F12可以看到)中，但你不必真的知道console.log是怎麼運作的(怎麼發指令給瀏覽器的)。\n而Web API，則是把對象從程式改成網站，直接看例子好了，這個網站提供星際大戰角色資訊的API，把網站提供的範例(網址)貼給瀏覽器後，可以看到框裡有落落長的文字，但它似乎是有規律(格式)的，也就是上面有提到的JSON格式：\n{ \"name\": \"Luke Skywalker\", \"height\": \"172\", \"mass\": \"77\", \"hair_color\": \"blond\", \"skin_color\": \"fair\", \"eye_color\": \"blue\", \"birth_year\": \"19BBY\", \"gender\": \"male\", \"homeworld\": \"https://swapi.dev/api/planets/1/\", \"films\": [ \"https://swapi.dev/api/films/1/\", \"https://swapi.dev/api/films/2/\", \"https://swapi.dev/api/films/3/\", \"https://swapi.dev/api/films/6/\" ], \"species\": [], \"vehicles\": [ \"https://swapi.dev/api/vehicles/14/\", \"https://swapi.dev/api/vehicles/30/\" ], \"starships\": [ \"https://swapi.dev/api/starships/12/\", \"https://swapi.dev/api/starships/22/\" ], \"created\": \"2014-12-09T13:50:51.644000Z\", \"edited\": \"2014-12-20T21:17:56.891000Z\", \"url\": \"https://swapi.dev/api/people/1/\" } 我可以透過JavaScript加工這筆資料，比如說，把它們做排版，放到我的網站上，顯示給使用者看：\n角色名稱: Luke Skywalker 身高：172公分 髮色：金 瞳色：藍\n一覽要求(request)的過程 完整版請見Codecademy(英文)，這邊我簡化過的說法是：\n使用者在逛購物網站，並點擊了商品圖片；這一行為送出一個GET request到http://www.該網站.com/products/66432 GET是使用者對資訊送出要求，URI (uniform resource identifier) /products/66432指出使用者想要id: 66432的商品資訊 伺服器接收到要求 觸發對應的Event listeners，要求(HTTP verb: GET, URI: /products/66432。這段在要求與回應間的程式碼是中介軟體。 在處理過程中，伺服器程式碼做出查詢指令給資料庫(database query) 資料庫執行查詢後，送回資料給伺服器 伺服器收到資料庫給的資料，並送回給客戶端，回應中會包含HTTP狀態碼: 200；代表要求成功。 使用者的瀏覽器收到回應並解析程式碼 使用者看到了點擊的商品圖片 框架(frameworks) 翻譯自這篇文章 – Get Started with Web Frameworks\n通常後端框架提供函式庫(libraries)，用來訪問資料庫、管理工作階段(sessions)及cookies，創造樣板(templates)給HTML顯示，還有做出可以被重複使用的程式碼(promote the reuse of code)。\n儘管沒有一個框架是單一功能的，但它們有各自有被做出來的目的，比如Ruby on Rails緊密整合JavaScript，使它在處理有大量使用Ajax的網頁上受到歡迎，並且它包含了Prototype JavaScript Library可以讓開發者自行整合。\nAjax = Asynchronous JavaScript And XML；概念上用來讓網頁以區塊為單位更新，比如Facebook的評論、讚數等，有新留言或按讚時不會牽動到整個網頁頁面。\nDjango是被做來開發大型新聞網站，並提供自動生產網頁管理區塊(auto-generated site administration section)，給網站使用者創造、編輯和更新內容。並內建工具給暫存資料及建立彈性化URLs。\nUniform Resource Locators(URLs)，即下圖那一串網址，更多資訊參見MDN Web Docs(為圖片出處) 以下關於框架的內容參考自2\nUI框架(User Interface Framework) 通常會提供grid system讓開發者可以排版，提供color schemes幫助管理顏色，以及提供套用CSS樣式化的HTML元件讓它們看起來更簡潔及專業。雖然這些也在前端的範圍，但通常，前端框架指的會是JavaScript的框架。以下列舉幾個UI框架：\nBootstrap (CSS) Tailwind (CSS) Chakra (React) Material UI (React) 前端框架 大多數是用JavaScript寫成，並用來管理網站的功能及互動，以下列舉幾個前端框架：\nReact Angular Vue Svelte Lit Solid 後端框架 撰寫的語言種類繁多，並有廣泛且多元的特性，以下列舉一些後端框架：\nSpring (Java) Django (Python) Flask (Python) Rails (Ruby) Express (Node.js) Phoenix (Elixir) CSS Preprocessor 因為CSS只是語言，也可以當成一種標籤，原本並沒有條件式(condition)或迴圈(loop)的功能；不能用if, for, while等來寫出內容，預處理器就是把這件事化為可能，用程式來編譯出CSS，常見的預處理器有：\nSass (基於Ruby) LESS Stylus PostCSS寫自己不是預處理器，且能跟他們一起用。\nLAMP 翻譯自Stackoverflow上的這則回答 – What is a Web Framework? How does it compare with LAMP?\n為Linux, Apache, MySQL, PHP/Perl,Python，首字組成的縮寫，是一個組件(package)包含了web server(Apache)，能夠讓網頁運作起來。相對的，框架只是加速程式開發的函式庫。\nTechnology Stack for Web Application Development | RubyGarage ↩︎ ↩︎ ↩︎ ↩︎ ↩︎ ↩︎\nWhat is a Web Framework, and Why Should You use one? | DEV ↩︎ ↩︎\nI Don’t Speak Your Language: Frontend vs. Backend | treehouse ↩︎\n",
+  "wordCount" : "339",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-07-16T19:20:00+08:00",
+  "dateModified": "2022-07-16T19:20:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pung"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/web-dev-terms/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/categories/" title="categories">
+                    <span>categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      那些網頁開發的名詞
+    </h1>
+    <div class="post-description">
+      Those technical terms for web dev
+    </div>
+    <div class="post-meta"><span title='2022-07-16 19:20:00 +0800 CST'>July 16, 2022</span>&nbsp;·&nbsp;Yu-Pung&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/web-dev-terms.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前端-front-end">前端 Front end</a></li>
+    <li><a href="#後端-back-end">後端 Back end</a>
+      <ul>
+        <li><a href="#什麼是後端開發">什麼是後端開發</a></li>
+        <li><a href="#後端包括哪些部分及各部分的名稱">後端包括哪些部分及各部分的名稱</a></li>
+        <li><a href="#伺服器的回應response有哪些">伺服器的回應(response)有哪些</a></li>
+        <li><a href="#後端的資料存在哪裡">後端的資料存在哪裡</a></li>
+        <li><a href="#web-api">Web API</a></li>
+        <li><a href="#一覽要求request的過程">一覽要求(request)的過程</a></li>
+      </ul>
+    </li>
+    <li><a href="#框架frameworks">框架(frameworks)</a>
+      <ul>
+        <li><a href="#ui框架user-interface-framework">UI框架(User Interface Framework)</a></li>
+        <li><a href="#前端框架">前端框架</a></li>
+        <li><a href="#後端框架">後端框架</a></li>
+      </ul>
+    </li>
+    <li><a href="#css-preprocessor">CSS Preprocessor</a></li>
+    <li><a href="#lamp">LAMP</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>這篇文章是我在職訓班時寫來釐清這堆術語的，稍微更新了比較理解的部份（前端），但到了現在我也還在更了解他們中（後端和網路的部份），有錯誤的部份還請不吝指教。</p>
+<p>文中資料來自以下兩篇The Odin Project的主題，或由其中導向的網頁提供：</p>
+<ul>
+<li><a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/introduction-to-the-back-end">Introduction to the back end</a></li>
+<li><a href="https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/introduction-to-frameworks-web-development-101">Introduction to frameworks</a></li>
+</ul>
+<p>要開發一個網站，你需要選擇伺服器、資料庫、程式語言、框架及前端工具，這些開發技術一個個堆起來，被稱為堆疊(stack)<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p><a href="https://rubygarage.org/blog/technology-stack-for-web-development">這篇文章</a>的末段有提到幾個知名網站使用的軟體堆疊。</p>
+<h2 id="前端-front-end">前端 Front end<a hidden class="anchor" aria-hidden="true" href="#前端-front-end">#</a></h2>
+<p>前端，又稱client-side<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>，通常是指應用HTML標識(markup), CSS演示(presentation), JavaScript編程(scripting)。</p>
+<p>JavaScript有很多函式庫(library)可用，如<a href="https://jquery.com/">jQuery</a>，React(他寫自己是library)以及框架，如Angular, Vue等，幫助簡化及快速開發<sup id="fnref2:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。基本上，可以把框架想成有制定使用慣例的函式庫，選擇某個框架意味著要使用對應的框架生態圈，比如狀態管理（處理資料流），Vue的話就會用Vuex或Pinia，React的話可能是Context或Redux。</p>
+<p><a href="https://blog.teamtreehouse.com/i-dont-speak-your-language-frontend-vs-backend">這篇文章</a>提供了前端與後端的比較。</p>
+<h2 id="後端-back-end">後端 Back end<a hidden class="anchor" aria-hidden="true" href="#後端-back-end">#</a></h2>
+<p>後端，又稱server-side<sup id="fnref3:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>；指運作在server端的應用，由於脫離了使用者瀏覽器相容性的限制，有大量的程式語言被應用在這塊。</p>
+<p>主流的語言有：PHP, <a href="https://zh.wikipedia.org/wiki/ASP.NET">ASP.NET(C#)</a>, Ruby, Python, Node.js<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>和Java, Go等。</p>
+<p>這些語言又延伸出對應的框架(framework)來幫助開發者們實踐功能，如Ruby on Rails, Laravel(PHP), Django(Python)&hellip;等。</p>
+<p>普遍被提到的WordPress，就是一個將前端及後端整合起來的開源(open source)框架，建立在安裝了PHP的資料庫(database)，並允許設計者透過CSS, jQuery及JavaSript。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<h3 id="什麼是後端開發">什麼是後端開發<a hidden class="anchor" aria-hidden="true" href="#什麼是後端開發">#</a></h3>
+<p>翻譯自TechTerms &ndash; <a href="https://techterms.com/definition/backend">Backend</a></p>
+<p>以程式術語來說，後端是數據訪問層(data access layer)，前端是(presentation layer)表現層。</p>
+<p>後端的運作流程大致如：</p>
+<ol>
+<li>處理網頁送來的要求(request)</li>
+<li>執行語法(PHP, ASP, JSP, etc.)來產生HTML</li>
+<li>使用SQL查詢(queries)—某個特定主題(article)，然後訪問(accessing)該主題在資料庫中的資料。</li>
+<li>儲存並更新資料庫</li>
+<li>加密或解密資料</li>
+<li>處理檔案上傳與下載</li>
+<li>透過JavaScript運算使用者輸入的資訊</li>
+</ol>
+<h3 id="後端包括哪些部分及各部分的名稱">後端包括哪些部分及各部分的名稱<a hidden class="anchor" aria-hidden="true" href="#後端包括哪些部分及各部分的名稱">#</a></h3>
+<p>參考自Codecademy的這篇文章 &ndash; <a href="https://www.codecademy.com/articles/back-end-architecture/">Back-End Web Architecture</a>：</p>
+<ul>
+<li>客戶端(clients)：任何發送要求給後端的東西</li>
+<li>伺服器(server)：接收需求的電腦</li>
+<li>應用(app)：運行在伺服器上，接收要求，從資料庫取回資訊並送出回應(response)</li>
+<li>資料庫(database)：組織及保管資料</li>
+</ul>
+<p><a href="https://rubygarage.org/blog/technology-stack-for-web-development">前面提到的這篇文章</a>前段也有把client side, server side的軟體堆疊做成圖片幫助理解。</p>
+<p>網頁應用需要一個伺服器來處理來自客戶端的需求，在這一塊的兩個主流的角色是：<sup id="fnref4:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<ul>
+<li>Apache</li>
+<li>Nginx</li>
+</ul>
+<p>伺服器上的應用，會基於HTTP verb及Uniform Resource Identifier(URI)決定如何回應客戶端送來的要求；HTTP verb與URI成對，被稱為route，配對他們與客戶端要求的行為稱作routing。</p>
+<p>部分應用會被稱為中介軟體(middleware)；即伺服器在接收及發送回應的過程中被執行的程式。</p>
+<p>中介軟體可能會修改要求(modify request)，且通常結束在傳送控制(passing control)給另一個中介軟體，而不是發送回應。</p>
+<p>但最終，在中介軟體發送HTTP response給客戶端後，結束這一個request-response cycle。</p>
+<p>常見的應用有Express(Node.js)或Ruby on Rails來簡化這個邏輯(the logic of routing)。</p>
+<h3 id="伺服器的回應response有哪些">伺服器的回應(response)有哪些<a hidden class="anchor" aria-hidden="true" href="#伺服器的回應response有哪些">#</a></h3>
+<p>取決於資料形式，例如：</p>
+<ul>
+<li>HTML file</li>
+<li>JSON data</li>
+<li>HTTP status code: e.g. 404 Not Found, 401 Unauthorized, 500 Internal Server Error</li>
+</ul>
+<h3 id="後端的資料存在哪裡">後端的資料存在哪裡<a hidden class="anchor" aria-hidden="true" href="#後端的資料存在哪裡">#</a></h3>
+<p>資料庫(database)：常見於後端應用，保存資料並減少主機CPU及記憶體的負載，讓資料在伺服器發生錯誤或失去電力時能保留下來。</p>
+<p>目前有兩種資料庫，關聯式(relational)和非關聯式(non-relational)資料庫並且向下分枝，各有各的長處與短處，以下是常見的資料庫例子：<sup id="fnref5:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<ul>
+<li>MySQL(關聯式)</li>
+<li>PostgreSQL(關聯式)</li>
+<li>MongoDB(非關聯式)</li>
+</ul>
+<p>網頁應用也需要一個暫存系統來減少資料庫的負載，並處理大量的流量(traffic)，Memcached和Redis是最廣為使用的暫存系統。</p>
+<h3 id="web-api">Web API<a hidden class="anchor" aria-hidden="true" href="#web-api">#</a></h3>
+<p>分兩個層面解釋，首先是API &ndash; Application Programming Interface(API)是一個被清楚定義的辦法(method)，用來處理各個不同軟體元件間的溝通。</p>
+<p>基本上可以聯想成是電腦的那些插孔，USB你可用插隨身碟，HDMI可以接螢幕；程式中會寫你要怎麼呼叫這支程式，比如JavaScript的<code>console.log(msg)</code>，可以讓你印出msg在瀏覽器的console(按F12可以看到)中，但你不必真的知道console.log是怎麼運作的(怎麼發指令給瀏覽器的)。</p>
+<p>而Web API，則是把對象從程式改成網站，直接看例子好了，<a href="https://swapi.dev/">這個網站</a>提供星際大戰角色資訊的API，把網站提供的<a href="https://swapi.dev/api/people/1/">範例(網址)</a>貼給瀏覽器後，可以看到框裡有落落長的文字，但它似乎是有規律(格式)的，也就是上面有提到的JSON格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Luke Skywalker&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;height&#34;</span>: <span style="color:#e6db74">&#34;172&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;mass&#34;</span>: <span style="color:#e6db74">&#34;77&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;hair_color&#34;</span>: <span style="color:#e6db74">&#34;blond&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;skin_color&#34;</span>: <span style="color:#e6db74">&#34;fair&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;eye_color&#34;</span>: <span style="color:#e6db74">&#34;blue&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;birth_year&#34;</span>: <span style="color:#e6db74">&#34;19BBY&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;gender&#34;</span>: <span style="color:#e6db74">&#34;male&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;homeworld&#34;</span>: <span style="color:#e6db74">&#34;https://swapi.dev/api/planets/1/&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;films&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;https://swapi.dev/api/films/1/&#34;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;https://swapi.dev/api/films/2/&#34;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;https://swapi.dev/api/films/3/&#34;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;https://swapi.dev/api/films/6/&#34;</span>
+</span></span><span style="display:flex;"><span>    ], 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;species&#34;</span>: [], 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;vehicles&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;https://swapi.dev/api/vehicles/14/&#34;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;https://swapi.dev/api/vehicles/30/&#34;</span>
+</span></span><span style="display:flex;"><span>    ], 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;starships&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;https://swapi.dev/api/starships/12/&#34;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;https://swapi.dev/api/starships/22/&#34;</span>
+</span></span><span style="display:flex;"><span>    ], 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;created&#34;</span>: <span style="color:#e6db74">&#34;2014-12-09T13:50:51.644000Z&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;edited&#34;</span>: <span style="color:#e6db74">&#34;2014-12-20T21:17:56.891000Z&#34;</span>, 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;url&#34;</span>: <span style="color:#e6db74">&#34;https://swapi.dev/api/people/1/&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我可以透過JavaScript加工這筆資料，比如說，把它們做排版，放到我的網站上，顯示給使用者看：</p>
+<hr>
+<h4 id="角色名稱-luke-skywalker">角色名稱: Luke Skywalker<a hidden class="anchor" aria-hidden="true" href="#角色名稱-luke-skywalker">#</a></h4>
+<p>身高：172公分
+髮色：金
+瞳色：藍</p>
+<h3 id="一覽要求request的過程">一覽要求(request)的過程<a hidden class="anchor" aria-hidden="true" href="#一覽要求request的過程">#</a></h3>
+<p><a href="https://www.codecademy.com/articles/back-end-architecture/">完整版請見Codecademy(英文)</a>，這邊我簡化過的說法是：</p>
+<ol>
+<li>使用者在逛購物網站，並點擊了商品圖片；這一行為送出一個GET request到<code>http://www.該網站.com/products/66432</code>
+GET是使用者對資訊送出要求，URI (uniform resource identifier) <code>/products/66432</code>指出使用者想要id: 66432的商品資訊</li>
+<li>伺服器接收到要求</li>
+<li>觸發對應的Event listeners，要求(HTTP verb: GET, URI: <code>/products/66432</code>。這段在要求與回應間的程式碼是中介軟體。</li>
+<li>在處理過程中，伺服器程式碼做出查詢指令給資料庫(database query)</li>
+<li>資料庫執行查詢後，送回資料給伺服器</li>
+<li>伺服器收到資料庫給的資料，並送回給客戶端，回應中會包含HTTP狀態碼: 200；代表要求成功。</li>
+<li>使用者的瀏覽器收到回應並解析程式碼</li>
+<li>使用者看到了點擊的商品圖片</li>
+</ol>
+<h2 id="框架frameworks">框架(frameworks)<a hidden class="anchor" aria-hidden="true" href="#框架frameworks">#</a></h2>
+<p>翻譯自這篇文章 &ndash; <a href="https://web.archive.org/web/20180402231229/https://www.wired.com/2010/02/get_started_with_web_frameworks/">Get Started with Web Frameworks</a></p>
+<p>通常後端框架提供函式庫(libraries)，用來訪問資料庫、管理工作階段(sessions)及cookies，創造樣板(templates)給HTML顯示，還有做出可以被重複使用的程式碼(promote the reuse of code)。</p>
+<p>儘管沒有一個框架是單一功能的，但它們有各自有被做出來的目的，比如Ruby on Rails緊密整合JavaScript，使它在處理有大量使用Ajax的網頁上受到歡迎，並且它包含了Prototype JavaScript Library可以讓開發者自行整合。</p>
+<blockquote>
+<p>Ajax = Asynchronous JavaScript And XML；概念上用來讓網頁以區塊為單位更新，比如Facebook的評論、讚數等，有新留言或按讚時不會牽動到整個網頁頁面。</p>
+</blockquote>
+<p>Django是被做來開發大型新聞網站，並提供自動生產網頁管理區塊(auto-generated site administration section)，給網站使用者創造、編輯和更新內容。並內建工具給暫存資料及建立彈性化URLs。</p>
+<blockquote>
+<p>Uniform Resource Locators(URLs)，即下圖那一串網址，更多資訊參見<a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_URL">MDN Web Docs</a>(為圖片出處)
+<img loading="lazy" src="https://i.imgur.com/kIybzKI.png" alt="URLs"  />
+</p>
+</blockquote>
+<p>以下關於框架的內容參考自<sup id="fnref1:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h3 id="ui框架user-interface-framework">UI框架(User Interface Framework)<a hidden class="anchor" aria-hidden="true" href="#ui框架user-interface-framework">#</a></h3>
+<p>通常會提供grid system讓開發者可以排版，提供color schemes幫助管理顏色，以及提供套用CSS樣式化的HTML元件讓它們看起來更簡潔及專業。雖然這些也在前端的範圍，但通常，前端框架指的會是JavaScript的框架。以下列舉幾個UI框架：</p>
+<ul>
+<li>Bootstrap (CSS)</li>
+<li>Tailwind (CSS)</li>
+<li>Chakra (React)</li>
+<li>Material UI (React)</li>
+</ul>
+<h3 id="前端框架">前端框架<a hidden class="anchor" aria-hidden="true" href="#前端框架">#</a></h3>
+<p>大多數是用JavaScript寫成，並用來管理網站的功能及互動，以下列舉幾個前端框架：</p>
+<ul>
+<li>React</li>
+<li>Angular</li>
+<li>Vue</li>
+<li>Svelte</li>
+<li>Lit</li>
+<li>Solid</li>
+</ul>
+<h3 id="後端框架">後端框架<a hidden class="anchor" aria-hidden="true" href="#後端框架">#</a></h3>
+<p>撰寫的語言種類繁多，並有廣泛且多元的特性，以下列舉一些後端框架：</p>
+<ul>
+<li>Spring (Java)</li>
+<li>Django (Python)</li>
+<li>Flask (Python)</li>
+<li>Rails (Ruby)</li>
+<li>Express (Node.js)</li>
+<li>Phoenix (Elixir)</li>
+</ul>
+<h2 id="css-preprocessor">CSS Preprocessor<a hidden class="anchor" aria-hidden="true" href="#css-preprocessor">#</a></h2>
+<p>因為CSS只是語言，也可以當成一種標籤，原本並沒有條件式(condition)或迴圈(loop)的功能；不能用if, for, while等來寫出內容，預處理器就是把這件事化為可能，用程式來編譯出CSS，常見的預處理器有：</p>
+<ul>
+<li>Sass (基於Ruby)</li>
+<li>LESS</li>
+<li>Stylus</li>
+</ul>
+<blockquote>
+<p>PostCSS寫自己不是預處理器，且能跟他們一起用。</p>
+</blockquote>
+<h2 id="lamp">LAMP<a hidden class="anchor" aria-hidden="true" href="#lamp">#</a></h2>
+<p>翻譯自Stackoverflow上的這則回答 &ndash; <a href="https://stackoverflow.com/a/4507543/18972098">What is a Web Framework? How does it compare with LAMP?</a></p>
+<blockquote>
+<p>為Linux, Apache, MySQL, PHP/Perl,Python，首字組成的縮寫，是一個組件(package)包含了web server(Apache)，能夠讓網頁運作起來。相對的，框架只是加速程式開發的函式庫。</p>
+</blockquote>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://rubygarage.org/blog/technology-stack-for-web-development">Technology Stack for Web Application Development | RubyGarage</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref4:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref5:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://dev.to/aspittel/what-is-a-web-framework-and-why-should-i-use-one-38c0">What is a Web Framework, and Why Should You use one? | DEV</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://blog.teamtreehouse.com/i-dont-speak-your-language-frontend-vs-backend">I Don’t Speak Your Language: Frontend vs. Backend | treehouse</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/murmur/">murmur</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>使用`.d.ts` 檔給JavaScript加入型別檢查</span>
+  </a>
+  <a class="next" href="https://AlliesChen.github.io/posts/deploy-hugo-website-on-github/">
+    <span class="title">Next »</span>
+    <br>
+    <span>使用Hugo產生一個部落格並部署在GitHub上</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

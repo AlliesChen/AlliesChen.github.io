@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.101.0" /><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>YP&#39;s Dev Memo</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="https://AlliesChen.github.io/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="YP&#39;s Dev Memo" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://AlliesChen.github.io/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="YP&#39;s Dev Memo"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "YP's Dev Memo",
+  "url": "https://AlliesChen.github.io/",
+  "description": "",
+  "thumbnailUrl": "https://AlliesChen.github.io/favicon.ico",
+  "sameAs": [
+      "https://github.com/AlliesChen/"
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/categories/" title="categories">
+                    <span>categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<article class="first-entry home-info">
+    <header class="entry-header">
+        <h1>YP的開發備忘</h1>
+    </header>
+    <div class="entry-content">
+        Hi! 我是個未滿一年的轉職仔，目前擔任前端工程師，因為技術太多，又變化的太快了，所以做了這個部落格來放筆記。
+    </div>
+    <footer class="entry-footer">
+        <div class="social-icons">
+    <a href="https://github.com/AlliesChen/" target="_blank" rel="noopener noreferrer me" title="Github">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+    </a>
+</div>
+
+    </footer>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>WTM - D2 workshop 活動心得
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>活動表訂從9:40到17:30，實際製作應該是5個小時左右，當天是一組四個組員，兩個工程師搭兩個設計師。
+題目是 WTM 官網註冊頁及首頁，我只做了首頁…另一位工程師除了註冊頁，還能給大家開發及設計的建議，希望自己也能慢慢朝這個方向邁進。
+這次實作要的技術東西都看過，都沒自己深入想過、做過😅，沒能好好的判斷作法，寫個筆記警惕一下自己：
+Web Vitals &lt;img&gt;載入造成的版面位移，忘了寫個預設值的情況下可能影響web指標中的累積佈局偏移(CLS)，而且使用者要點東西的時候版面跳掉應該是蠻差的體驗。
+React React 18 的 useEffect 在 render 時會跑兩次，原因參考這篇文章。
+正常在元件中使用 setTimeout 來觸發 re-render 拿 state 不會有更新位址的問題，想太多了 - 寫了個例子。這個作法我用來實踐題目中輪播圖功能。
+會有事的是在Line群上看到群友提出的這個情境；在useEffect中使用setTimeout必須配合 useRef 來更新 re-render 後的 state 位址，才能穩定的每秒倒數並考慮更新的 state - 該情境可行的解法。
+至於不會穩定的每秒倒數則是我嘗試想解題時的這個例子；每次觸發按鈕確實更新了 log 中的 state，但計時也會跟著重置，連按的情況下就會等最後一下按完開始算一秒才有 log。😥
+Tailwind CSS Tailwind CSS 預設的 utilities 想用自訂值只要個加方框…
+透過CDN引入一樣可以寫 configure, utilities 和用官方 plugin，作法參考官方文件。我應用這個在漢堡選單的展開，寫了個影格及動畫。
+關於codesandbox 不知道怎麼解，但純記錄下來：
+嘗試了在 codesandbox 用非CDN的方式引入 Tailwind CSS，看了幾個設定好的環境，不是把 stylesheet 整個輸出出來，就是要改Node.js做環境，但我只是想要不顯示scrollbar…。
+環境跑 HMR 時好像會讓 useEffect 變得怪怪的，有狀態殘留、重複觸發，但重整後又沒事了，也可能是我的寫法不安全造成的？🤔
+沒有確認好展示時要用的環境，雖然開發時有跟工程夥伴說好用codesandbox的mobile preview為基準開發，但它這個preview就算是用內建的open in new window，版面也會變得不同，也沒再跟全部組員確認demo時會用什麼環境，結果就有很重要的東西跑板了…...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-09-26 19:58:58 +0800 CST'>September 26, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to WTM - D2 workshop 活動心得" href="https://AlliesChen.github.io/posts/wtm_d2_workshop/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>TypeScript：Union被判為Intersection
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章的撰寫緣由是我在React中某一元件要傳入兩種不同的物件陣列：
+interface UserInfo { generalInfo: GeneralInfoTemplate; educationExps: Array&lt;EducationExpInfoTemplate&gt;; practicalExps: Array&lt;PracticalExpInfoTemplate&gt;; } type UserInfoKeys = Exclude&lt;keyof UserInfo, &#34;generalInfo&#34;&gt;; interface Props { block: UserInfoKeys; blockKey: string; setInputs: React.Dispatch&lt;React.SetStateAction&lt;UserInfo[UserInfoKeys]&gt;&gt;; setAppUserData: React.Dispatch&lt;React.SetStateAction&lt;UserInfo&gt;&gt;; } 簡單來說，我想把const [state, setState] = React.useState()這類的setState用props傳給子元件，然後這個setState是設置UserInfo物件中的educationExps「或」praticalExps用的，結果當我使用setInputs把這兩種之一的值傳進時報錯了。
+這個錯誤，也是簡單來說，他說我educationExps沒有praticalExps的屬性，praticalExps沒有educationExps屬性…(怎麼聯集變交互比對了？)
+我把這個狀況另外寫個測試重現出來如下：
+CodeSandbox連結(問題)
+type Foo = { one: number; two: number }; type Bar = { three: number; four: number }; type Foobar = Foo | Bar; interface Props { value: Foobar; setValue: React.Dispatch&lt;React.SetStateAction&lt;Foobar&gt;&gt;; } /** This will be used in App component below */ function Beep(props: Props) { const boop = Object....</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-08-17 21:43:18 +0800 CST'>August 17, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to TypeScript：Union被判為Intersection" href="https://AlliesChen.github.io/posts/unexpected_intersection_type/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>使用`.d.ts` 檔給JavaScript加入型別檢查
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言：
+因為目前專案都是使用 JavaScript(文章中簡稱JS) &#43; Vue 2 寫的，很多事發生在window底下，要知道某個變數是什麼、從何而來，又要去哪裡是件極度痛苦的事。因此開始尋找不用改寫原始程式邏輯，又能夠應用TypeScript(文章中簡稱TS)方式。
+.d.ts – declaration file JSDoc Triple-slash directives 這篇文章要應用這三樣幫.js檔案套上TS型別裝甲；第一個是實際會存在的檔案，後兩個則是檔案內的註解。
+TL;DR &lt;declaration&gt;請替換成你的檔案名稱
+在JS檔案中加入/// &lt;reference path=&#34;&lt;declaration&gt;.d.ts&#34;&gt; 在&lt;declaration&gt;.d.ts這個檔案內編寫TS定義 把定義的名稱透過JSDoc的語法註解到JS檔案中 .d.ts型別宣告檔 這個檔案是給TypeScript使用的，如果是用VSCode，不用安裝也可以用滑鼠去指JS檔案中的變數，會看到型別註解。
+但要編譯.ts的檔案就還是要安裝TS，請參考官方頁面 – TypeScript: How to set up TypeScript
+在 About “*.d.ts” in TypeScript - Stack Overflow 這個回答中提到：
+The “.d.ts” file is used to provide typescript type information about an API that’s written in JavaScript.
+這個.d.ts的副檔名呢，簡單來說，就是我們JavaScript的型別參照檔案。
+使用同樣來自該則回答內舉例的檔案及資料夾結構：
+|- src/
+|- |- thing.js
+|- |- thing.d.ts
+|- |- index....</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-07-23 20:20:03 +0800 CST'>July 23, 2022</span>&nbsp;·&nbsp;Yu-Pung</footer>
+  <a class="entry-link" aria-label="post link to 使用`.d.ts` 檔給JavaScript加入型別檢查" href="https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>那些網頁開發的名詞
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章是我在職訓班時寫來釐清這堆術語的，稍微更新了比較理解的部份（前端），但到了現在我也還在更了解他們中（後端和網路的部份），有錯誤的部份還請不吝指教。
+文中資料來自以下兩篇The Odin Project的主題，或由其中導向的網頁提供：
+Introduction to the back end Introduction to frameworks 要開發一個網站，你需要選擇伺服器、資料庫、程式語言、框架及前端工具，這些開發技術一個個堆起來，被稱為堆疊(stack)1
+這篇文章的末段有提到幾個知名網站使用的軟體堆疊。
+前端 Front end 前端，又稱client-side1，通常是指應用HTML標識(markup), CSS演示(presentation), JavaScript編程(scripting)。
+JavaScript有很多函式庫(library)可用，如jQuery，React(他寫自己是library)以及框架，如Angular, Vue等，幫助簡化及快速開發1。基本上，可以把框架想成有制定使用慣例的函式庫，選擇某個框架意味著要使用對應的框架生態圈，比如狀態管理（處理資料流），Vue的話就會用Vuex或Pinia，React的話可能是Context或Redux。
+這篇文章提供了前端與後端的比較。
+後端 Back end 後端，又稱server-side1；指運作在server端的應用，由於脫離了使用者瀏覽器相容性的限制，有大量的程式語言被應用在這塊。
+主流的語言有：PHP, ASP.NET(C#), Ruby, Python, Node.js2和Java, Go等。
+這些語言又延伸出對應的框架(framework)來幫助開發者們實踐功能，如Ruby on Rails, Laravel(PHP), Django(Python)…等。
+普遍被提到的WordPress，就是一個將前端及後端整合起來的開源(open source)框架，建立在安裝了PHP的資料庫(database)，並允許設計者透過CSS, jQuery及JavaSript。3
+什麼是後端開發 翻譯自TechTerms – Backend
+以程式術語來說，後端是數據訪問層(data access layer)，前端是(presentation layer)表現層。
+後端的運作流程大致如：
+處理網頁送來的要求(request) 執行語法(PHP, ASP, JSP, etc.)來產生HTML 使用SQL查詢(queries)—某個特定主題(article)，然後訪問(accessing)該主題在資料庫中的資料。 儲存並更新資料庫 加密或解密資料 處理檔案上傳與下載 透過JavaScript運算使用者輸入的資訊 後端包括哪些部分及各部分的名稱 參考自Codecademy的這篇文章 – Back-End Web Architecture：
+客戶端(clients)：任何發送要求給後端的東西 伺服器(server)：接收需求的電腦 應用(app)：運行在伺服器上，接收要求，從資料庫取回資訊並送出回應(response) 資料庫(database)：組織及保管資料 前面提到的這篇文章前段也有把client side, server side的軟體堆疊做成圖片幫助理解。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-07-16 19:20:00 +0800 CST'>July 16, 2022</span>&nbsp;·&nbsp;Yu-Pung</footer>
+  <a class="entry-link" aria-label="post link to 那些網頁開發的名詞" href="https://AlliesChen.github.io/posts/web-dev-terms/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>使用Hugo產生一個部落格並部署在GitHub上
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Hugo? “Hugo is a static HTML and CSS website generator written in Go.” – Hugo’s GitHub
+簡單來說，你只要照著操作指南進行，就能產出部署網站需要的檔案。
+HTML和CSS是標籤語言，分別做為網頁的文字骨架及渲染設定。 Go是一種程式語言。 建立 首先我參考了這篇文章：Hugo 搭配 Github page 架設靜態部落格 | JCYH Develop Blog，以及文章內提到的參考文章，步驟上蠻清楚的，但因為我的作業系統是Windows：
+另外要依照官方的安裝指南操作，也推薦跟著指南中的影片進行。
+取得.exe檔後，要在C:\下創建Hugo\bin\，並把解壓縮的檔案放到bin資料夾內。 透過Windows key &#43; R叫出執行視窗，輸入cmd叫出Command shell並移動到創建的bin資料夾下。 輸入hugo version可以確認Hugo是否有安裝成功。 要把hugo這個指令增加到Windows環境變數 (environment variable) - PATH中。 新增這個位址C:\Hugo\bin – 也就是我們創建來放Hugo相關檔案也是網站文章的資料夾。 在cmd用echo %PATH%可以看到PATH中現有的變數，有看到hugo被加入就是成功，或也可以離開C:\Hugo\bin，然後輸入hugo version，看到資訊就是成功了。(如果不行可以先關掉cmd再重開打指令確認) cmd在C:\Hugo\下輸入hugo new site &lt;folder_name&gt;，folder name的名字可以取自己喜歡的，我採用與參考的文章相同的名稱：website-hugo。 套用主題 這裡應該與作業系統無關，要幫我們的網站套用佈景主題，可以到Hugo主題庫選擇自己喜歡的，步驟上同參考文章，但一樣有遇到一些情況：
+參考文章內提到要把下載下來主題的static、layouts換成主題資料夾內的，但我使用的主題PaperMod沒有static只有layouts，這部份就只要取代layouts就好。
+要記得看選擇的主題的GitHub說明來確認如何使用及操作；我一開始想用Doks這個主題，但他似乎有用到Node.js npm，我不能在我的網站資料夾下(C:\Hugo\website-hugo)使用hugo server -D來啟動本地端伺服器(測試用)。
+另一方面，在config.toml，或是config.yml（也是取決於選擇的主題設定），那個theme: &lt;theme_name&gt;，是取決於抓下來的主題資料夾的名稱的，像Doks這個主題我clone下來是得到my-doks-site（可以改名），然後是用toml格式，我就要寫theme = &#34;my-doks-site&#34;。
+使用模板文章 可能也取決於下載的主題，我使用的佈景主題PaperMod的文章模板；將這個內容複製並依照文章指示放到archetypes/post.md內，就可以用hugo new --kind post &lt;filename&gt;....</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-07-16 13:59:00 +0800 CST'>July 16, 2022</span>&nbsp;·&nbsp;Yu-Pung</footer>
+  <a class="entry-link" aria-label="post link to 使用Hugo產生一個部落格並部署在GitHub上" href="https://AlliesChen.github.io/posts/deploy-hugo-website-on-github/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

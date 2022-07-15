@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on YP&#39;s Dev Memo</title>
+    <link>https://AlliesChen.github.io/posts/</link>
+    <description>Recent content in Posts on YP&#39;s Dev Memo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Mon, 26 Sep 2022 19:58:58 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WTM - D2 workshop 活動心得</title>
+      <link>https://AlliesChen.github.io/posts/wtm_d2_workshop/</link>
+      <pubDate>Mon, 26 Sep 2022 19:58:58 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/wtm_d2_workshop/</guid>
+      <description>Reflecting on WTM D2 Workshop</description>
+    </item>
+    
+    <item>
+      <title>TypeScript：Union被判為Intersection</title>
+      <link>https://AlliesChen.github.io/posts/unexpected_intersection_type/</link>
+      <pubDate>Wed, 17 Aug 2022 21:43:18 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/unexpected_intersection_type/</guid>
+      <description>在函式參數使用Union Type時意外的變成Intersection Type</description>
+    </item>
+    
+    <item>
+      <title>使用`.d.ts` 檔給JavaScript加入型別檢查</title>
+      <link>https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/</link>
+      <pubDate>Sat, 23 Jul 2022 20:20:03 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/</guid>
+      <description>透過註解的方式給文字編譯器知道變數的型別</description>
+    </item>
+    
+    <item>
+      <title>那些網頁開發的名詞</title>
+      <link>https://AlliesChen.github.io/posts/web-dev-terms/</link>
+      <pubDate>Sat, 16 Jul 2022 19:20:00 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/web-dev-terms/</guid>
+      <description>Those technical terms for web dev</description>
+    </item>
+    
+    <item>
+      <title>使用Hugo產生一個部落格並部署在GitHub上</title>
+      <link>https://AlliesChen.github.io/posts/deploy-hugo-website-on-github/</link>
+      <pubDate>Sat, 16 Jul 2022 13:59:00 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/deploy-hugo-website-on-github/</guid>
+      <description>想做一個部落格來放點什麼？</description>
+    </item>
+    
+  </channel>
+</rss>

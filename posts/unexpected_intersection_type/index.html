@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>TypeScript：Union被判為Intersection | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="TypeScript">
+<meta name="description" content="在函式參數使用Union Type時意外的變成Intersection Type">
+<meta name="author" content="Yu-Pang">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="TypeScript：Union被判為Intersection" />
+<meta property="og:description" content="在函式參數使用Union Type時意外的變成Intersection Type" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/unexpected_intersection_type/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-17T21:43:18&#43;08:00" />
+<meta property="article:modified_time" content="2022-08-17T21:43:18&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="TypeScript：Union被判為Intersection"/>
+<meta name="twitter:description" content="在函式參數使用Union Type時意外的變成Intersection Type"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "TypeScript：Union被判為Intersection",
+      "item": "https://AlliesChen.github.io/posts/unexpected_intersection_type/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "TypeScript：Union被判為Intersection",
+  "name": "TypeScript：Union被判為Intersection",
+  "description": "在函式參數使用Union Type時意外的變成Intersection Type",
+  "keywords": [
+    "TypeScript"
+  ],
+  "articleBody": "這篇文章的撰寫緣由是我在React中某一元件要傳入兩種不同的物件陣列：\ninterface UserInfo { generalInfo: GeneralInfoTemplate; educationExps: Array\u003cEducationExpInfoTemplate\u003e; practicalExps: Array\u003cPracticalExpInfoTemplate\u003e; } type UserInfoKeys = Exclude\u003ckeyof UserInfo, \"generalInfo\"\u003e; interface Props { block: UserInfoKeys; blockKey: string; setInputs: React.Dispatch\u003cReact.SetStateAction\u003cUserInfo[UserInfoKeys]\u003e\u003e; setAppUserData: React.Dispatch\u003cReact.SetStateAction\u003cUserInfo\u003e\u003e; } 簡單來說，我想把const [state, setState] = React.useState()這類的setState用props傳給子元件，然後這個setState是設置UserInfo物件中的educationExps「或」praticalExps用的，結果當我使用setInputs把這兩種之一的值傳進時報錯了。\n這個錯誤，也是簡單來說，他說我educationExps沒有praticalExps的屬性，praticalExps沒有educationExps屬性…(怎麼聯集變交互比對了？)\n我把這個狀況另外寫個測試重現出來如下：\nCodeSandbox連結(問題)\ntype Foo = { one: number; two: number }; type Bar = { three: number; four: number }; type Foobar = Foo | Bar; interface Props { value: Foobar; setValue: React.Dispatch\u003cReact.SetStateAction\u003cFoobar\u003e\u003e; } /** This will be used in App component below */ function Beep(props: Props) { const boop = Object.assign({}, props.value); return ( \u003c\u003e \u003cdiv\u003e{\"one\" in boop ? boop.two : boop.four}\u003c/div\u003e \u003c/\u003e ); } export default function App() { const [foo, setFoo] = React.useState({ one: 1, two: 2 }); const [bar, setBar] = React.useState({ three: 3, four: 4 }); return ( \u003cdiv className=\"App\"\u003e \u003ch1\u003eHello CodeSandbox\u003c/h1\u003e \u003ch2\u003eStart editing to see some magic happen!\u003c/h2\u003e /** setValue will have an error */ \u003cBeep value={foo} setValue={setFoo} /\u003e \u003cBeep value={bar} setValue={setBar} /\u003e \u003c/div\u003e ); } 在App的return中，Beep這個元件的屬性setValue會報錯。 原因 參考Stackoverflow上的這則回答；先是TypeScript(以下簡稱TS)官網在(舊頁面的)Type inference in conditional types裡提到：\n“Likewise, multiple candidates for the same type variable in contra-variant positions causes an intersection type to be inferred:”\n然後回答者給出的整理：\nIt means, if you want to call such function, arguments of all functions in a union will merge (intersect), that why setValue expects React.SetStateAction \u0026 React.SetStateAction.\n當在函式的引數中使用聯集(Union)會造成TS判斷為交集。\n知道這點後，來試著修正該回覆中舉例會報錯的例子：\n除錯 一種做法是用Generic type然後用Ternary operator判斷該值是否繼承自unknown，是的話要給攤開後foo和bar的形式；如果給的是foo | bar還是會報錯：\n(TS Playground)\ndeclare const foo: (val: { name: string }) =\u003e void; declare const bar: (val: { age: number }) =\u003e void; type ToEither\u003cT\u003e = T extends unknown ? (val: { name: string } | { age: number }) =\u003e void : never; declare const union: ToEither\u003ctypeof foo | typeof bar\u003e; union(foo) union(bar) 或許還不夠簡潔，於是我們可以把ToEither的結構改為foo和bar的函式形式，然後把foo、bar提取出來改成參數：\n(TS Playground)\ntype ToEither\u003cT\u003e = (val: T) =\u003e void; declare const foo: {name: string} declare const bar: {phone: number} declare const union: ToEither\u003ctypeof foo | typeof bar\u003e; 當然實務上不見得抽得出來，這時第一種作法就派得上用場了。\n至於一開始提到在React的錯誤，用剛才學到的辦法就可以除錯：\nCodeSandbox連結(解答)\ninterface Props\u003cT\u003e { value: Foobar; setValue: React.Dispatch\u003cReact.SetStateAction\u003cT\u003e\u003e; } function Beep\u003cT extends Foobar\u003e(props: Props\u003cT\u003e) { const boop = Object.assign({}, props.value); return ( \u003c\u003e \u003cdiv\u003e{\"one\" in boop ? boop.two : boop.four}\u003c/div\u003e \u003c/\u003e ); } 文章就到這邊，謝謝閱讀😄\n",
+  "wordCount" : "334",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-08-17T21:43:18+08:00",
+  "dateModified": "2022-08-17T21:43:18+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pang"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/unexpected_intersection_type/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/categories/" title="categories">
+                    <span>categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      TypeScript：Union被判為Intersection
+    </h1>
+    <div class="post-description">
+      在函式參數使用Union Type時意外的變成Intersection Type
+    </div>
+    <div class="post-meta"><span title='2022-08-17 21:43:18 +0800 CST'>August 17, 2022</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/unexpected_intersection_type.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#原因">原因</a></li>
+    <li><a href="#除錯">除錯</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>這篇文章的撰寫緣由是我在React中某一元件要傳入兩種不同的物件陣列：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">UserInfo</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">generalInfo</span>: <span style="color:#66d9ef">GeneralInfoTemplate</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">educationExps</span>: <span style="color:#66d9ef">Array</span>&lt;<span style="color:#f92672">EducationExpInfoTemplate</span>&gt;;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">practicalExps</span>: <span style="color:#66d9ef">Array</span>&lt;<span style="color:#f92672">PracticalExpInfoTemplate</span>&gt;;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserInfoKeys</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Exclude</span>&lt;<span style="color:#f92672">keyof</span> <span style="color:#a6e22e">UserInfo</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#a6e22e">generalInfo</span><span style="color:#960050;background-color:#1e0010">&#34;</span>&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Props</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">block</span>: <span style="color:#66d9ef">UserInfoKeys</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">blockKey</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setInputs</span>: <span style="color:#66d9ef">React.Dispatch</span>&lt;<span style="color:#f92672">React.SetStateAction</span><span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#a6e22e">UserInfo</span><span style="color:#960050;background-color:#1e0010">[</span><span style="color:#a6e22e">UserInfoKeys</span><span style="color:#960050;background-color:#1e0010">]</span>&gt;<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setAppUserData</span>: <span style="color:#66d9ef">React.Dispatch</span>&lt;<span style="color:#f92672">React.SetStateAction</span><span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#a6e22e">UserInfo</span>&gt;<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>簡單來說，我想把<code>const [state, setState] = React.useState()</code>這類的<code>setState</code>用props傳給子元件，然後這個<code>setState</code>是設置UserInfo物件中的educationExps「或」praticalExps用的，結果當我使用<code>setInputs</code>把這兩種之一的值傳進時報錯了。</p>
+<p>這個錯誤，也是簡單來說，他說我educationExps沒有praticalExps的屬性，praticalExps沒有educationExps屬性&hellip;(怎麼聯集變交互比對了？)</p>
+<p>我把這個狀況另外寫個測試重現出來如下：</p>
+<p><a href="https://codesandbox.io/s/react-setstate-problem-with-typescript-4sjj9v">CodeSandbox連結(問題)</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">one</span>: <span style="color:#66d9ef">number</span>; <span style="color:#a6e22e">two</span>: <span style="color:#66d9ef">number</span> };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Bar</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">three</span>: <span style="color:#66d9ef">number</span>; <span style="color:#a6e22e">four</span>: <span style="color:#66d9ef">number</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Foobar</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Bar</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Props</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">value</span>: <span style="color:#66d9ef">Foobar</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setValue</span>: <span style="color:#66d9ef">React.Dispatch</span>&lt;<span style="color:#f92672">React.SetStateAction</span><span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#a6e22e">Foobar</span>&gt;<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/** This will be used in App component below */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Beep</span>(<span style="color:#a6e22e">props</span>: <span style="color:#66d9ef">Props</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">boop</span> <span style="color:#f92672">=</span> Object.<span style="color:#a6e22e">assign</span>({}, <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">value</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">div</span>&gt;{<span style="color:#e6db74">&#34;one&#34;</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">boop</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">boop.two</span> : <span style="color:#66d9ef">boop.four</span>}&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">App() {</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">foo</span>, <span style="color:#a6e22e">setFoo</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">React</span>.<span style="color:#a6e22e">useState</span>({ <span style="color:#a6e22e">one</span>: <span style="color:#66d9ef">1</span>, <span style="color:#a6e22e">two</span>: <span style="color:#66d9ef">2</span> });
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">bar</span>, <span style="color:#a6e22e">setBar</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">React</span>.<span style="color:#a6e22e">useState</span>({ <span style="color:#a6e22e">three</span>: <span style="color:#66d9ef">3</span>, <span style="color:#a6e22e">four</span>: <span style="color:#66d9ef">4</span> });
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;App&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">h1</span>&gt;<span style="color:#a6e22e">Hello</span> <span style="color:#a6e22e">CodeSandbox</span>&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">h2</span>&gt;<span style="color:#a6e22e">Start</span> <span style="color:#a6e22e">editing</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">see</span> <span style="color:#a6e22e">some</span> <span style="color:#a6e22e">magic</span> <span style="color:#a6e22e">happen</span><span style="color:#f92672">!</span>&lt;/<span style="color:#f92672">h2</span>&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/** setValue will have an error */</span>
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">Beep</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">foo</span>} <span style="color:#a6e22e">setValue</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setFoo</span>} /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">Beep</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">bar</span>} <span style="color:#a6e22e">setValue</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">setBar</span>} /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>在App的return中，Beep這個元件的屬性<code>setValue</code>會報錯。</li>
+</ul>
+<h2 id="原因">原因<a hidden class="anchor" aria-hidden="true" href="#原因">#</a></h2>
+<p>參考Stackoverflow上的<a href="https://stackoverflow.com/a/69644729/18972098">這則回答</a>；先是TypeScript(以下簡稱TS)官網在(舊頁面的)<a href="https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-inference-in-conditional-types">Type inference in conditional types</a>裡提到：</p>
+<blockquote>
+<p>&ldquo;Likewise, multiple candidates for the same type variable in contra-variant positions causes an intersection type to be inferred:&rdquo;</p>
+</blockquote>
+<p>然後回答者給出的整理：</p>
+<blockquote>
+<p>It means, if you want to call such function, arguments of all functions in a union will merge (intersect), that why <code>setValue</code> expects <code>React.SetStateAction&lt;Animal&gt; &amp; React.SetStateAction&lt;Cat&gt;</code>.</p>
+</blockquote>
+<p>當在函式的引數中使用聯集(Union)會造成TS判斷為交集。</p>
+<p>知道這點後，來試著修正該回覆中舉例會報錯的例子：</p>
+<h2 id="除錯">除錯<a hidden class="anchor" aria-hidden="true" href="#除錯">#</a></h2>
+<ol>
+<li>
+<p>一種做法是用Generic type然後用Ternary operator判斷該值是否繼承自<code>unknown</code>，是的話要給攤開後<code>foo</code>和<code>bar</code>的形式；如果給的是<code>foo | bar</code>還是會報錯：</p>
+<p>(<a href="https://www.typescriptlang.org/play?#code/CYUwxgNghgTiAEYD2A7AzgF3gMyUgXPABQBuUEhA3vClALYiGYwCWKA5vAL4CU8AvAD54JJC2ABuALAAoUJFgJk6LACNYhUuSrwo7RjQCudVSBjc+QkWMmzZGAJ4AHBABUkAURYYAFmYA8rsL88K7wIAAeGCAowGjwhigA1ihIAO4o8AD8xGQU8NS0DEwYrBzc8AA+Bbr6hCjGpua8AsKi4vD1ICRm0jKy8tBwiKiYCSgsqITuXr4Bji5I2Dh4VfALIEvw6jCCfbKJkyhEuEg8BxOoRDs8QA">TS Playground</a>)</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">foo</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">val</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span>: <span style="color:#66d9ef">string</span> }) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bar</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">val</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">age</span>: <span style="color:#66d9ef">number</span> }) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ToEither</span>&lt;<span style="color:#f92672">T</span>&gt; <span style="color:#f92672">=</span> <span style="color:#a6e22e">T</span> <span style="color:#66d9ef">extends</span> <span style="color:#66d9ef">unknown</span> <span style="color:#f92672">?</span> (<span style="color:#a6e22e">val</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span>: <span style="color:#66d9ef">string</span> } <span style="color:#f92672">|</span> { <span style="color:#a6e22e">age</span>: <span style="color:#66d9ef">number</span> }) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">never</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">union</span>: <span style="color:#66d9ef">ToEither</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">foo</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">typeof</span> <span style="color:#a6e22e">bar</span>&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">union</span>(<span style="color:#a6e22e">foo</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">union</span>(<span style="color:#a6e22e">bar</span>)
+</span></span></code></pre></div><ol start="2">
+<li>
+<p>或許還不夠簡潔，於是我們可以把<code>ToEither</code>的結構改為<code>foo</code>和<code>bar</code>的函式形式，然後把<code>foo</code>、<code>bar</code>提取出來改成參數：</p>
+<p>(<a href="https://www.typescriptlang.org/play?#code/C4TwDgpgBAKg9gUQJbABYQE4B4YD4oC8UAFAG4CGANgFywCUh+pcSAJgNwCwAUD6xAGNK5DNAFwAdgGdgUAGZw4tAN4TyAWwi0ZGJBIDmAXz6DhoqOOmyARiJXl9WqBICu665mPd+QkWMkyUC4SSJK08MhomFigkHBy8opQAD5QsRDxULYYuFy83JaBLlKYtOmZCnCEUKoaTgBEAFJwqBL1hnmFsupw1kiUTuUJ2dXKDk4AzAAMHTw8XRbkwACSEgpl4BkJwaES1WRUDAT4hXADAHSUcPoHlHR580urCsTFmPePK2twxD19A-cgA">TS Playground</a>)</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ToEither</span>&lt;<span style="color:#f92672">T</span>&gt; <span style="color:#f92672">=</span> (<span style="color:#a6e22e">val</span>: <span style="color:#66d9ef">T</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">void</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">foo</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">name</span>: <span style="color:#66d9ef">string</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bar</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">phone</span>: <span style="color:#66d9ef">number</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">union</span>: <span style="color:#66d9ef">ToEither</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">foo</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">typeof</span> <span style="color:#a6e22e">bar</span>&gt;;
+</span></span></code></pre></div><p>當然實務上不見得抽得出來，這時第一種作法就派得上用場了。</p>
+<p>至於一開始提到在React的錯誤，用剛才學到的辦法就可以除錯：</p>
+<p><a href="https://codesandbox.io/s/react-setstate-problem-with-typescript-ans-81io62?file=/src/App.tsx">CodeSandbox連結(解答)</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Props</span>&lt;<span style="color:#f92672">T</span>&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">value</span>: <span style="color:#66d9ef">Foobar</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setValue</span>: <span style="color:#66d9ef">React.Dispatch</span>&lt;<span style="color:#f92672">React.SetStateAction</span><span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#a6e22e">T</span>&gt;<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Beep</span>&lt;<span style="color:#f92672">T</span> <span style="color:#a6e22e">extends</span> <span style="color:#a6e22e">Foobar</span>&gt;(<span style="color:#a6e22e">props</span>: <span style="color:#66d9ef">Props</span>&lt;<span style="color:#f92672">T</span>&gt;) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">boop</span> <span style="color:#f92672">=</span> Object.<span style="color:#a6e22e">assign</span>({}, <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">value</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">div</span>&gt;{<span style="color:#e6db74">&#34;one&#34;</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">boop</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">boop.two</span> : <span style="color:#66d9ef">boop.four</span>}&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>文章就到這邊，謝謝閱讀😄</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/typescript/">TypeScript</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://AlliesChen.github.io/posts/wtm_d2_workshop/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>WTM - D2 workshop 活動心得</span>
+  </a>
+  <a class="next" href="https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/">
+    <span class="title">Next »</span>
+    <br>
+    <span>使用`.d.ts` 檔給JavaScript加入型別檢查</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

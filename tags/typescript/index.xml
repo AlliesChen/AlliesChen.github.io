@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>TypeScript on YP&#39;s Dev Memo</title>
+    <link>https://AlliesChen.github.io/tags/typescript/</link>
+    <description>Recent content in TypeScript on YP&#39;s Dev Memo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Wed, 17 Aug 2022 21:43:18 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/tags/typescript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TypeScript：Union被判為Intersection</title>
+      <link>https://AlliesChen.github.io/posts/unexpected_intersection_type/</link>
+      <pubDate>Wed, 17 Aug 2022 21:43:18 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/unexpected_intersection_type/</guid>
+      <description>在函式參數使用Union Type時意外的變成Intersection Type</description>
+    </item>
+    
+    <item>
+      <title>使用`.d.ts` 檔給JavaScript加入型別檢查</title>
+      <link>https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/</link>
+      <pubDate>Sat, 23 Jul 2022 20:20:03 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/</guid>
+      <description>透過註解的方式給文字編譯器知道變數的型別</description>
+    </item>
+    
+  </channel>
+</rss>
