@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>murmur on YP&#39;s Library</title>
+    <title>murmur on YP&#39;s Dev Memo</title>
     <link>https://AlliesChen.github.io/tags/murmur/</link>
-    <description>Recent content in murmur on YP&#39;s Library</description>
+    <description>Recent content in murmur on YP&#39;s Dev Memo</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us, zh-tw</language>
-    <lastBuildDate>Fri, 15 Jul 2022 10:22:00 +0000</lastBuildDate><atom:link href="https://AlliesChen.github.io/tags/murmur/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 16 Jul 2022 19:20:00 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/tags/murmur/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>我用Hugo架了一個部落格</title>
-      <link>https://AlliesChen.github.io/posts/hello-world/</link>
-      <pubDate>Fri, 15 Jul 2022 10:22:00 +0000</pubDate>
+      <title>那些網頁開發的名詞</title>
+      <link>https://AlliesChen.github.io/posts/web-dev-terms/</link>
+      <pubDate>Sat, 16 Jul 2022 19:20:00 +0800</pubDate>
       
-      <guid>https://AlliesChen.github.io/posts/hello-world/</guid>
-      <description>This is my first post.</description>
+      <guid>https://AlliesChen.github.io/posts/web-dev-terms/</guid>
+      <description>Those technical terms for web dev</description>
     </item>
     
   </channel>
