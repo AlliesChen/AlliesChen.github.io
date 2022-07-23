@@ -153,7 +153,7 @@ HTML和CSS是標籤語言，分別做為網頁的文字骨架及渲染設定。 
 參考文章內提到要把下載下來主題的static、layouts換成主題資料夾內的，但我使用的主題PaperMod沒有static只有layouts，這部份就只要取代layouts就好。
 要記得看選擇的主題的GitHub說明來確認如何使用及操作；我一開始想用Doks這個主題，但他似乎有用到Node.js npm，我不能在我的網站資料夾下(C:\Hugo\website-hugo)使用hugo server -D來啟動本地端伺服器(測試用)。
 另一方面，在config.toml，或是config.yml（也是取決於選擇的主題設定），那個theme: &lt;theme_name&gt;，是取決於抓下來的主題資料夾的名稱的，像Doks這個主題我clone下來是得到my-doks-site（可以改名），然後是用toml格式，我就要寫theme = &#34;my-doks-site&#34;。
-使用模板文章 可能也取決於下載的主題，我使用的佈景主題PaperMod的文章模板；將這個內容複製並依照文章指示放到archetypes/post.md內，就可以用hugo new --kind posts &lt;filename&gt;....</p>
+使用模板文章 可能也取決於下載的主題，我使用的佈景主題PaperMod的文章模板；將這個內容複製並依照文章指示放到archetypes/post.md內，就可以用hugo new --kind post &lt;filename&gt;....</p>
   </div>
   <footer class="entry-footer"><span title='2022-07-16 13:59:00 +0800 CST'>July 16, 2022</span>&nbsp;·&nbsp;Yu-Pung</footer>
   <a class="entry-link" aria-label="post link to 使用Hugo產生一個部落格並部署在GitHub上" href="https://AlliesChen.github.io/posts/deploy-hugo-website-on-github/"></a>

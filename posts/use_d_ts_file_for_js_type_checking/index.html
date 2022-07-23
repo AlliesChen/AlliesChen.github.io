@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>使用`.d.ts` 檔給JavaScript加入型別檢查 | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="TypeScript">
+<meta name="description" content="透過註解的方式給文字編譯器知道變數的型別">
+<meta name="author" content="Yu-Pung">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="使用`.d.ts` 檔給JavaScript加入型別檢查" />
+<meta property="og:description" content="透過註解的方式給文字編譯器知道變數的型別" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-23T20:20:03&#43;08:00" />
+<meta property="article:modified_time" content="2022-07-23T20:20:03&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="使用`.d.ts` 檔給JavaScript加入型別檢查"/>
+<meta name="twitter:description" content="透過註解的方式給文字編譯器知道變數的型別"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "使用`.d.ts` 檔給JavaScript加入型別檢查",
+      "item": "https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "使用`.d.ts` 檔給JavaScript加入型別檢查",
+  "name": "使用`.d.ts` 檔給JavaScript加入型別檢查",
+  "description": "透過註解的方式給文字編譯器知道變數的型別",
+  "keywords": [
+    "TypeScript"
+  ],
+  "articleBody": "前言：\n因為目前專案都是使用 JavaScript(文章中簡稱JS) + Vue 2 寫的，很多事發生在window底下，要知道某個變數是什麼、從何而來，又要去哪裡是件極度痛苦的事。因此開始尋找不用改寫原始程式邏輯，又能夠應用TypeScript(文章中簡稱TS)方式。\n.d.ts – declaration file JSDoc Triple-slash directives 這篇文章要應用這三樣幫.js檔案套上TS型別裝甲；第一個是實際會存在的檔案，後兩個則是檔案內的註解。\nTL;DR 請替換成你的檔案名稱\n在JS檔案中加入/// 在.d.ts這個檔案內編寫TS定義 把定義的名稱透過JSDoc的語法註解到JS檔案中 .d.ts型別宣告檔 這個檔案是給TypeScript使用的，如果是用VSCode，不用安裝也可以用滑鼠去指JS檔案中的變數，會看到型別註解。\n但要編譯.ts的檔案就還是要安裝TS，請參考官方頁面 – TypeScript: How to set up TypeScript\n在 About “*.d.ts” in TypeScript - Stack Overflow 這個回答中提到：\nThe “.d.ts” file is used to provide typescript type information about an API that’s written in JavaScript.\n這個.d.ts的副檔名呢，簡單來說，就是我們JavaScript的型別參照檔案。\n使用同樣來自該則回答內舉例的檔案及資料夾結構：\n|- src/\n|- |- thing.js\n|- |- thing.d.ts\n|- |- index.ts ~~~~\n在.js檔案寫下變數定義：\n// @filename: thing.js let thing = 42; export { thing }; 然後在建一個同檔名但副檔名是.d.ts的檔案：\n// @filename: thing.d.ts export declare const thing: number; 然後在index.ts檔案引入後，就可以看到.d.ts的型別參照有反映到我們從thing.js引入的變數上了：\n// @filename: index.ts import { thing } from \"./thing\"; // from thing.js console.log(thing); // (alias) const thing: number // from thing.d.ts type TypeOfThing = typeof thing; // type TypeOfThing = number 如果只是需要幫後續要用TS寫的檔案做過去檔案的參照，到這邊就可以了；但我的需求是：在thing.js這個檔案，看到thing.d.ts的型別參照，或是把.d.ts檔案內定義的型別，加在.js的檔案中，所以，還沒結束…\n既然index.ts中有引入定義，那我就在thing.js內import { thing } from \"./thing\"，然後還真的VSCode提示// (alias) const thing: number，又成功了，真簡單；接著我們可以執行這個index.js：\nSyntaxError: Cannot use import statement outside a module\nOkay…不能這樣做🥲\n👋 我使用Node.js執行這個檔案，因為Node.js預設的module loader是CommonJS，要在package.json中加入\"type\": \"module\"，來改用ES Module loader，不然import和export的語法會報錯。\nJSDoc 規範文件：Use JSDoc: Index\nJSDoc可以想成是一個註解的規範，這些註解目的在幫助讀程式的人更好理解這段程式(內)變數的定義，不算新的東西了。\nJavaScript 註解 \u0026 型別檢查 – 竹白記事本這個網站很清楚的說明了這個JSDoc的基本語法，而且也提到了這個段落的意義：配合TS的支援，讓我們的.js檔案在VSCode中得到型別檢查：\n也可以參考官方文件 – TypeScript: Documentation - JSDoc Reference\n// @ts-check /** @type {number} */ let thing = 42; export { thing }; console.log(thing); // expects: 42 現在滑鼠移到test上應該可以看到型別提示：\nlet thing: number\r@type--number 並且，若在檔案程式碼中加入一行thing = \"test\"，可以看到thing在編譯器上出現紅色的底線並提示：\nType ‘string’ is not assignable to type ’number’.\n如果不是要拿到.d.ts中的定義來用在.js檔案，我們用JSDoc語法就能完成簡易的型別檢查了。\nTriple-Slash Directives 接下來，我們需要/// 這個XML標籤讓我們結合JSDoc語法和.d.ts中的型別定義；這是TS的功能，請參考：TypeScript: Documentation - Triple-Slash Directives。\n讓我們在thing.js這個檔案的最上頭加入/// ：\n/// // @ts-check /** @type {thing} */ let thing = 42; export { thing }; console.log(thing); // expects: 42 把@type{number}改為@type{thing}，這邊我期待的是：\nthing成為了一種type 這個type的定義來自檔案最上方宣告的reference 但是，VSCode會提示這邊產生了幾個問題：\nthing跟@type{thing}，這個thing撞名了 就算把let thing = 42改為let something;，@type{thing}還是沒作用 問題出在thing.d.ts的export，只要把它拿掉：\ndeclare const thing: number; 可以注意到滑鼠移過去let something;現在會提示是：\nlet something: number\r@type--{thing} 如果拿掉上面的@type，則會是any，沒錯，thing.d.ts的定義過來了。\n還有一些問題 還記得一開始的index.ts嗎？裡面有段import { thing } from \"./thing\";，因為thing.d.ts現在沒有export了，所以這段會顯示錯誤。\n考量這篇文章一開始的目標 – 不要動到原始的JavaScript檔案，也就是thing.js，我這邊調整的是thing.d.ts：\n改名為types.d.ts 改為declare const numThing: number; 在thing.js就要對應把第一行的reference改為types.d.ts，以及@type {numThing}。\n結語 關於.d.ts檔案要怎麼寫，基本上就是TS正常寫法，但每個變數宣告前加入declare，可以參考這個回答，然後回答中有提到一個字 – “ambient”，可以透過這個字，在官方文件中找到更多宣告的細節，也可以先參考這個回答和引用的內容建立觀念。\n如果只是要粗略的型別，JSDoc(必須是有TS支援的宣告)就可以完成了，還可反向用這些註解從JS檔案配合tsconfig.json的設定輸出.d.ts檔案，方法請見：TypeScript: Documentation - Creating .d.ts Files from .js files\n/// 還有另一個寫法是/// 省去寫副檔名的部分。\n",
+  "wordCount" : "298",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-07-23T20:20:03+08:00",
+  "dateModified": "2022-07-23T20:20:03+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pung"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/categories/" title="categories">
+                    <span>categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      使用`.d.ts` 檔給JavaScript加入型別檢查
+    </h1>
+    <div class="post-description">
+      透過註解的方式給文字編譯器知道變數的型別
+    </div>
+    <div class="post-meta"><span title='2022-07-23 20:20:03 +0800 CST'>July 23, 2022</span>&nbsp;·&nbsp;Yu-Pung&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/use_d_ts_file_for_js_type_checking.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#dts型別宣告檔"><code>.d.ts</code>型別宣告檔</a></li>
+    <li><a href="#jsdoc">JSDoc</a></li>
+    <li><a href="#triple-slash-directives">Triple-Slash Directives</a></li>
+    <li><a href="#還有一些問題">還有一些問題</a></li>
+    <li><a href="#結語">結語</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>前言：</p>
+<p>因為目前專案都是使用 JavaScript(文章中簡稱JS) + Vue 2 寫的，很多事發生在<code>window</code>底下，要知道某個變數是什麼、從何而來，又要去哪裡是件極度痛苦的事。因此開始尋找不用改寫原始程式邏輯，又能夠應用TypeScript(文章中簡稱TS)方式。</p>
+<ul>
+<li><code>.d.ts</code> &ndash; declaration file</li>
+<li>JSDoc</li>
+<li>Triple-slash directives</li>
+</ul>
+<p>這篇文章要應用這三樣幫<code>.js</code>檔案套上TS型別裝甲；第一個是實際會存在的檔案，後兩個則是檔案內的註解。</p>
+<h2 id="tldr">TL;DR<a hidden class="anchor" aria-hidden="true" href="#tldr">#</a></h2>
+<blockquote>
+<p><code>&lt;declaration&gt;</code>請替換成你的檔案名稱</p>
+</blockquote>
+<ol>
+<li>在JS檔案中加入<code>/// &lt;reference path=&quot;&lt;declaration&gt;.d.ts&quot;&gt;</code></li>
+<li>在<code>&lt;declaration&gt;.d.ts</code>這個檔案內編寫TS定義</li>
+<li>把定義的名稱透過JSDoc的語法註解到JS檔案中</li>
+</ol>
+<h2 id="dts型別宣告檔"><code>.d.ts</code>型別宣告檔<a hidden class="anchor" aria-hidden="true" href="#dts型別宣告檔">#</a></h2>
+<p>這個檔案是給TypeScript使用的，如果是用VSCode，不用安裝也可以用滑鼠去指JS檔案中的變數，會看到型別註解。</p>
+<p>但要編譯<code>.ts</code>的檔案就還是要安裝TS，請參考官方頁面 &ndash; <a href="https://www.typescriptlang.org/download">TypeScript: How to set up TypeScript</a></p>
+<hr>
+<p>在 <a href="https://stackoverflow.com/a/21247316/18972098">About  &ldquo;*.d.ts&rdquo; in TypeScript - Stack Overflow</a> 這個回答中提到：</p>
+<blockquote>
+<p>The &ldquo;.d.ts&rdquo; file is used to provide typescript type information about an API that&rsquo;s written in JavaScript.</p>
+</blockquote>
+<p>這個<code>.d.ts</code>的副檔名呢，簡單來說，就是我們JavaScript的型別參照檔案。</p>
+<p>使用同樣來自該則回答內舉例的檔案及資料夾結構：</p>
+<p>|- src/<br>
+|- |- thing.js<br>
+|- |- thing.d.ts<br>
+|- |- index.ts  ~~~~</p>
+<p>在<code>.js</code>檔案寫下變數定義：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// @filename: thing.js
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">thing</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> { <span style="color:#a6e22e">thing</span> };
+</span></span></code></pre></div><p>然後在建一個同檔名但副檔名是<code>.d.ts</code>的檔案：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// @filename: thing.d.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">thing</span>: <span style="color:#66d9ef">number</span>;
+</span></span></code></pre></div><p>然後在<code>index.ts</code>檔案引入後，就可以看到<code>.d.ts</code>的型別參照有反映到我們從thing.js引入的變數上了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// @filename: index.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">thing</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;./thing&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// from thing.js
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">thing</span>); <span style="color:#75715e">// (alias) const thing: number
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// from thing.d.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">TypeOfThing</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">thing</span>; <span style="color:#75715e">// type TypeOfThing = number
+</span></span></span></code></pre></div><p>如果只是需要幫後續要用TS寫的檔案做過去檔案的參照，到這邊就可以了；但我的需求是：在thing.js這個檔案，看到thing.d.ts的型別參照，或是把<code>.d.ts</code>檔案內定義的型別，加在<code>.js</code>的檔案中，所以，還沒結束&hellip;</p>
+<p>既然index.ts中有引入定義，那我就在thing.js內<code>import { thing } from &quot;./thing&quot;</code>，然後還真的VSCode提示<code>// (alias) const thing: number</code>，又成功了，真簡單；接著我們可以執行這個index.js：</p>
+<blockquote>
+<p>SyntaxError: Cannot use import statement outside a module</p>
+</blockquote>
+<p>Okay&hellip;不能這樣做🥲</p>
+<hr>
+<blockquote>
+<p>👋 我使用Node.js執行這個檔案，因為Node.js預設的module loader是CommonJS，要在package.json中加入<code>&quot;type&quot;: &quot;module&quot;</code>，來改用ES Module loader，不然import和export的語法會報錯。</p>
+</blockquote>
+<h2 id="jsdoc">JSDoc<a hidden class="anchor" aria-hidden="true" href="#jsdoc">#</a></h2>
+<p>規範文件：<a href="https://jsdoc.app/index.html">Use JSDoc: Index</a></p>
+<p>JSDoc可以想成是一個註解的規範，這些註解目的在幫助讀程式的人更好理解這段程式(內)變數的定義，不算新的東西了。</p>
+<p><a href="https://chupai.github.io/posts/2102/comments/">JavaScript 註解 &amp; 型別檢查 – 竹白記事本</a>這個網站很清楚的說明了這個JSDoc的基本語法，而且也提到了這個段落的意義：配合TS的支援，讓我們的<code>.js</code>檔案在VSCode中得到型別檢查：</p>
+<blockquote>
+<p>也可以參考官方文件 &ndash; <a href="https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html">TypeScript: Documentation - JSDoc Reference</a></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// @ts-check
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/** @type {number} */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">thing</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> { <span style="color:#a6e22e">thing</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">thing</span>); <span style="color:#75715e">// expects: 42
+</span></span></span></code></pre></div><p>現在滑鼠移到test上應該可以看到型別提示：</p>
+<pre tabindex="0"><code>let thing: number
+@type--number
+</code></pre><p>並且，若在檔案程式碼中加入一行<code>thing = &quot;test&quot;</code>，可以看到<!-- raw HTML omitted -->thing<!-- raw HTML omitted -->在編譯器上出現紅色的底線並提示：</p>
+<blockquote>
+<p>Type &lsquo;string&rsquo; is not assignable to type &rsquo;number&rsquo;.</p>
+</blockquote>
+<p>如果不是要拿到<code>.d.ts</code>中的定義來用在<code>.js</code>檔案，我們用JSDoc語法就能完成簡易的型別檢查了。</p>
+<h2 id="triple-slash-directives">Triple-Slash Directives<a hidden class="anchor" aria-hidden="true" href="#triple-slash-directives">#</a></h2>
+<p>接下來，我們需要<code>/// &lt;reference /&gt;</code>這個XML標籤讓我們結合JSDoc語法和<code>.d.ts</code>中的型別定義；這是TS的功能，請參考：<a href="https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html#handbook-content">TypeScript: Documentation - Triple-Slash Directives</a>。</p>
+<p>讓我們在thing.js這個檔案的最上頭加入<code>/// &lt;reference path=&quot;thing.d.ts&quot; /&gt;</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">/// &lt;reference path=&#34;thing.d.ts&#34; /&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// @ts-check
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/** @type {thing} */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">thing</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> { <span style="color:#a6e22e">thing</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">thing</span>); <span style="color:#75715e">// expects: 42
+</span></span></span></code></pre></div><p>把<code>@type{number}</code>改為<code>@type{thing}</code>，這邊我期待的是：</p>
+<ul>
+<li>thing成為了一種type</li>
+<li>這個type的定義來自檔案最上方宣告的reference</li>
+</ul>
+<p>但是，VSCode會提示這邊產生了幾個問題：</p>
+<ol>
+<li><code>thing</code>跟<code>@type{thing}</code>，這個thing撞名了</li>
+<li>就算把<code>let thing = 42</code>改為<code>let something;</code>，<code>@type{thing}</code>還是沒作用</li>
+</ol>
+<p>問題出在thing.d.ts的<code>export</code>，只要把它拿掉：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">thing</span>: <span style="color:#66d9ef">number</span>;
+</span></span></code></pre></div><p>可以注意到滑鼠移過去<code>let something;</code>現在會提示是：</p>
+<pre tabindex="0"><code>let something: number
+@type--{thing}
+</code></pre><p>如果拿掉上面的<code>@type</code>，則會是<code>any</code>，沒錯，thing.d.ts的定義過來了。</p>
+<h2 id="還有一些問題">還有一些問題<a hidden class="anchor" aria-hidden="true" href="#還有一些問題">#</a></h2>
+<p>還記得一開始的index.ts嗎？裡面有段<code>import { thing } from &quot;./thing&quot;;</code>，因為thing.d.ts現在沒有<code>export</code>了，所以這段會顯示錯誤。</p>
+<p>考量這篇文章一開始的目標 &ndash; 不要動到原始的JavaScript檔案，也就是thing.js，我這邊調整的是thing.d.ts：</p>
+<ol>
+<li>改名為types.d.ts</li>
+<li>改為<code>declare const numThing: number;</code></li>
+</ol>
+<p>在thing.js就要對應把第一行的reference改為types.d.ts，以及<code>@type {numThing}</code>。</p>
+<h2 id="結語">結語<a hidden class="anchor" aria-hidden="true" href="#結語">#</a></h2>
+<p>關於<code>.d.ts</code>檔案要怎麼寫，基本上就是TS正常寫法，但每個變數宣告前加入<code>declare</code>，可以參考<a href="https://stackoverflow.com/a/65585157/18972098">這個回答</a>，然後回答中有提到一個字 &ndash; &ldquo;ambient&rdquo;，可以透過這個字，在官方文件中找到更多宣告的細節，也可以先參考<a href="https://stackoverflow.com/a/61082185/18972098">這個回答</a>和<a href="https://github.com/Microsoft/TypeScript-Handbook/issues/180#issuecomment-195452691">引用的內容</a>建立觀念。</p>
+<p>如果只是要粗略的型別，<strong>JSDoc</strong>(必須是有TS支援的宣告)就可以完成了，還可反向用這些註解從JS檔案配合<code>tsconfig.json</code>的設定輸出<code>.d.ts</code>檔案，方法請見：<a href="https://www.typescriptlang.org/docs/handbook/declaration-files/dts-from-js.html">TypeScript: Documentation - Creating .d.ts Files from .js files</a></p>
+<p><code>/// &lt;reference path=&quot;&lt;declaration&gt;.d.ts&quot; /&gt;</code>還有另一個寫法是<code>/// &lt;reference types=&quot;&lt;declaration&gt;&quot; /&gt;</code>省去寫副檔名的部分。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/typescript/">TypeScript</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://AlliesChen.github.io/posts/web-dev-terms/">
+    <span class="title">Next »</span>
+    <br>
+    <span>那些網頁開發的名詞</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
