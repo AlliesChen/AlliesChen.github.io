@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Derivative | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="math">
+<meta name="description" content="Learning notes for MIT 18.01SC Session 1 and Session 2">
+<meta name="author" content="Yu-Pang">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css"
+  integrity="sha384-bYdxxUwYipFNohQlHt0bjN/LCpueqWz13HufFEV1SUatKs1cm4L6fFgCi1jT643X"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js"
+  integrity="sha384-Qsn9KnoKISj6dI8g7p1HBlNpVx0I8p1SvlwOldgi3IorMle61nQy4zEahWYtljaz"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js"
+  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      
+      
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      
+      throwOnError: false,
+    });
+  });
+</script>
+ 
+<meta property="og:title" content="Derivative" />
+<meta property="og:description" content="Learning notes for MIT 18.01SC Session 1 and Session 2" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/derivative/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-22T00:53:05&#43;08:00" />
+<meta property="article:modified_time" content="2022-10-22T00:53:05&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="Derivative"/>
+<meta name="twitter:description" content="Learning notes for MIT 18.01SC Session 1 and Session 2"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Derivative",
+      "item": "https://AlliesChen.github.io/posts/derivative/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Derivative",
+  "name": "Derivative",
+  "description": "Learning notes for MIT 18.01SC Session 1 and Session 2",
+  "keywords": [
+    "math"
+  ],
+  "articleBody": "這篇文章是我學習 MIT 18.01SC Session 1 及 Session 2 做的學習筆記，希望能夠幫助閱眾更容易地吸收課程中的內容。\n這篇主要會輔助說明課程中導數的用途(查資料歸納出來的)，並說明 EXAMPLE 2 裡提到要用二項式定理細部來看是怎麼來的。 EXAMPLE 1 因為課程講義和課程影片中就蠻清楚了，就不多做筆記了。\n這篇文章會涉及到 導數(derivative) 二項式定理(binomial theorem) 基礎知識需求 切線(tangent line)和割線(secant line) – 參考：math is fun 斜率(slope) – 參考：math is fun 線性方程式(linear equation) – 參考：math is fun 組合(combination)與排列(permutation) – 參考：math is fun 前言 關於導數 (derivative) 的概念 18.01SC 講的簡明扼要，但又舉了很多深度的例子啟發思考。切得更細，以及更多小練習題，可以看 Khan Academy - Differential Calculus 下的 Unit: Derivatives: definition and basic rules，從 Average vs. instantaneous rate of change 這段到 Derivative definition 該段的 Formal definition of the derivative as a limit。\nTL;DR 首先你需要先有一個非線性方程式才能推導它的導數。\n導數公式：\n$m = \\underbrace{f'(x_0)}_{\\text{derivative of } f \\text{ at } x_0} = \\lim_{\\Delta x \\to 0} \\frac{\\Delta f}{\\Delta x} = \\lim_{\\Delta x \\to 0} \\underbrace{\\frac{f(x_0 + \\Delta x) - f(x_0)}{\\Delta x}}_{\\text{difference quotient}}$\r(來源：18.01SC Session 1 Clip 5 Notes)\n這個 m 就是線性方程式中 $y = m(x + b)$ 裡的 m (斜率)；導數可以用來帶出非線性函式中的特定點的切線斜率。\nNotations 導數有幾種數學的符號表示法，這個在 Session 2 Clip 3 的 Notes 裡有整理出來。這邊就簡單列舉，因為在這篇文章後面 – 課程中的 $y = x^n$ 的例子會這邊提到的別名寫法。\n$\\Delta y = \\Delta f = f(x) - f(x_0) = f(x_0 + \\Delta x) - f(x_0)$ Difference quotient: $\\frac{\\Delta y}{\\Delta x} = \\frac{\\Delta f}{\\Delta x}$ 假設 $\\Delta x \\to 0$，difference quotient 可以寫成： $\\frac{\\Delta y}{\\Delta x} \\to \\frac{dy}{dx}$ 、 $\\frac{df}{dx}$ $\\frac{d}{dx}f$ 或 $\\frac{d}{dx}y$ (Leibniz’ notation) $\\frac{\\Delta f}{\\Delta x} \\to f’(x_0)$ (Newton’s notation) 其他的註記方式： $f’$ 和 $D f$ . 從線性到非線性 舉例來說，汽車的起步加速能力可以看從時速0到100公里需要多少秒數。\n想像y軸是速度，x軸是經過的秒數，第1秒10km/h、第2秒20km/h…線性的穩定增加，這樣的條件出來的函式圖應該是一條直線(如圖1)：\n(圖1：線性增加)\n要求這條線的斜率只要找線上任意兩點 $(x_0, y_0), (x, y)$，然後計算 $m = \\frac{y - y_0}{x - x_0} = \\frac{\\Delta y}{\\Delta x}$，m 就會是斜率，比如 $(x_0, y_0) = (1, 10), \\quad (x, y) = (2, 20)$ 代入公式得出 $m = \\frac{20 - 10}{2 - 1} = 10$；因此這條線的線性方程式就會是 $y = f(x) = 10x$\n但通常時速不會是每秒穩定增加的，而是非線性的(如圖2)，可以想像是起步比較慢，但後續會增加得愈來愈快：\n(圖2：非線性增加)\n可以發現上面求斜率的公式在這條(曲)線上，會有困難，切線延伸出去會變成割線，這時要找某個點的斜率就需要使用導數公式。導數公式的概念是：當割線無限接近我們要找的那的點 $(x_0, y_0)$ 時就會是切線，也就拿的到斜率，而這個無限接近指的便是 $\\lim_{\\Delta x \\to 0}$ 微分的概念。\n18.01SC Session 1 提供了視覺化切線與割線、非線性函式，與導數的小工具(Mathlet)\n二項式定理 Session 2 Clip 4的例子 – 非線性函式： $y = x^n$， n 為正整數(非零自然數)，透過導數公式展開會變成：\n$f’(x^n) = \\frac{\\Delta y}{\\Delta x} = \\frac{f(x_0 + \\Delta x) - f(x_0)}{\\Delta x} = \\frac{(x_0 + \\Delta x)^n - x_0^n}{\\Delta x}$\n然後要讓 $\\Delta x$ 不出現在分母，才能假設它是0，不然除以0會是未定義。首先要看到式子中的這個部份 $(x + \\Delta x)^n$，可以用 二項式定理(binomial theorem)：\n參考 math is fun，這個網站寫了循序漸進，淺白易懂的解釋這個公式是合理的，而且還會看到帕斯卡三角形(Pascal triangle)的應用，終於知道這個常見於題目中的數陣可以做什麼了。\n$(a+b)^n = \\sum_{k=0}^{n} \\binom{n}{k}a^{n-k}b^k$\n我們可以把 a 和 b 換成 x 和 Delta x，從課程中的筆記可以看到單純展開會是這樣：\n$(x + \\Delta x)^n = (x + \\Delta x)(x + \\Delta x)…(x + \\Delta x) \\quad \\text{n times}$\n但是，參考維基百科 binomial theorem - geometrical explanation 這項，再把這個公式乘開來一些：\n維基百科還有提供一張很棒且有趣的幾何圖幫助了解\n$(x + \\Delta x)^n = x^n + nx^{n-1}\\Delta x + \\binom{n}{2} x^{n-2} (\\Delta x)^2 + …$\n這樣就接近到課程中提到的 junk 是怎麼來的了，因為 $\\binom{n}{2} x^{n-2} (\\Delta x)^2 + …$ 開始，會假設 $(\\Delta x)^2$ 極度接近0，可以被忽略；於是課程中寫成 $O((\\Delta x)^2)$，指的就是餘下後面會乘到 $(\\Delta x)^2$ ， $(\\Delta x)^3$ …到 $(\\Delta x)^n$ 的部份，所以是：\n$x^n + n(\\Delta x)x^{n-1} + O((\\Delta x)^2)$\n所以關於 $y = f(x) = x^n$ 的導數會是:\n$\\frac{\\Delta y}{\\Delta x} = \\frac{(x + \\Delta x)^n - x^n}{\\Delta x} = \\frac{(x^n + n(\\Delta x)(x^{n-1}) + O(\\Delta x)^2) - x^n}{\\Delta x} = nx^{n-1} + O(\\Delta x)$\n第三個公式分子的部分 $x^n - x^n$ ， $\\Delta x$ 提取出來並跟分母抵銷，就會變成最後的公式。 再來，這個導數要解，就要回到前面提的，假設 Delta x 無限接近0：$\\lim_{\\Delta x \\to 0}$ 於是，\n$\\lim_{\\Delta x \\to 0} \\frac{\\Delta y}{\\Delta x} = nx^{n-1}$\n所以:\n$\\frac{d}{dx}x^n = nx^{n-1}$\n這個結果也會是個公式，課程中提及叫：power rule，用於求多項式(polynomials)的導數：\n$\\frac{d}{dx}(x^2 + 3x^{10}) = \\frac{d}{dx}(2x^2-1 + 3 \\times 10x^{10-1}) = 2x + 30x^9$\n比較淺白的例子及應用練習可以看上面提到的 Khan Academy 同一個單元的 Power rule 段落。\n",
+  "wordCount" : "484",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-10-22T00:53:05+08:00",
+  "dateModified": "2022-10-22T00:53:05+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pang"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/derivative/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/categories/" title="categories">
+                    <span>categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Derivative
+    </h1>
+    <div class="post-description">
+      Learning notes for MIT 18.01SC Session 1 and Session 2
+    </div>
+    <div class="post-meta"><span title='2022-10-22 00:53:05 +0800 CST'>October 22, 2022</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/derivative.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#這篇文章會涉及到">這篇文章會涉及到</a></li>
+    <li><a href="#基礎知識需求">基礎知識需求</a></li>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#tldr">TL;DR</a>
+      <ul>
+        <li><a href="#notations">Notations</a></li>
+      </ul>
+    </li>
+    <li><a href="#從線性到非線性">從線性到非線性</a></li>
+    <li><a href="#二項式定理">二項式定理</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>這篇文章是我學習 MIT 18.01SC <a href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-1-introduction-to-derivatives/">Session 1</a> 及 <a href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-2-examples-of-derivatives/">Session 2</a> 做的學習筆記，希望能夠幫助閱眾更容易地吸收課程中的內容。</p>
+<p>這篇主要會輔助說明課程中導數的用途(查資料歸納出來的)，並說明 EXAMPLE 2 裡提到要用二項式定理細部來看是怎麼來的。 EXAMPLE 1 因為課程講義和課程影片中就蠻清楚了，就不多做筆記了。</p>
+<h2 id="這篇文章會涉及到">這篇文章會涉及到<a hidden class="anchor" aria-hidden="true" href="#這篇文章會涉及到">#</a></h2>
+<ul>
+<li>導數(derivative)</li>
+<li>二項式定理(binomial theorem)</li>
+</ul>
+<h2 id="基礎知識需求">基礎知識需求<a hidden class="anchor" aria-hidden="true" href="#基礎知識需求">#</a></h2>
+<ul>
+<li><a href="https://www.mathsisfun.com/geometry/tangent-secant-lines.html">切線(tangent line)和割線(secant line)</a> &ndash; 參考：math is fun</li>
+<li><a href="https://www.mathsisfun.com/geometry/slope.html">斜率(slope)</a> &ndash; 參考：math is fun</li>
+<li><a href="https://www.mathsisfun.com/algebra/linear-equations.html">線性方程式(linear equation)</a> &ndash; 參考：math is fun</li>
+<li><a href="https://www.mathsisfun.com/combinatorics/combinations-permutations.html">組合(combination)與排列(permutation)</a> &ndash; 參考：math is fun</li>
+</ul>
+<h2 id="前言">前言<a hidden class="anchor" aria-hidden="true" href="#前言">#</a></h2>
+<p>關於導數 (derivative) 的概念 18.01SC 講的簡明扼要，但又舉了很多深度的例子啟發思考。切得更細，以及更多小練習題，可以看 Khan Academy - Differential Calculus 下的 <a href="https://www.khanacademy.org/math/differential-calculus/dc-diff-intro">Unit: Derivatives: definition and basic rules</a>，從 Average vs. instantaneous rate of change 這段到 Derivative definition 該段的 Formal definition of the derivative as a limit。</p>
+<h2 id="tldr">TL;DR<a hidden class="anchor" aria-hidden="true" href="#tldr">#</a></h2>
+<p>首先你需要先有一個非線性方程式才能推導它的導數。</p>
+<p>導數公式：</p>
+
+$m = \underbrace{f'(x_0)}_{\text{derivative of } f \text{ at } x_0} = \lim_{\Delta x \to 0} \frac{\Delta f}{\Delta x} = \lim_{\Delta x \to 0} \underbrace{\frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x}}_{\text{difference quotient}}$
+
+
+<p>(來源：<a href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-5-main-formula/">18.01SC Session 1 Clip 5 Notes</a>)</p>
+<p>這個 m 就是線性方程式中 $y = m(x + b)$ 裡的 m (斜率)；導數可以用來帶出非線性函式中的特定點的切線斜率。</p>
+<h3 id="notations">Notations<a hidden class="anchor" aria-hidden="true" href="#notations">#</a></h3>
+<p>導數有幾種數學的符號表示法，這個在 <a href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-3-notation-for-derivatives/">Session 2 Clip 3</a> 的 Notes 裡有整理出來。這邊就簡單列舉，因為在這篇文章後面 &ndash; 課程中的 $y = x^n$ 的例子會這邊提到的別名寫法。</p>
+<ul>
+<li>$\Delta y = \Delta f = f(x) - f(x_0) = f(x_0 + \Delta x) - f(x_0)$</li>
+<li>Difference quotient: $\frac{\Delta y}{\Delta x} = \frac{\Delta f}{\Delta x}$</li>
+<li>假設 $\Delta x \to 0$，difference quotient 可以寫成：
+<ul>
+<li>$\frac{\Delta y}{\Delta x} \to \frac{dy}{dx}$ 、 $\frac{df}{dx}$  $\frac{d}{dx}f$ 或 $\frac{d}{dx}y$ (Leibniz&rsquo; notation)</li>
+<li>$\frac{\Delta f}{\Delta x} \to f&rsquo;(x_0)$ (Newton&rsquo;s notation)</li>
+<li>其他的註記方式： $f&rsquo;$ 和 $D f$ .</li>
+</ul>
+</li>
+</ul>
+<h2 id="從線性到非線性">從線性到非線性<a hidden class="anchor" aria-hidden="true" href="#從線性到非線性">#</a></h2>
+<p>舉例來說，汽車的起步加速能力可以看從時速0到100公里需要多少秒數。</p>
+<p>想像y軸是速度，x軸是經過的秒數，第1秒10km/h、第2秒20km/h&hellip;線性的穩定增加，這樣的條件出來的函式圖應該是一條直線(如圖1)：</p>
+<p><img loading="lazy" src="https://i.imgur.com/ZPQiczi.png" alt="linear equation"  />
+
+(圖1：線性增加)</p>
+<p>要求這條線的斜率只要找線上任意兩點 $(x_0, y_0), (x, y)$，然後計算 $m = \frac{y - y_0}{x - x_0} = \frac{\Delta y}{\Delta x}$，m 就會是斜率，比如 $(x_0, y_0) = (1, 10), \quad (x, y) = (2, 20)$ 代入公式得出 $m = \frac{20 - 10}{2 - 1} = 10$；因此這條線的線性方程式就會是 $y = f(x) = 10x$</p>
+<hr>
+<p>但通常時速不會是每秒穩定增加的，而是非線性的(如圖2)，可以想像是起步比較慢，但後續會增加得愈來愈快：</p>
+<p><img loading="lazy" src="https://i.imgur.com/8naOhLS.png" alt="nonlinear equation"  />
+
+(圖2：非線性增加)</p>
+<p>可以發現上面求斜率的公式在這條(曲)線上，會有困難，切線延伸出去會變成割線，這時要找某個點的斜率就需要使用導數公式。導數公式的概念是：當割線無限接近我們要找的那的點 $(x_0, y_0)$ 時就會是切線，也就拿的到斜率，而這個無限接近指的便是 $\lim_{\Delta x \to 0}$ 微分的概念。</p>
+<blockquote>
+<p><a href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-1-introduction-to-derivatives/">18.01SC Session 1</a> 提供了視覺化切線與割線、非線性函式，與導數的<a href="https://ocw.mit.edu/ans7870/18/18.01SC/f10/mathlets/secantApproximation.html">小工具</a>(Mathlet)</p>
+</blockquote>
+<h2 id="二項式定理">二項式定理<a hidden class="anchor" aria-hidden="true" href="#二項式定理">#</a></h2>
+<p><a href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-4-example-2-y-xn/">Session 2 Clip 4</a>的例子 &ndash; 非線性函式： $y = x^n$， n 為正整數(非零自然數)，透過導數公式展開會變成：</p>
+<p>$f&rsquo;(x^n) = \frac{\Delta y}{\Delta x} = \frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x} = \frac{(x_0 + \Delta x)^n - x_0^n}{\Delta x}$</p>
+<p>然後要讓 $\Delta x$ 不出現在分母，才能假設它是0，不然除以0會是未定義。首先要看到式子中的這個部份 $(x + \Delta x)^n$，可以用 <a href="https://www.mathsisfun.com/algebra/binomial-theorem.html">二項式定理(binomial theorem)</a>：</p>
+<blockquote>
+<p>參考 math is fun，這個網站寫了循序漸進，淺白易懂的解釋這個公式是合理的，而且還會看到帕斯卡三角形(Pascal triangle)的應用，終於知道這個常見於題目中的數陣可以做什麼了。</p>
+</blockquote>
+<p>$(a+b)^n = \sum_{k=0}^{n} \binom{n}{k}a^{n-k}b^k$</p>
+<p>我們可以把 a 和 b 換成 x 和 Delta x，從課程中的筆記可以看到單純展開會是這樣：</p>
+<p>$(x + \Delta x)^n = (x + \Delta x)(x + \Delta x)&hellip;(x + \Delta x) \quad \text{n times}$</p>
+<p>但是，參考維基百科 <a href="https://en.wikipedia.org/wiki/Binomial_theorem#Geometric_explanation">binomial theorem - geometrical explanation</a> 這項，再把這個公式乘開來一些：</p>
+<blockquote>
+<p>維基百科還有提供一張很棒且有趣的幾何圖幫助了解</p>
+</blockquote>
+<p>$(x + \Delta x)^n = x^n + nx^{n-1}\Delta x + \binom{n}{2} x^{n-2} (\Delta x)^2 + &hellip;$</p>
+<p>這樣就接近到課程中提到的 junk 是怎麼來的了，因為 $\binom{n}{2} x^{n-2} (\Delta x)^2 + &hellip;$ 開始，會假設 $(\Delta x)^2$ 極度接近0，可以被忽略；於是課程中寫成 $O((\Delta x)^2)$，指的就是餘下後面會乘到 $(\Delta x)^2$ ， $(\Delta x)^3$ &hellip;到 $(\Delta x)^n$ 的部份，所以是：</p>
+<p>$x^n + n(\Delta x)x^{n-1} + O((\Delta x)^2)$</p>
+<p>所以關於 $y = f(x) = x^n$ 的導數會是:</p>
+<p>$\frac{\Delta y}{\Delta x} = \frac{(x + \Delta x)^n - x^n}{\Delta x} = \frac{(x^n + n(\Delta x)(x^{n-1}) + O(\Delta x)^2) - x^n}{\Delta x} = nx^{n-1} + O(\Delta x)$</p>
+<ul>
+<li>第三個公式分子的部分 $x^n - x^n$ ， $\Delta x$ 提取出來並跟分母抵銷，就會變成最後的公式。</li>
+</ul>
+<p>再來，這個導數要解，就要回到前面提的，假設 Delta x 無限接近0：$\lim_{\Delta x \to 0}$ 於是，</p>
+<p>$\lim_{\Delta x \to 0} \frac{\Delta y}{\Delta x} = nx^{n-1}$</p>
+<p>所以:</p>
+<p>$\frac{d}{dx}x^n = nx^{n-1}$</p>
+<p>這個結果也會是個公式，課程中提及叫：power rule，用於求多項式(polynomials)的導數：</p>
+<p>$\frac{d}{dx}(x^2 + 3x^{10}) = \frac{d}{dx}(2x^2-1 + 3 \times 10x^{10-1}) = 2x + 30x^9$</p>
+<blockquote>
+<p>比較淺白的例子及應用練習可以看上面提到的 Khan Academy 同一個單元的 <a href="https://www.khanacademy.org/math/differential-calculus/dc-diff-intro/dc-power-rule/v/power-rule">Power rule</a> 段落。</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/math/">math</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://AlliesChen.github.io/posts/wtm_d2_workshop/">
+    <span class="title">Next »</span>
+    <br>
+    <span>WTM - D2 workshop 活動心得</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
