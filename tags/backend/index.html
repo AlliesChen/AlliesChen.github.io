@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Tags | YP&#39;s Dev Memo</title>
+<title>Backend | YP&#39;s Dev Memo</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://AlliesChen.github.io/tags/">
+<link rel="canonical" href="https://AlliesChen.github.io/tags/backend/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/tags/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/tags/backend/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -90,13 +90,13 @@
   });
 </script>
  
-<meta property="og:title" content="Tags" />
+<meta property="og:title" content="Backend" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://AlliesChen.github.io/tags/" />
+<meta property="og:url" content="https://AlliesChen.github.io/tags/backend/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tags"/>
+<meta name="twitter:title" content="Backend"/>
 <meta name="twitter:description" content=""/>
 
 </head>
@@ -148,7 +148,7 @@
             </li>
             <li>
                 <a href="https://AlliesChen.github.io/tags/" title="tags">
-                    <span class="active">tags</span>
+                    <span>tags</span>
                 </a>
             </li>
             <li>
@@ -165,31 +165,34 @@
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"> 
 <header class="page-header">
-    <h1>Tags</h1>
+  <h1>
+    Backend
+  </h1>
 </header>
 
-<ul class="terms-tags">
-    <li>
-        <a href="https://AlliesChen.github.io/tags/backend/">Backend <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/hugo/">Hugo <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/jwt/">JWT <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/math/">math <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/murmur/">murmur <sup><strong><sup>2</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/typescript/">TypeScript <sup><strong><sup>2</sup></strong></sup> </a>
-    </li>
-</ul>
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>JWT簡介 - 使用Node.js
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>關於這篇 JWT 的說明比較偏向我個人的筆記，節錄及參考了下方連結中的內容，拜訪連結文章會有更詳盡完整的資訊：
+JWT 官方的 Introduction to JSON web Tokens
+The Ultimate Guide to handling JWTs on frontend clients (GraphQL) 前段介紹了 JWT 是什麼，中後段則是使用流程與實踐，不過是搭配GraphQL，這裡不會提到。
+這則推特貼文圖解了JWT的結構與基本的驗證流程。
+JWT 是 JSON Web Token 的縮寫，這個 JSON 是一種資料傳輸格式，像是：
+{ &#34;sub&#34;: &#34;1234567890&#34;, &#34;name&#34;: &#34;John Doe&#34;, &#34;iat&#34;: 1516239022 } JWT 結構 JWT 是由三組字串組成，每組用 點(dot) 隔開，像這樣 xxxxx.yyyyy.zzzzz；x、y，和 z 分別代表了 header、payload，和signature，接下來會分別再對這三部份的內容用途進行說明。
+可以先提到的是 header 和 payload 只是 base64加密，可以透過在瀏覽器的 console 使用 atob() 轉換回原來的訊息，比如說官網的範例： eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+把中間 payload 的部份透過 atob 轉換：
+atob(&#39;eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ&#39;) // &#39;{&#34;sub&#34;:&#34;1234567890&#34;,&#34;name&#34;:&#34;John Doe&#34;,&#34;iat&#34;:1516239022}&#39; 就可以看到原始資訊是 subject (sub)、name，和 issue at (iat)。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-10-29 23:47:11 +0800 CST'>October 29, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to JWT簡介 - 使用Node.js" href="https://AlliesChen.github.io/posts/jwt_with_node_js/"></a>
+</article>
     </main>
     
 <footer class="footer">

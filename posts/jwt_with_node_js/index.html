@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>JWT簡介 - 使用Node.js | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="Backend, JWT">
+<meta name="description" content="What is JWT and how to use it with Node.js?">
+<meta name="author" content="Yu-Pang">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css"
+  integrity="sha384-bYdxxUwYipFNohQlHt0bjN/LCpueqWz13HufFEV1SUatKs1cm4L6fFgCi1jT643X"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js"
+  integrity="sha384-Qsn9KnoKISj6dI8g7p1HBlNpVx0I8p1SvlwOldgi3IorMle61nQy4zEahWYtljaz"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js"
+  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      
+      
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      
+      throwOnError: false,
+    });
+  });
+</script>
+ 
+<meta property="og:title" content="JWT簡介 - 使用Node.js" />
+<meta property="og:description" content="What is JWT and how to use it with Node.js?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/jwt_with_node_js/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-29T23:47:11&#43;08:00" />
+<meta property="article:modified_time" content="2022-10-29T23:47:11&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="JWT簡介 - 使用Node.js"/>
+<meta name="twitter:description" content="What is JWT and how to use it with Node.js?"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "JWT簡介 - 使用Node.js",
+      "item": "https://AlliesChen.github.io/posts/jwt_with_node_js/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "JWT簡介 - 使用Node.js",
+  "name": "JWT簡介 - 使用Node.js",
+  "description": "What is JWT and how to use it with Node.js?",
+  "keywords": [
+    "Backend", "JWT"
+  ],
+  "articleBody": "關於這篇 JWT 的說明比較偏向我個人的筆記，節錄及參考了下方連結中的內容，拜訪連結文章會有更詳盡完整的資訊：\nJWT 官方的 Introduction to JSON web Tokens\nThe Ultimate Guide to handling JWTs on frontend clients (GraphQL) 前段介紹了 JWT 是什麼，中後段則是使用流程與實踐，不過是搭配GraphQL，這裡不會提到。\n這則推特貼文圖解了JWT的結構與基本的驗證流程。\nJWT 是 JSON Web Token 的縮寫，這個 JSON 是一種資料傳輸格式，像是：\n{ \"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022 } JWT 結構 JWT 是由三組字串組成，每組用 點(dot) 隔開，像這樣 xxxxx.yyyyy.zzzzz；x、y，和 z 分別代表了 header、payload，和signature，接下來會分別再對這三部份的內容用途進行說明。\n可以先提到的是 header 和 payload 只是 base64加密，可以透過在瀏覽器的 console 使用 atob() 轉換回原來的訊息，比如說官網的範例： eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\n把中間 payload 的部份透過 atob 轉換：\natob('eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ') // '{\"sub\":\"1234567890\",\"name\":\"John Doe\",\"iat\":1516239022}' 就可以看到原始資訊是 subject (sub)、name，和 issue at (iat)。\nHeader 通常有兩個部份，這個 token 的類型(typ)，也就是 JWT，以及要用在產生 signature 的雜湊演算法 (alg)：\n{ \"alg\": \"HS256\", \"typ\": \"JWT\" } Payload 如同上面提到，因為可以被輕易的還原回原本的資訊，所以這裡會放的是非敏感的 (non-sensitive) 使用者資訊，像是使用者 id，以及其它關於這個 token 的額外資訊，這些被稱為 claims：\n{ \"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022 } 又，claims 被分為三種：\nRegistered claims 指名稱在這串清單中有被預定義的項目，可以讓開發者彼此間更容易理解 payload 裡的資訊。\nPublic claims 是撰寫者自定義的資訊，但要避免與這個網站列出的名稱重複到。\nPrivate claims 也是撰寫者自定義，用在團體間分享，但又不屬於 registered 或是 public 的資訊。\nSignature 用來給伺服器驗證 token 的有效性。使用 header 中給訂的演算法 (alg) 對加密後的 header 和 payload，以及一個 secret (一串字串)，去產生 JWT，示例就是像官網的範例：\nHMACSHA256( base64UrlEncode(header) + \".\" + base64UrlEncode(payload), secret) 出來就是開頭那串看起來像亂碼並用 . (dot) 分離的字串：\neyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\n這邊可以注意到，如果 header 和 payload 的內容有變動，signature 的值也會改變，這能避免有人透過修改 payload 的值，比如把 user id 改為別人的來登入不屬於使用者本人的帳號。\nsecret 是自訂義的一串字，並且不應該被洩漏，它用在產生 JWT 的雜湊演算法中，太短安全性較差，太長會花費比較多的時間計算，從而影響效能。\n使用 JWT 關於上面提到的製作細節，我們都可以不管，只要透過相關函式庫就能達成 JWT 的簽發及驗證；接下來範例中，我會使用的是 Node.js 的 jsonwebtoken 套件。\n我跟著 Youtube 上 Net Ninja 的 MERN Auth Tutorial 系列做出這個範例；考量到 JWT 如果被偷走，就代表能登入，因此我改把 token 從教學影片中用的 localStorage 改到 cookie 中，並且設定了 httpOnly 和 sameSite ，這兩個的用途可以參考零基礎資安系列（三）-網站安全三本柱（Secure \u0026 SameSite \u0026 HttpOnly）。\n放在 localStorage 和 Cookies 的 XSS 風險可以參考 XSS - localStorage vs Cookies ，這部影片有做程式演示。\nP.S. 我使用的前端 JS 框架是 Preact 而不是教學影片中的 React，兩個框架有些許不同在，比如 Router 套件的用法。\nExample: Sign up \u0026 Log in 前端程式設定 signup 或 login 對後端位址發出請求：\nconst response = await fetch('/api/user/signup', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, password}) }) const response = await fetch('/api/user/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, password}) }) 後端收到 sign up 或 log in 的請求時，需要做出這個 token，非常簡單，第一個參數就是會出現在 payload 的資料，第二個參數就是 Signature 該節提到用來做雜湊的 secret，最後則是這個 token 的有效期，這邊設定為「三天」。\n然後 response.cookie 裡加入 token 回傳給 browser： (這段 code 在哪？)\nconst jwt = require('jsonwebtoken'); function createToken(id) { return jwt.sign({ _id: id }, process.env.SECRET, { expiresIn: '3d' }); } const token = createToken(user.id); res.status(200).cookie('token', token, { httpOnly: true, sameSite: 'strict', }) 然後在 Log in 時，token 會在 request 的 header 中的 cookie 裡，提取出來就可以用套件提供的 verify 方法驗證：(這段 code 在哪？)\nconst jwt = require('jsonwebtoken'); const token = req.headers.cookie.split('=')[1]; const { _id } = jwt.verify(token, process.env.SECRET); 同樣的機制也被用在限制只有使用者能看到文章內容，會先經過 auth 流程。\nExample: Log out 前端對 logout 這個位址發送請求，另外也清除登入的狀態資料：\nfunction logout() { fetch('/api/user/logout') // remove user from storage localStorage.removeItem('user') // dispatch logout action dispatch({type: 'LOGOUT'}) workoutDispatch({type: 'SET_WORKOUTS', payload: []}) } 後端在 response 中呼叫 clearCookie 方法 讓瀏覽器清掉 cookie：(這段 code 在哪？)\nasync function logoutUser(req, res) { res.status(200).clearCookie('token'); res.end(); } ",
+  "wordCount" : "395",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-10-29T23:47:11+08:00",
+  "dateModified": "2022-10-29T23:47:11+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pang"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/jwt_with_node_js/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/categories/" title="categories">
+                    <span>categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      JWT簡介 - 使用Node.js
+    </h1>
+    <div class="post-description">
+      What is JWT and how to use it with Node.js?
+    </div>
+    <div class="post-meta"><span title='2022-10-29 23:47:11 +0800 CST'>October 29, 2022</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/jwt_with_node_js.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#jwt-結構">JWT 結構</a>
+      <ul>
+        <li><a href="#header">Header</a></li>
+        <li><a href="#payload">Payload</a></li>
+        <li><a href="#signature">Signature</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用-jwt">使用 JWT</a>
+      <ul>
+        <li><a href="#example-sign-up--log-in">Example: Sign up &amp; Log in</a></li>
+        <li><a href="#example-log-out">Example: Log out</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>關於這篇 JWT 的說明比較偏向我個人的筆記，節錄及參考了下方連結中的內容，拜訪連結文章會有更詳盡完整的資訊：</p>
+<ul>
+<li>
+<p>JWT 官方的 <a href="https://jwt.io/introduction/">Introduction to JSON web Tokens</a></p>
+</li>
+<li>
+<p><a href="https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/">The Ultimate Guide to handling JWTs on frontend clients (GraphQL)</a> 前段介紹了 JWT 是什麼，中後段則是使用流程與實踐，不過是搭配GraphQL，這裡不會提到。</p>
+</li>
+<li>
+<p>這則<a href="https://twitter.com/GuidesJava/status/1556482072356671488">推特貼文</a>圖解了JWT的結構與基本的驗證流程。</p>
+</li>
+</ul>
+<p>JWT 是 JSON Web Token 的縮寫，這個 JSON 是一種資料傳輸格式，像是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sub&#34;</span>: <span style="color:#e6db74">&#34;1234567890&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;iat&#34;</span>: <span style="color:#ae81ff">1516239022</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="jwt-結構">JWT 結構<a hidden class="anchor" aria-hidden="true" href="#jwt-結構">#</a></h2>
+<p>JWT 是由三組字串組成，每組用 點(dot) 隔開，像這樣 <code>xxxxx.yyyyy.zzzzz</code>；x、y，和 z 分別代表了 header、payload，和signature，接下來會分別再對這三部份的內容用途進行說明。</p>
+<p>可以先提到的是 header 和 payload 只是 base64加密，可以透過在瀏覽器的 console 使用 <code>atob()</code> 轉換回原來的訊息，比如說<a href="https://jwt.io/">官網的範例</a>：
+<code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</code></p>
+<p>把中間 payload 的部份透過 <code>atob</code> 轉換：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">atob</span>(<span style="color:#e6db74">&#39;eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// &#39;{&#34;sub&#34;:&#34;1234567890&#34;,&#34;name&#34;:&#34;John Doe&#34;,&#34;iat&#34;:1516239022}&#39;
+</span></span></span></code></pre></div><p>就可以看到原始資訊是 subject (sub)、name，和 issue at (iat)。</p>
+<h3 id="header">Header<a hidden class="anchor" aria-hidden="true" href="#header">#</a></h3>
+<p>通常有兩個部份，這個 token 的類型(typ)，也就是 JWT，以及要用在產生 signature 的雜湊演算法 (alg)：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;alg&#34;</span>: <span style="color:#e6db74">&#34;HS256&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;typ&#34;</span>: <span style="color:#e6db74">&#34;JWT&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="payload">Payload<a hidden class="anchor" aria-hidden="true" href="#payload">#</a></h3>
+<p>如同上面提到，因為可以被輕易的還原回原本的資訊，所以這裡會放的是非敏感的 (non-sensitive) 使用者資訊，像是使用者 id，以及其它關於這個 token 的額外資訊，這些被稱為 claims：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sub&#34;</span>: <span style="color:#e6db74">&#34;1234567890&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;iat&#34;</span>: <span style="color:#ae81ff">1516239022</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>又，claims 被分為三種：</p>
+<ul>
+<li>
+<p>Registered claims 指名稱在<a href="https://www.rfc-editor.org/rfc/rfc7519#section-4.1">這串清單</a>中有被預定義的項目，可以讓開發者彼此間更容易理解 payload 裡的資訊。</p>
+</li>
+<li>
+<p>Public claims 是撰寫者自定義的資訊，但要避免與<a href="https://www.iana.org/assignments/jwt/jwt.xhtml">這個網站</a>列出的名稱重複到。</p>
+</li>
+<li>
+<p>Private claims 也是撰寫者自定義，用在團體間分享，但又不屬於 registered 或是 public 的資訊。</p>
+</li>
+</ul>
+<h3 id="signature">Signature<a hidden class="anchor" aria-hidden="true" href="#signature">#</a></h3>
+<p>用來給伺服器驗證 token 的有效性。使用 header 中給訂的演算法 (alg) 對加密後的 header 和 payload，以及一個 secret (一串字串)，去產生 JWT，示例就是像<a href="https://jwt.io/">官網的範例</a>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">HMACSHA256</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">base64UrlEncode</span>(<span style="color:#a6e22e">header</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.&#34;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">base64UrlEncode</span>(<span style="color:#a6e22e">payload</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">secret</span>)
+</span></span></code></pre></div><p>出來就是開頭那串看起來像亂碼並用 <code>.</code> (dot) 分離的字串：</p>
+<p><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</code></p>
+<p>這邊可以注意到，如果 header 和 payload 的內容有變動，signature 的值也會改變，這能避免有人透過修改 payload 的值，比如把 user id 改為別人的來登入不屬於使用者本人的帳號。</p>
+<blockquote>
+<p><code>secret</code> 是自訂義的一串字，並且<strong>不應該被洩漏</strong>，它用在產生 JWT 的雜湊演算法中，太短安全性較差，太長會花費比較多的時間計算，從而影響效能。</p>
+</blockquote>
+<h2 id="使用-jwt">使用 JWT<a hidden class="anchor" aria-hidden="true" href="#使用-jwt">#</a></h2>
+<p>關於上面提到的製作細節，我們都可以不管，只要透過<a href="https://jwt.io/libraries">相關函式庫</a>就能達成 JWT 的簽發及驗證；接下來範例中，我會使用的是 Node.js 的 <a href="https://github.com/auth0/node-jsonwebtoken#readme"><code>jsonwebtoken</code></a> 套件。</p>
+<p>我跟著 Youtube 上 Net Ninja 的 <a href="https://www.youtube.com/playlist?list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT">MERN Auth Tutorial 系列</a>做出<a href="https://github.com/AlliesChen/MERN-stack">這個範例</a>；考量到 JWT 如果被偷走，就代表能登入，因此我改把 token 從教學影片中用的 <code>localStorage</code> 改到 cookie 中，並且設定了 <code>httpOnly</code> 和 <code>sameSite</code> ，這兩個的用途可以參考<a href="https://tech-blog.cymetrics.io/posts/jo/zerobased-secure-samesite-httponly/">零基礎資安系列（三）-網站安全三本柱（Secure &amp; SameSite &amp; HttpOnly）</a>。</p>
+<blockquote>
+<p>放在 localStorage 和 Cookies 的 XSS 風險可以參考 <a href="https://academind.com/tutorials/localstorage-vs-cookies-xss">XSS - localStorage vs Cookies </a>，這部影片有做程式演示。</p>
+</blockquote>
+<p>P.S. 我使用的前端 JS 框架是 Preact 而不是教學影片中的 React，兩個框架有些許不同在，比如 Router 套件的用法。</p>
+<h3 id="example-sign-up--log-in">Example: Sign up &amp; Log in<a hidden class="anchor" aria-hidden="true" href="#example-sign-up--log-in">#</a></h3>
+<p>前端程式設定 <a href="https://github.com/AlliesChen/MERN-stack/blob/main/frontend/src/hooks/useSignup.js">signup</a> 或 <a href="https://github.com/AlliesChen/MERN-stack/blob/main/frontend/src/hooks/useLogin.js">login</a> 對後端位址發出請求：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#39;/api/user/signup&#39;</span>, {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;POST&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {<span style="color:#e6db74">&#39;Content-Type&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;application/json&#39;</span>},
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({<span style="color:#a6e22e">email</span>, <span style="color:#a6e22e">password</span>})
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#39;/api/user/login&#39;</span>, {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;POST&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {<span style="color:#e6db74">&#39;Content-Type&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;application/json&#39;</span>},
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({<span style="color:#a6e22e">email</span>, <span style="color:#a6e22e">password</span>})
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p>後端收到 sign up 或 log in 的請求時，需要做出這個 token，非常簡單，第一個參數就是會出現在 payload 的資料，第二個參數就是 Signature 該節提到用來做雜湊的 <code>secret</code>，最後則是這個 token 的有效期，這邊設定為「三天」。</p>
+<p>然後 <a href="http://expressjs.com/en/4x/api.html#res.cookie">response.cookie</a> 裡加入 token 回傳給 browser： (<a href="https://github.com/AlliesChen/MERN-stack/blob/main/backend/controllers/userController.js">這段 code 在哪？</a>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">jwt</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;jsonwebtoken&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createToken</span>(<span style="color:#a6e22e">id</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">sign</span>({ <span style="color:#a6e22e">_id</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">id</span> }, <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">SECRET</span>, { <span style="color:#a6e22e">expiresIn</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;3d&#39;</span> });
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createToken</span>(<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">200</span>).<span style="color:#a6e22e">cookie</span>(<span style="color:#e6db74">&#39;token&#39;</span>, <span style="color:#a6e22e">token</span>, {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">httpOnly</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sameSite</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;strict&#39;</span>,
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p>然後在 Log in 時，token 會在 request 的 header 中的 cookie 裡，提取出來就可以用套件提供的 <a href="https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback"><code>verify</code> 方法</a>驗證：(<a href="https://github.com/AlliesChen/MERN-stack/blob/main/backend/middleware/requireAuth.js">這段 code 在哪？</a>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">jwt</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;jsonwebtoken&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">headers</span>.<span style="color:#a6e22e">cookie</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;=&#39;</span>)[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">_id</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">verify</span>(<span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">SECRET</span>);
+</span></span></code></pre></div><p>同樣的機制也被用在限制只有使用者能看到文章內容，會先經過 <a href="https://github.com/AlliesChen/MERN-stack/blob/main/backend/middleware/requireAuth.js">auth</a> 流程。</p>
+<h3 id="example-log-out">Example: Log out<a hidden class="anchor" aria-hidden="true" href="#example-log-out">#</a></h3>
+<p>前端對 logout 這個位址發送請求，另外也清除登入的狀態資料：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">logout</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#39;/api/user/logout&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// remove user from storage
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">removeItem</span>(<span style="color:#e6db74">&#39;user&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// dispatch logout action
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">dispatch</span>({<span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;LOGOUT&#39;</span>})
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">workoutDispatch</span>({<span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;SET_WORKOUTS&#39;</span>, <span style="color:#a6e22e">payload</span><span style="color:#f92672">:</span> []})
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>後端在 response 中呼叫 <a href="http://expressjs.com/en/4x/api.html#res.clearCookie">clearCookie 方法</a> 讓瀏覽器清掉 cookie：(<a href="https://github.com/AlliesChen/MERN-stack/blob/main/backend/controllers/userController.js">這段 code 在哪？</a>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">logoutUser</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">200</span>).<span style="color:#a6e22e">clearCookie</span>(<span style="color:#e6db74">&#39;token&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">end</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/backend/">Backend</a></li>
+      <li><a href="https://AlliesChen.github.io/tags/jwt/">JWT</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://AlliesChen.github.io/posts/derivative/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Derivative</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

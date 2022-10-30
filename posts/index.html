@@ -191,6 +191,28 @@
 <figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
 </figure>
   <header class="entry-header">
+    <h2>JWT簡介 - 使用Node.js
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>關於這篇 JWT 的說明比較偏向我個人的筆記，節錄及參考了下方連結中的內容，拜訪連結文章會有更詳盡完整的資訊：
+JWT 官方的 Introduction to JSON web Tokens
+The Ultimate Guide to handling JWTs on frontend clients (GraphQL) 前段介紹了 JWT 是什麼，中後段則是使用流程與實踐，不過是搭配GraphQL，這裡不會提到。
+這則推特貼文圖解了JWT的結構與基本的驗證流程。
+JWT 是 JSON Web Token 的縮寫，這個 JSON 是一種資料傳輸格式，像是：
+{ &#34;sub&#34;: &#34;1234567890&#34;, &#34;name&#34;: &#34;John Doe&#34;, &#34;iat&#34;: 1516239022 } JWT 結構 JWT 是由三組字串組成，每組用 點(dot) 隔開，像這樣 xxxxx.yyyyy.zzzzz；x、y，和 z 分別代表了 header、payload，和signature，接下來會分別再對這三部份的內容用途進行說明。
+可以先提到的是 header 和 payload 只是 base64加密，可以透過在瀏覽器的 console 使用 atob() 轉換回原來的訊息，比如說官網的範例： eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+把中間 payload 的部份透過 atob 轉換：
+atob(&#39;eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ&#39;) // &#39;{&#34;sub&#34;:&#34;1234567890&#34;,&#34;name&#34;:&#34;John Doe&#34;,&#34;iat&#34;:1516239022}&#39; 就可以看到原始資訊是 subject (sub)、name，和 issue at (iat)。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-10-29 23:47:11 +0800 CST'>October 29, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to JWT簡介 - 使用Node.js" href="https://AlliesChen.github.io/posts/jwt_with_node_js/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
     <h2>Derivative
     </h2>
   </header>
