@@ -6,7 +6,16 @@
     <description>Recent content in TypeScript on YP&#39;s Dev Memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Wed, 17 Aug 2022 21:43:18 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/tags/typescript/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Nov 2022 17:39:03 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/tags/typescript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>有趣的 TypeScript 型別用法與機制</title>
+      <link>https://AlliesChen.github.io/posts/have_fun_with_typescript/</link>
+      <pubDate>Thu, 03 Nov 2022 17:39:03 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/have_fun_with_typescript/</guid>
+      <description>Dive into TypeScript&amp;#39;s usage and built-in types</description>
+    </item>
+    
     <item>
       <title>TypeScript：Union被判為Intersection</title>
       <link>https://AlliesChen.github.io/posts/unexpected_intersection_type/</link>

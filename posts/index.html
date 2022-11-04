@@ -191,6 +191,23 @@
 <figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
 </figure>
   <header class="entry-header">
+    <h2>有趣的 TypeScript 型別用法與機制
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章需要閱讀者對於 TypeScript (以下簡稱 TS) 及 JavaScript (以下簡稱 JS) 的語法有基礎的認知，入門可以參考 TS 官網的 Get Started 並選擇適合你的章節開始閱讀。
+這篇文章中 Generics、Error Type in Catch 和 Utility Types 是 Matt Pocock 超讚的 TS 教學 - Total TypeScript ，在 Beginner’s TypeScript 課程中有用到的。這些範例為了方便我有精簡修改程式碼來說明，完整程式邏輯可以看 Matt 的原始教學，有提供可以互動的範例唷 (透過像 Jest 測試的方式)。
+Generics 可以給 constructor function 加上 &lt;type parameter&gt; 來定義可加入的值 (原教學中用 Set 做例子)，這邊給進 new Map() 的是要求 &lt;key, value&gt; 的型別：TS Playground
+const beverageOrder = new Map&lt;string, number&gt;(); beverageOrder.set(&#39;coffee&#39;, 1); // @ts-expect-error beverageOrder.set(1, &#39;coffee&#39;); Error Type In Catch Try &amp; catch 中，catch 的 e 參數是什麼型別呢？TS Playground...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-11-03 17:39:03 +0800 CST'>November 3, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to 有趣的 TypeScript 型別用法與機制" href="https://AlliesChen.github.io/posts/have_fun_with_typescript/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
     <h2>JWT簡介 - 使用Node.js
     </h2>
   </header>
