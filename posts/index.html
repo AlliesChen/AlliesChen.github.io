@@ -191,6 +191,28 @@
 <figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
 </figure>
   <header class="entry-header">
+    <h2>如何避免 React 重新渲染元件
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>因為面試被問倒 useCallback、useMemo 的用途和用法，還有如何避免 React 做無謂的重新渲染 (re-render)，特別是最後一個當下我完全沒有頭緒…
+小提示：使用 React.memo，整理筆記發現有記過這個，但看來真的只是寫下來 😅
+事後亡羊補牢時看到 Debug Bear 的這篇文章；文章中漸進式的說明與例子終於讓我比較看懂這三個方法對重新渲染的影響，另外也提到了 list 元素中，React 會提示需要提供給元件的 key 屬性也是影響是否重新渲染的因子之一。
+我參考文章中的例子，寫了個應該算是互動式的應用範例：
+react-re-render - StackBlitz
+範例中因為版面有限，主要透過題目中的簡短說明，期望使用者配合閱讀程式碼，及程式碼中設定 console.log 印出的資訊來瞭解這四個主題 – 總共有 9 個問題。
+這篇文章則是進一步描述每個主題的癥結點，提取出關鍵的程式碼部份做說明 (因此會與實際範例中的程式碼有差異)，但不會細部的去分析這些方法原始碼的運作概念 (因為我也還不懂)。
+React.memo 問題 1 及問題 2 是針對 React.memo 的應用，
+// @filename: Question1.tsx export default function Question1() { const [answer, setAnswer] = useState&lt;boolean | null&gt;(null); return &lt;Selection setAnswer={setAnswer} /&gt; } 因為 Selection 有設定 onClick 會觸發 setAnswer 改變 Question1 元件 answer 的值，因此造成整個元件重新更新。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-11-27 21:56:57 +0800 CST'>November 27, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to 如何避免 React 重新渲染元件" href="https://AlliesChen.github.io/posts/react_re-render/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
     <h2>有趣的 TypeScript 型別用法與機制
     </h2>
   </header>

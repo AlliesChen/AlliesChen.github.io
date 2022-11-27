@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>React on YP&#39;s Dev Memo</title>
+    <link>https://AlliesChen.github.io/tags/react/</link>
+    <description>Recent content in React on YP&#39;s Dev Memo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sun, 27 Nov 2022 21:56:57 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/tags/react/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何避免 React 重新渲染元件</title>
+      <link>https://AlliesChen.github.io/posts/react_re-render/</link>
+      <pubDate>Sun, 27 Nov 2022 21:56:57 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/react_re-render/</guid>
+      <description>There are ways for conditions to prevent React to re-render a component</description>
+    </item>
+    
+  </channel>
+</rss>
