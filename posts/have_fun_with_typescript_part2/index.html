@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>有趣的 TypeScript 型別用法與機制 Part 2 | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="first">
+<meta name="description" content="Dive into TypeScript&#39;s mechanism">
+<meta name="author" content="Yu-Pang">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript> <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css"
+  integrity="sha384-bYdxxUwYipFNohQlHt0bjN/LCpueqWz13HufFEV1SUatKs1cm4L6fFgCi1jT643X"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js"
+  integrity="sha384-Qsn9KnoKISj6dI8g7p1HBlNpVx0I8p1SvlwOldgi3IorMle61nQy4zEahWYtljaz"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js"
+  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      
+      
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      
+      throwOnError: false,
+    });
+  });
+</script>
+ 
+<meta property="og:title" content="有趣的 TypeScript 型別用法與機制 Part 2" />
+<meta property="og:description" content="Dive into TypeScript&#39;s mechanism" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/have_fun_with_typescript_part2/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-16T15:01:10&#43;08:00" />
+<meta property="article:modified_time" content="2022-12-16T15:01:10&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="有趣的 TypeScript 型別用法與機制 Part 2"/>
+<meta name="twitter:description" content="Dive into TypeScript&#39;s mechanism"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "有趣的 TypeScript 型別用法與機制 Part 2",
+      "item": "https://AlliesChen.github.io/posts/have_fun_with_typescript_part2/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "有趣的 TypeScript 型別用法與機制 Part 2",
+  "name": "有趣的 TypeScript 型別用法與機制 Part 2",
+  "description": "Dive into TypeScript's mechanism",
+  "keywords": [
+    "first"
+  ],
+  "articleBody": "繼上一篇 – 有趣的 TypeScript 型別用法與機制，這次閱讀到 Gabriel Vergnaud 的 Type-Level TypeScript 這系列文章的第 1 到 4 章，屬於免費閱讀的章節，讓我重新認識了 TypeScript (以下簡稱 TS) 的型別系統；該系列文章中有提供即時的程式碼編輯區塊，每一章最後都有小測驗，閱讀與學習的體驗都很棒，非常值得一看。\n這篇文章的內容是我個人針對這系列做的一個學習筆記，在寫這篇文章時也意外發現其實 Gabriel 提到的內容，TS 官網上都有條目寫到；過去只是讀過，從沒理解過😅。\nLevels of Language 貫穿該系列文章的第一個重點；language of values (value-level) 和 language of types (type-level)，JavaScript (以下簡稱 JS) 因為(還)沒有型別的語法所以 100% 是 value-level 語言。\n還沒有，但正在提案中的型別註釋– tc39/proposal-type-annotations: ECMAScript proposal for type syntax that is erased - Stage 1\n如果對 TS 實作不陌生，有個錯誤就是：'Somthing' only refers to a type, but is being used as a value here– TS Playground；正是這個 value 和 type 的概念。於是乎，TS 不只是給 JS 寄住的外殼，而是用來撰寫型別，type-level 程式語言。\nGenerics– 泛型 上一篇提過 JS/TS 內建的型別可以透過給 type parameter 進 來產生型別，像是– TS Playground\ntype ObjType = Record\u003cstring, number\u003e; const beverageOrder = new Map\u003cstring, number\u003e(); 過去我一直以為泛型的應用一定要給 type parameter 做型別宣告，像是這樣– TS Playground：\ntype LogType\u003cA, B\u003e = (P: A, Cb: B) =\u003e B; // A higher order function // log out the types of a function's input(parameter) and its output function logType(param: unknown, cb: (val: unknown) =\u003e unknown) { const result = cb(param); console.log(`Input Type: ${typeof param}\\nOutput Type = ${typeof result}`) return result; } const res1 = logType( 1234, (val) =\u003e JSON.stringify(val) ) as LogType\u003cnumber, string\u003e; const res2 = logType( {id: 1234, name: \"foo\"}, (val) =\u003e Object.keys(val as Object).map(item =\u003e item.toUpperCase()) ) as LogType\u003cobject, Array\u003cstring\u003e\u003e; console.log(\"res1\", res1); // \"1234\" console.log(\"res2\", res2); // [\"ID\", \"NAME\"] 又臭又長，不但需要先訂好輸入與輸出的 type parameters，還要靠 as 把型別給上去，甚至在 res2 的 Object.keys() 中也需要給 val 參數用 as 加定義，不僅難以複用，還要寫太多程式碼了。\n但重新認識泛型後，才知道可以這樣應用– TS Playground：\n// A higher order function // log out the types of a function's input(parameter) and its output function logType\u003cInput, Output\u003e(param: Input, cb: (val: Input) =\u003e Output): Output { const result = cb(param); console.log(`Input Type: ${typeof param}\\nOutput Type = ${typeof result}`) return result; } const res1 = logType( 1234, (val) =\u003e JSON.stringify(val) ); const res2 = logType( {id: 1234, name: \"foo\"}, (val) =\u003e Object.keys(val).map(item =\u003e item.toUpperCase()) ); console.log(\"res1\", res1); // \"1234\" console.log(\"res2\", res2); // [\"ID\", \"NAME\"] 可以看到 logType 使用了泛型宣告 Input 和 Output，但在指派給 res1 使用時卻不必給 type parameters，而是反過來，由 TS 從給進去的參數推斷 Input 和 Output 該有的型別是什麼。\nData Structures 在原系列文章的第二章– Types are just data - Data Structures 該節中提到：\nIn our type-level world, we have four built-in data structures at our disposal:\n四個 type-level 的資料結構為：\ntype ObjectType: {key1: number, key2: string}; // 有限的鍵(key)數配對不同型別的值(value) type RecordType: {[key: string]: number}; // 類似 object type，但為不限數量的鍵配對特定型別的值 type TupleType: [string, number]; // 有限長度的資料集，個別資料的型別可能不同 type ArrayType: number[]; // 未知長度的資料集，但與 record type 相像，所有資料有特定的型別 這四個資料結構分別在該系列文章的，\n第三章 Objects \u0026 Records 第四章 Arrays \u0026 Tuples 深入的討論四種型別資料結構的特性，如何 merge 及 extract 當中的屬性…等。\nTypes are Sets 在原系列文章的第二章– Types are just data - Types are Sets 提到，\nAn interesting feature of TypeScript is that a value can belong to more than one type.\n這是第二個貫穿系列文章的重點– assignability；\n下面這個錯誤訊息在 TypeScript 常見到，\n“Type A is not assignable to Type B”\n放個方向想，當\"A is assignable to B\"，A 即是 B 的 subset，B 的型別範圍涵蓋 A 的型別範圍，所以可以把 A 放進 B 裡，Gabriel (該文章作者) 稱之為 assignability。\nObjects and Records 文章第三章中提到，關於物件型別，在 TS 中跟 JS 不同的地方：\n在 type-level，要讀物件的屬性不能用 dot (obj.prop) 只能用 square brackets notation: obj[\"prop\"] namespace 中 export 出來的物件倒是可以用 dot 讀取– TS Playground\nValue-level (JS) 的 Logical AND (\u0026\u0026) / OR (||) operator 和 type-level (TS) 中 union (|) / intersection (\u0026) 運作機制是不同的– TS Playground JS 中物件屬性的 merging 會透過 spread operator (...) 或物件方法，如 Object.assign() 達成，在 type-level 中則是用 \u0026、extends，或 implements 等達成，可以參考 stackoverflow 上的這則回答。 題外話：Gabriel 有提到由於在 type 使用 \u0026 來 merge 屬性 TS 會持續遍歷過當中全部的型別來產生最終的結果，如果不是需要泛型，interface 會是效能上比較好的選擇，詳細的說明可以參考這篇文章的章節。\nArrays and Tuples 文章第四章中提到，關於陣列型別的應用和特色：\n想要取到陣列中的值的「型別」可以用 arr[number]\n使用 keyof 可能不是理想的選擇，試想在 JS 中下面這段程式碼會印出什麼？在 type-level 也會拿到這些內建的屬性鍵：\nconst arr = ['foo', 'bar', 'map'] console.log(arr['map']) ",
+  "wordCount" : "536",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-12-16T15:01:10+08:00",
+  "dateModified": "2022-12-16T15:01:10+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pang"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/have_fun_with_typescript_part2/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/categories/" title="categories">
+                    <span>categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      有趣的 TypeScript 型別用法與機制 Part 2
+    </h1>
+    <div class="post-description">
+      Dive into TypeScript&#39;s mechanism
+    </div>
+    <div class="post-meta"><span title='2022-12-16 15:01:10 +0800 CST'>December 16, 2022</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/have_fun_with_typescript_part2.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#levels-of-language">Levels of Language</a></li>
+    <li><a href="#generics---泛型">Generics&ndash; 泛型</a></li>
+    <li><a href="#data-structures">Data Structures</a></li>
+    <li><a href="#types-are-sets">Types are Sets</a></li>
+    <li><a href="#objects-and-records">Objects and Records</a></li>
+    <li><a href="#arrays-and-tuples">Arrays and Tuples</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>繼上一篇 &ndash; <a href="https://allieschen.github.io/posts/have_fun_with_typescript/">有趣的 TypeScript 型別用法與機制</a>，這次閱讀到 <a href="https://twitter.com/GabrielVergnaud">Gabriel Vergnaud</a> 的 <a href="https://type-level-typescript.com/">Type-Level TypeScript</a> 這系列文章的第 1 到 4 章，屬於免費閱讀的章節，讓我重新認識了 TypeScript (以下簡稱 TS) 的型別系統；該系列文章中有提供即時的程式碼編輯區塊，每一章最後都有小測驗，閱讀與學習的體驗都很棒，非常值得一看。</p>
+<p>這篇文章的內容是我個人針對這系列做的一個學習筆記，在寫這篇文章時也意外發現其實 Gabriel 提到的內容，TS 官網上都有條目寫到；過去只是讀過，從沒理解過😅。</p>
+<h2 id="levels-of-language">Levels of Language<a hidden class="anchor" aria-hidden="true" href="#levels-of-language">#</a></h2>
+<p>貫穿該系列文章的第一個重點；language of values (value-level) 和 language of types (type-level)，JavaScript (以下簡稱 JS) 因為(還)沒有型別的語法所以 100% 是 value-level 語言。</p>
+<blockquote>
+<p>還沒有，但正在提案中的型別註釋&ndash; <a href="https://github.com/tc39/proposal-type-annotations">tc39/proposal-type-annotations: ECMAScript proposal for type syntax that is erased - Stage 1</a></p>
+</blockquote>
+<p>如果對 TS 實作不陌生，有個錯誤就是：<code>'Somthing' only refers to a type, but is being used as a value here</code>&ndash; <a href="https://www.typescriptlang.org/play?#code/C4TwDgpgBAYg9nKBeKBnYAnAlgOwOYDcAUEQMZw7pQBGAhhsrAgUA">TS Playground</a>；正是這個 value 和 type 的概念。於是乎，TS 不只是給 JS 寄住的外殼，而是用來撰寫型別，type-level 程式語言。</p>
+<h2 id="generics---泛型">Generics&ndash; 泛型<a hidden class="anchor" aria-hidden="true" href="#generics---泛型">#</a></h2>
+<p>上一篇提過 JS/TS 內建的型別可以透過給 type parameter 進 <code>&lt;type&gt;</code> 來產生型別，像是&ndash; <a href="https://www.typescriptlang.org/play?ssl=2&amp;ssc=49&amp;pln=1&amp;pc=1#code/C4TwDgpgBA8gRgKwCrmgXigJQgYwPYBOAJgDwDOwBAlgHYDmANFDQK4C2cEBAfANwBQ+GhSicAblwCGdCDGJcoGGhADuUALKSw5SrUbN2nHgAoAlLyA">TS Playground</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ObjType</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Record</span>&lt;<span style="color:#f92672">string</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">number</span>&gt;;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">beverageOrder</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Map</span>&lt;<span style="color:#f92672">string</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">number</span>&gt;();
+</span></span></code></pre></div><p>過去我一直以為泛型的應用一定要給 type parameter 做型別宣告，像是這樣&ndash; <a href="https://www.typescriptlang.org/play?#code/C4TwDgpgBAMg9gcwCrggHgIIBooCEB8UAvFABQAKAXFNlAMIBG1uAlMYbgNwBQ3A9HxpQAFgEsEwiACcocKQBNpUAGYBXAHYBjYKLjr+ggDaJZq4FGCSLqAM6zlUAIYqN23eoDkd0erBnSYI5SjgC2EMDSbI7q8lCiwHZwZn7A3GpaOnpQxsioAUGh1BoA1upwAO7qOJpMZABujoZF6qUV6mxEhCVllWwA3txQQ1CaejbmUhA2qobmJDX5wSEsPMMjY3CGEAB0OaQABgCSvmZQKJDUACR9oJBwDoFLAL4AOuoA8smn59Ak17cQe5QSbTWZPfYsQbDSbAVRSdTAqYzYA8J68UbqcaImwARmI2UQP1IUKGOIATABmAAsWBJ9UaHUIACkAMrvABy23GUh8CFEyhApAahkhUTs8FykDQ6lUIQY0hw3N5+B43AxWJBZPxOSJdL6onk1HJ1Jw6lCEGoACJlHA4JanrS1kKGewoO8GAArCDabbFCAgGzOwxOOzur3aFjbEKOMCkeIQEKu+MhbbAOAAVTAkCkdEcNggpBYopDsEJqDQcE93uAOAwUmCIDQSvUCHwKvRGy2u0QpEtIJxlpw-ZWUAEUEtxqplrVnZ2ez7UzJg+xZJHY4A2pbDgARZeW9kYACyAFFLQBdIA">TS Playground</a>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">LogType</span>&lt;<span style="color:#f92672">A</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">B</span>&gt; <span style="color:#f92672">=</span> (<span style="color:#a6e22e">P</span>: <span style="color:#66d9ef">A</span>, <span style="color:#a6e22e">Cb</span>: <span style="color:#66d9ef">B</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">B</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// A higher order function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// log out the types of a function&#39;s input(parameter) and its output
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">logType</span>(<span style="color:#a6e22e">param</span>: <span style="color:#66d9ef">unknown</span>, <span style="color:#a6e22e">cb</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">val</span>: <span style="color:#66d9ef">unknown</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">unknown</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cb</span>(<span style="color:#a6e22e">param</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Input Type: </span><span style="color:#e6db74">${</span><span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">param</span><span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">nOutput Type = </span><span style="color:#e6db74">${</span><span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">result</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">res1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">logType</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">1234</span>,
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">val</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">val</span>)
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">LogType</span>&lt;<span style="color:#f92672">number</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">string</span>&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">res2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">logType</span>(
+</span></span><span style="display:flex;"><span>    {<span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">1234</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;foo&#34;</span>},
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">val</span>) <span style="color:#f92672">=&gt;</span> Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">val</span> <span style="color:#66d9ef">as</span> Object).<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">item</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">toUpperCase</span>())
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">LogType</span>&lt;<span style="color:#f92672">object</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">Array</span><span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#a6e22e">string</span>&gt;<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;res1&#34;</span>, <span style="color:#a6e22e">res1</span>); <span style="color:#75715e">// &#34;1234&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;res2&#34;</span>, <span style="color:#a6e22e">res2</span>); <span style="color:#75715e">// [&#34;ID&#34;, &#34;NAME&#34;]
+</span></span></span></code></pre></div><p>又臭又長，不但需要先訂好輸入與輸出的 type parameters，還要靠 <code>as</code> 把型別給上去，甚至在 <code>res2</code> 的 <code>Object.keys()</code> 中也需要給 <code>val</code> 參數用 <code>as</code> 加定義，不僅難以複用，還要寫太多程式碼了。</p>
+<p>但重新認識泛型後，才知道可以這樣應用&ndash; <a href="https://www.typescriptlang.org/play?#code/GYVwdgxgLglg9mABAGzgcwCoE8AOBTAHgEkwcQoAaRAeXLKgD4AKHAQwCdWBbALkRPpUIAIz5MAbq2R8B5AJSIAvAxp15fWlHqIA3gChEhxBAQBnKInZ5TIZBcXHhLDtzkBuA0ZNhTcZHgA6VDQmAANZC2x8PgASHShcPDhgRDZOLgBfAB0wTW0ovCVEOIT8ZMtrWygM0LlPQysoEHYkKxs7Dwy9PW9zCtMARiLggqYBgCYAZgAWKgkpBWVEACkAZWoAOQDzdhgwNBhgLHnkOXcesws28eH0UZ0YABM+CZmqMG48PgAiYDg4b4ZOaSU5KFTUYQAKzw0ACAGs8FhTCc5AEuKwcEwYFA8FwwYhsbiAlA4ABVHD4dgAYVYpjwTDO5wuPj8gWCTG+bQG3yoXPOvVZQXQHOuPP643cQA">TS Playground</a>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// A higher order function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// log out the types of a function&#39;s input(parameter) and its output
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">logType</span>&lt;<span style="color:#f92672">Input</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">Output</span>&gt;(<span style="color:#a6e22e">param</span>: <span style="color:#66d9ef">Input</span>, <span style="color:#a6e22e">cb</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">val</span>: <span style="color:#66d9ef">Input</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Output</span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">Output</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cb</span>(<span style="color:#a6e22e">param</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Input Type: </span><span style="color:#e6db74">${</span><span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">param</span><span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">nOutput Type = </span><span style="color:#e6db74">${</span><span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">result</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">res1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">logType</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">1234</span>,
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">val</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">val</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">res2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">logType</span>(
+</span></span><span style="display:flex;"><span>    {<span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">1234</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;foo&#34;</span>},
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">val</span>) <span style="color:#f92672">=&gt;</span> Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">val</span>).<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">item</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">toUpperCase</span>())
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;res1&#34;</span>, <span style="color:#a6e22e">res1</span>); <span style="color:#75715e">// &#34;1234&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;res2&#34;</span>, <span style="color:#a6e22e">res2</span>); <span style="color:#75715e">// [&#34;ID&#34;, &#34;NAME&#34;]
+</span></span></span></code></pre></div><p>可以看到 <code>logType</code> 使用了泛型宣告 <code>Input</code> 和 <code>Output</code>，但在指派給 <code>res1</code> 使用時卻不必給 type parameters，而是反過來，由 TS 從給進去的參數推斷 <code>Input</code> 和 <code>Output</code> 該有的型別是什麼。</p>
+<h2 id="data-structures">Data Structures<a hidden class="anchor" aria-hidden="true" href="#data-structures">#</a></h2>
+<p>在原系列文章的第二章&ndash; <a href="https://type-level-typescript.com/types-are-just-data#data-structures">Types are just data - Data Structures</a> 該節中提到：</p>
+<blockquote>
+<p>In our type-level world, we have four built-in data structures at our disposal:</p>
+</blockquote>
+<p>四個 type-level 的資料結構為：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ObjectType</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">key1</span>: <span style="color:#66d9ef">number</span>, <span style="color:#a6e22e">key2</span>: <span style="color:#66d9ef">string</span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 有限的鍵(key)數配對不同型別的值(value)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">RecordType</span><span style="color:#f92672">:</span> {[<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">number</span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 類似 object type，但為不限數量的鍵配對特定型別的值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">TupleType</span><span style="color:#f92672">:</span> [<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">number</span>];
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 有限長度的資料集，個別資料的型別可能不同
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ArrayType</span>: <span style="color:#66d9ef">number</span>[];
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 未知長度的資料集，但與 record type 相像，所有資料有特定的型別
+</span></span></span></code></pre></div><p>這四個資料結構分別在該系列文章的，</p>
+<ul>
+<li>第三章 <a href="https://type-level-typescript.com/objects-and-records">Objects &amp; Records</a></li>
+<li>第四章 <a href="https://type-level-typescript.com/arrays-and-tuples">Arrays &amp; Tuples</a></li>
+</ul>
+<p>深入的討論四種型別資料結構的特性，如何 merge 及 extract 當中的屬性&hellip;等。</p>
+<h2 id="types-are-sets">Types are Sets<a hidden class="anchor" aria-hidden="true" href="#types-are-sets">#</a></h2>
+<p>在原系列文章的第二章&ndash; <a href="https://type-level-typescript.com/types-are-just-data#types-are-sets">Types are just data - Types are Sets</a> 提到，</p>
+<blockquote>
+<p>An interesting feature of TypeScript is that a value can belong to more than one type.</p>
+</blockquote>
+<p>這是第二個貫穿系列文章的重點&ndash; <strong>assignability</strong>；</p>
+<p>下面這個錯誤訊息在 TypeScript 常見到，</p>
+<blockquote>
+<p>&ldquo;Type A is not assignable to Type B&rdquo;</p>
+</blockquote>
+<p>放個方向想，當&quot;A is assignable to B&quot;，A 即是 B 的 subset，B 的型別範圍涵蓋 A 的型別範圍，所以可以把 A 放進 B 裡，Gabriel (該文章作者) 稱之為 assignability。</p>
+<h2 id="objects-and-records">Objects and Records<a hidden class="anchor" aria-hidden="true" href="#objects-and-records">#</a></h2>
+<p>文章第三章中提到，關於物件型別，在 TS 中跟 JS 不同的地方：</p>
+<ul>
+<li>在 type-level，要讀物件的屬性不能用 dot (<code>obj.prop</code>) 只能用 square brackets notation: <code>obj[&quot;prop&quot;]</code>
+<blockquote>
+<p><code>namespace</code> 中 <code>export</code> 出來的物件倒是可以用 dot 讀取&ndash; <a href="https://www.typescriptlang.org/play?#code/CYUwxgNghgTiAEA7KBbEBnADlMCBmA9gfAN4CwAUPNfCAB6YEwAu8zAnpggEazwC88ABQBKAQD546ZjACWiAOYBuSgF9KlMAUTT4ACxAQIBAFzxCBAHS8YA4WP6SARAAlDx+AHUmEYE5UUmtroBBAglsYKQgZGBKIiQA">TS Playground</a></p>
+</blockquote>
+</li>
+<li>Value-level (JS) 的 Logical AND (<code>&amp;&amp;</code>) / OR (<code>||</code>) operator 和 type-level (TS) 中 <a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types">union</a> (<code>|</code>) / <a href="https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types">intersection</a> (<code>&amp;</code>) 運作機制是不同的&ndash; <a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgMIHsA26rIN4CwAUMqclBACYBcyIArgLYBG0A3MWcgOYUQi0AzmCihuHEmWaZ6EWgxbtiAX2LFQkWIhQZsuQpNJxMABwAWceU1ZQJqosQToQwnlkq6ctT7gC8+TjIKGmQAJgBWcIAaQNJeCH5aACJQgEZwpJjDZGlZWgAGLK5jc0tkVKKyAHoq5AABMEEAWggADxMIBDAWqCgcWOQYdHRk5jgoJJU1IicXMGRIV39udx8AbSTgpOQAHx3kJPj+JIBdR2dBLAgAOmxuAApFsABKZBqwyOQm5AAVMxQAG7GWTIdAwA5bZCgNyYDxYfoOIhgACeHQWEGEP1RKH8602VG2+0OfBApzetWEohA3F2dGs0CAA">TS Playground</a></li>
+<li>JS 中物件屬性的 merging 會透過 spread operator (<code>...</code>) 或物件方法，如 <code>Object.assign()</code> 達成，在 type-level 中則是用 <code>&amp;</code>、<code>extends</code>，或 <code>implements</code> 等達成，可以參考 stackoverflow 上的<a href="https://stackoverflow.com/a/52682220/18972098">這則回答</a>。</li>
+</ul>
+<blockquote>
+<p>題外話：Gabriel 有提到由於在 <code>type</code> 使用 <code>&amp;</code> 來 merge 屬性 TS 會持續遍歷過當中全部的型別來產生最終的結果，如果不是需要泛型，<code>interface</code> 會是效能上比較好的選擇，詳細的說明可以參考<a href="https://github.com/microsoft/TypeScript/wiki/Performance#preferring-interfaces-over-intersections">這篇文章的章節</a>。</p>
+</blockquote>
+<h2 id="arrays-and-tuples">Arrays and Tuples<a hidden class="anchor" aria-hidden="true" href="#arrays-and-tuples">#</a></h2>
+<p>文章第四章中提到，關於陣列型別的應用和特色：</p>
+<ul>
+<li>
+<p>想要取到陣列中的值的「型別」可以用 <code>arr[number]</code></p>
+</li>
+<li>
+<p>使用 <code>keyof</code> 可能不是理想的選擇，試想在 JS 中下面這段程式碼會印出什麼？在 type-level 也會拿到這些內建的屬性鍵：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">arr</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;map&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">arr</span>[<span style="color:#e6db74">&#39;map&#39;</span>])
+</span></span></code></pre></div></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/first/">first</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://AlliesChen.github.io/posts/react_re-render/">
+    <span class="title">Next »</span>
+    <br>
+    <span>如何避免 React 重新渲染元件</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

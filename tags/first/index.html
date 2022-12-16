@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Tags | YP&#39;s Dev Memo</title>
+<title>first | YP&#39;s Dev Memo</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://AlliesChen.github.io/tags/">
+<link rel="canonical" href="https://AlliesChen.github.io/tags/first/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/tags/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/tags/first/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -90,13 +90,13 @@
   });
 </script>
  
-<meta property="og:title" content="Tags" />
+<meta property="og:title" content="first" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://AlliesChen.github.io/tags/" />
+<meta property="og:url" content="https://AlliesChen.github.io/tags/first/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tags"/>
+<meta name="twitter:title" content="first"/>
 <meta name="twitter:description" content=""/>
 
 </head>
@@ -148,7 +148,7 @@
             </li>
             <li>
                 <a href="https://AlliesChen.github.io/tags/" title="tags">
-                    <span class="active">tags</span>
+                    <span>tags</span>
                 </a>
             </li>
             <li>
@@ -165,37 +165,30 @@
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"> 
 <header class="page-header">
-    <h1>Tags</h1>
+  <h1>
+    first
+  </h1>
 </header>
 
-<ul class="terms-tags">
-    <li>
-        <a href="https://AlliesChen.github.io/tags/backend/">Backend <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/first/">first <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/hugo/">Hugo <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/jwt/">JWT <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/math/">math <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/murmur/">murmur <sup><strong><sup>2</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/react/">React <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://AlliesChen.github.io/tags/typescript/">TypeScript <sup><strong><sup>3</sup></strong></sup> </a>
-    </li>
-</ul>
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>有趣的 TypeScript 型別用法與機制 Part 2
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>繼上一篇 – 有趣的 TypeScript 型別用法與機制，這次閱讀到 Gabriel Vergnaud 的 Type-Level TypeScript 這系列文章的第 1 到 4 章，屬於免費閱讀的章節，讓我重新認識了 TypeScript (以下簡稱 TS) 的型別系統；該系列文章中有提供即時的程式碼編輯區塊，每一章最後都有小測驗，閱讀與學習的體驗都很棒，非常值得一看。
+這篇文章的內容是我個人針對這系列做的一個學習筆記，在寫這篇文章時也意外發現其實 Gabriel 提到的內容，TS 官網上都有條目寫到；過去只是讀過，從沒理解過😅。
+Levels of Language 貫穿該系列文章的第一個重點；language of values (value-level) 和 language of types (type-level)，JavaScript (以下簡稱 JS) 因為(還)沒有型別的語法所以 100% 是 value-level 語言。
+還沒有，但正在提案中的型別註釋– tc39/proposal-type-annotations: ECMAScript proposal for type syntax that is erased - Stage 1
+如果對 TS 實作不陌生，有個錯誤就是：&#39;Somthing&#39; only refers to a type, but is being used as a value here– TS Playground；正是這個 value 和 type 的概念。於是乎，TS 不只是給 JS 寄住的外殼，而是用來撰寫型別，type-level 程式語言。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-12-16 15:01:10 +0800 CST'>December 16, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to 有趣的 TypeScript 型別用法與機制 Part 2" href="https://AlliesChen.github.io/posts/have_fun_with_typescript_part2/"></a>
+</article>
     </main>
     
 <footer class="footer">
