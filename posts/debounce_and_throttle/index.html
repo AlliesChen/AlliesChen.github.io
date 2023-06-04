@@ -5,12 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>JWT | YP&#39;s Dev Memo</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="canonical" href="https://AlliesChen.github.io/tags/jwt/">
+<title>Debounce 和 Throttle | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="javascript, vue">
+<meta name="description" content="網頁效能改善技巧">
+<meta name="author" content="Yu-Pang">
+<link rel="canonical" href="https://canonical.url/to/page">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
@@ -18,7 +20,6 @@
 <link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/tags/jwt/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -90,18 +91,76 @@
   });
 </script>
  
-<meta property="og:title" content="JWT" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://AlliesChen.github.io/tags/jwt/" />
+<meta property="og:title" content="Debounce 和 Throttle" />
+<meta property="og:description" content="網頁效能改善技巧" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/debounce_and_throttle/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-19T23:30:06&#43;08:00" />
+<meta property="article:modified_time" content="2022-11-19T23:30:06&#43;08:00" />
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="JWT"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="Debounce 和 Throttle"/>
+<meta name="twitter:description" content="網頁效能改善技巧"/>
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Debounce 和 Throttle",
+      "item": "https://AlliesChen.github.io/posts/debounce_and_throttle/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Debounce 和 Throttle",
+  "name": "Debounce 和 Throttle",
+  "description": "網頁效能改善技巧",
+  "keywords": [
+    "javascript", "vue"
+  ],
+  "articleBody": "針對像是輸入、鼠標移動，和頁面滾動…等可能在短時間被使用者大量觸發的事件做觸發限制，\ndebounce 是群組短時間觸發的多個事件成一次執行的動作 throttle 是觸發事件後進入冷卻時間 避免網頁在短時間內要對大量觸發的事件做出反應，而花費過多處理效能。\n[Live demo](debounce \u0026 throttle - StackBlitz) ",
+  "wordCount" : "12",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-11-19T23:30:06+08:00",
+  "dateModified": "2022-11-19T23:30:06+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pang"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/debounce_and_throttle/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
 
-<body class="list" id="top">
+<body class="" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
         document.body.classList.add('dark');
@@ -165,33 +224,54 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    JWT
-  </h1>
-</header>
+<main class="main">
 
-<article class="post-entry tag-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
-  <header class="entry-header">
-    <h2>JWT簡介 - 使用Node.js
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>關於這篇 JWT 的說明比較偏向我個人的筆記，節錄及參考了下方連結中的內容，拜訪連結文章會有更詳盡完整的資訊：
-JWT 官方的 Introduction to JSON web Tokens
-The Ultimate Guide to handling JWTs on frontend clients (GraphQL) 前段介紹了 JWT 是什麼，中後段則是使用流程與實踐，不過是搭配GraphQL，這裡不會提到。
-這則推特貼文圖解了JWT的結構與基本的驗證流程。
-JWT 是 JSON Web Token 的縮寫，這個 JSON 是一種資料傳輸格式，像是：
-{ &#34;sub&#34;: &#34;1234567890&#34;, &#34;name&#34;: &#34;John Doe&#34;, &#34;iat&#34;: 1516239022 } JWT 結構 JWT 是由三組字串組成，每組用 點(dot) 隔開，像這樣 xxxxx.yyyyy.zzzzz；x、y，和 z 分別代表了 header、payload，和signature，接下來會分別再對這三部份的內容用途進行說明。
-可以先提到的是 header 和 payload 只是 base64加密，可以透過在瀏覽器的 console 使用 atob() 轉換回原來的訊息，比如說官網的範例： eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-把中間 payload 的部份透過 atob 轉換：
-atob(&#39;eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ&#39;) // &#39;{&#34;sub&#34;:&#34;1234567890&#34;,&#34;name&#34;:&#34;John Doe&#34;,&#34;iat&#34;:1516239022}&#39; 就可以看到原始資訊是 subject (sub)、name，和 issue at (iat)。...</p>
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Debounce 和 Throttle
+    </h1>
+    <div class="post-description">
+      網頁效能改善技巧
+    </div>
+    <div class="post-meta"><span title='2022-11-19 23:30:06 +0800 CST'>November 19, 2022</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/debounce_and_throttle.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>針對像是輸入、鼠標移動，和頁面滾動&hellip;等可能在短時間被使用者大量觸發的事件做觸發限制，</p>
+<ul>
+<li>debounce 是群組短時間觸發的多個事件成一次執行的動作</li>
+<li>throttle 是觸發事件後進入冷卻時間</li>
+</ul>
+<p>避免網頁在短時間內要對大量觸發的事件做出反應，而花費過多處理效能。</p>
+<ul>
+<li>[Live demo](<a href="https://stackblitz.com/edit/vitejs-vite-2tw9n9?fbclid=IwAR3hw63c0h--dDKV0gtrFUtcGm5Nr53yuzNfjjo_znN4oQWkTr0JCpqnHT4&amp;file=src%2FApp.vue">debounce &amp; throttle - StackBlitz</a>)</li>
+</ul>
+
+
   </div>
-  <footer class="entry-footer"><span title='2022-10-29 23:47:11 +0800 CST'>October 29, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
-  <a class="entry-link" aria-label="post link to JWT簡介 - 使用Node.js" href="https://AlliesChen.github.io/posts/jwt_with_node_js/"></a>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/javascript/">javascript</a></li>
+      <li><a href="https://AlliesChen.github.io/tags/vue/">vue</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://AlliesChen.github.io/posts/react_re-render/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>如何避免 React 重新渲染元件</span>
+  </a>
+  <a class="next" href="https://AlliesChen.github.io/posts/have_fun_with_typescript/">
+    <span class="title">Next »</span>
+    <br>
+    <span>有趣的 TypeScript 型別用法與機制</span>
+  </a>
+</nav>
+
+  </footer>
 </article>
     </main>
     

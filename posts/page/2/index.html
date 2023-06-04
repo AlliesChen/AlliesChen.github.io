@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>JWT | YP&#39;s Dev Memo</title>
+<title>Posts | YP&#39;s Dev Memo</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
+<meta name="description" content="Posts - YP&#39;s Dev Memo">
 <meta name="author" content="">
-<link rel="canonical" href="https://AlliesChen.github.io/tags/jwt/">
+<link rel="canonical" href="https://AlliesChen.github.io/posts/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/tags/jwt/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/posts/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -90,15 +90,30 @@
   });
 </script>
  
-<meta property="og:title" content="JWT" />
+<meta property="og:title" content="Posts" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://AlliesChen.github.io/tags/jwt/" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="JWT"/>
+<meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content=""/>
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }
+  ]
+}
+</script>
 </head>
 
 <body class="list" id="top">
@@ -168,31 +183,36 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    JWT
+    Posts
   </h1>
 </header>
 
-<article class="post-entry tag-entry"> 
+<article class="post-entry"> 
 <figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
 </figure>
   <header class="entry-header">
-    <h2>JWT簡介 - 使用Node.js
+    <h2>使用Hugo產生一個部落格並部署在GitHub上
     </h2>
   </header>
   <div class="entry-content">
-    <p>關於這篇 JWT 的說明比較偏向我個人的筆記，節錄及參考了下方連結中的內容，拜訪連結文章會有更詳盡完整的資訊：
-JWT 官方的 Introduction to JSON web Tokens
-The Ultimate Guide to handling JWTs on frontend clients (GraphQL) 前段介紹了 JWT 是什麼，中後段則是使用流程與實踐，不過是搭配GraphQL，這裡不會提到。
-這則推特貼文圖解了JWT的結構與基本的驗證流程。
-JWT 是 JSON Web Token 的縮寫，這個 JSON 是一種資料傳輸格式，像是：
-{ &#34;sub&#34;: &#34;1234567890&#34;, &#34;name&#34;: &#34;John Doe&#34;, &#34;iat&#34;: 1516239022 } JWT 結構 JWT 是由三組字串組成，每組用 點(dot) 隔開，像這樣 xxxxx.yyyyy.zzzzz；x、y，和 z 分別代表了 header、payload，和signature，接下來會分別再對這三部份的內容用途進行說明。
-可以先提到的是 header 和 payload 只是 base64加密，可以透過在瀏覽器的 console 使用 atob() 轉換回原來的訊息，比如說官網的範例： eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-把中間 payload 的部份透過 atob 轉換：
-atob(&#39;eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ&#39;) // &#39;{&#34;sub&#34;:&#34;1234567890&#34;,&#34;name&#34;:&#34;John Doe&#34;,&#34;iat&#34;:1516239022}&#39; 就可以看到原始資訊是 subject (sub)、name，和 issue at (iat)。...</p>
+    <p>Hugo? “Hugo is a static HTML and CSS website generator written in Go.” – Hugo’s GitHub
+簡單來說，你只要照著操作指南進行，就能產出部署網站需要的檔案。
+HTML和CSS是標籤語言，分別做為網頁的文字骨架及渲染設定。 Go是一種程式語言。 建立 首先我參考了這篇文章：Hugo 搭配 Github page 架設靜態部落格 | JCYH Develop Blog，以及文章內提到的參考文章，步驟上蠻清楚的，但因為我的作業系統是Windows：
+另外要依照官方的安裝指南操作，也推薦跟著指南中的影片進行。
+取得.exe檔後，要在C:\下創建Hugo\bin\，並把解壓縮的檔案放到bin資料夾內。 透過Windows key &#43; R叫出執行視窗，輸入cmd叫出Command shell並移動到創建的bin資料夾下。 輸入hugo version可以確認Hugo是否有安裝成功。 要把hugo這個指令增加到Windows環境變數 (environment variable) - PATH中。 新增這個位址C:\Hugo\bin – 也就是我們創建來放Hugo相關檔案也是網站文章的資料夾。 在cmd用echo %PATH%可以看到PATH中現有的變數，有看到hugo被加入就是成功，或也可以離開C:\Hugo\bin，然後輸入hugo version，看到資訊就是成功了。(如果不行可以先關掉cmd再重開打指令確認) cmd在C:\Hugo\下輸入hugo new site &lt;folder_name&gt;，folder name的名字可以取自己喜歡的，我採用與參考的文章相同的名稱：website-hugo。 套用主題 這裡應該與作業系統無關，要幫我們的網站套用佈景主題，可以到Hugo主題庫選擇自己喜歡的，步驟上同參考文章，但一樣有遇到一些情況：
+參考文章內提到要把下載下來主題的static、layouts換成主題資料夾內的，但我使用的主題PaperMod沒有static只有layouts，這部份就只要取代layouts就好。
+要記得看選擇的主題的GitHub說明來確認如何使用及操作；我一開始想用Doks這個主題，但他似乎有用到Node.js npm，我不能在我的網站資料夾下(C:\Hugo\website-hugo)使用hugo server -D來啟動本地端伺服器(測試用)。
+另一方面，在config.toml，或是config.yml（也是取決於選擇的主題設定），那個theme: &lt;theme_name&gt;，是取決於抓下來的主題資料夾的名稱的，像Doks這個主題我clone下來是得到my-doks-site（可以改名），然後是用toml格式，我就要寫theme = &#34;my-doks-site&#34;。
+使用模板文章 可能也取決於下載的主題，我使用的佈景主題PaperMod的文章模板；將這個內容複製並依照文章指示放到archetypes/post.md內，就可以用hugo new --kind post &lt;filename&gt;....</p>
   </div>
-  <footer class="entry-footer"><span title='2022-10-29 23:47:11 +0800 CST'>October 29, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
-  <a class="entry-link" aria-label="post link to JWT簡介 - 使用Node.js" href="https://AlliesChen.github.io/posts/jwt_with_node_js/"></a>
+  <footer class="entry-footer"><span title='2022-07-16 13:59:00 +0800 CST'>July 16, 2022</span>&nbsp;·&nbsp;Yu-Pung</footer>
+  <a class="entry-link" aria-label="post link to 使用Hugo產生一個部落格並部署在GitHub上" href="https://AlliesChen.github.io/posts/deploy-hugo-website-on-github/"></a>
 </article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://AlliesChen.github.io/posts/">« Prev</a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">
