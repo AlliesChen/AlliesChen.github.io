@@ -6,7 +6,16 @@
     <description>Recent content in Posts on YP&#39;s Dev Memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 16 Dec 2022 15:01:10 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Sep 2023 23:29:44 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>透過 CSS 製作書本翻頁效果</title>
+      <link>https://AlliesChen.github.io/posts/page-flip_animation_with_css/</link>
+      <pubDate>Tue, 19 Sep 2023 23:29:44 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/page-flip_animation_with_css/</guid>
+      <description>配合 react-spring, use-gesture 操作 CSS 來做翻頁動畫</description>
+    </item>
+    
     <item>
       <title>有趣的 TypeScript 型別用法與機制 Part 2</title>
       <link>https://AlliesChen.github.io/posts/have_fun_with_typescript_part2/</link>
