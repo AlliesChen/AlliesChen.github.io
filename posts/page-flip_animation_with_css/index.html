@@ -135,8 +135,8 @@
   "keywords": [
     "CSS", "Animation"
   ],
-  "articleBody": "近期想透過「翻頁」這個互動方式來做一個 web 小遊戲，過程中發現意外地不好實現。\n這篇文章需要讀者對 React 這個前端框架及 CSS 的 transition 屬性的應用有基本的了解，成果及原始碼是建立於這兩個技術之上的，內文會大略地對實踐的方式說明，但不會詳細地提及所使用的框架及函式庫確切 API 的功能及用法。\nTL;DR 成果: https://codesandbox.io/s/page-flippable-book-5h5ktm?file=/src/Page.tsx\n實踐方式 透過 position: relative/absolute 來堆疊書頁的正反面 用 z-index 切換堆疊的順序 react-spring 控制 rotateY、opacity 做翻頁轉場 配合 perspective 屬性改變視角增添立體感 use-gesture 加入拖曳翻頁功能 讓套件再次偉大 首先我想到的是有沒有現成的(免費)翻頁書效果套件可以用，\nturn.js– 建立在 jQuery 之上的套件，快十年沒更新了，考量後續擴充功能可能有困難，暫不考慮。 StPageFlip– 效果很擬真，從 demo 看起來使用體驗流暢；而且有 React 版本，但是，從 commits 看來有兩年沒更新了，以 front-end 的迭代速度加上，擔心搭 React 18 會不會出現不明的坑因此沒有使用。 後續又看了幾個套件(比較新的)好像也是搭在這些套件上實踐出來，覺得難以在短期理解其運作方式，怕未來不好改。\n純 CSS 的現成範例 Notebook page flip animation on scrimba– 程式碼很單純，效果簡單，但能夠接受；嘗試了一陣子，發現在呈現次頁的內容上，一旦有多頁，雖然做得到，但程式碼可讀性不是那麼好，擔心後續增加應用，改動起來會有問題，而且試做的是動畫的版本，實際上我需要的是手動觸發。 這邊，我認為應用 transform 有搞頭，又看到 MDN 裡的範例有 matrix (最近剛好在看線性代數的教學影片)，拿這個網站沙盤推演了一下，我以為能透過操作scaleX 和 skewY 的矩陣轉換來做出翻頁效果殊不知…\n這個作法下 backface-visibility: hidden 不管用；也沒有 rotate 能用，翻頁效果有奇怪的抖動。\nBook page flip animation on Codepen– 實踐單純，效果也不錯，嘗試讀改了一下程式碼，發現有些可以簡化的地方，主要的問題在 position: relative/absolute 堆疊使用有點複雜，還用上了 overflow: hidden 遮蓋。 從這個例子中，我確信了可以用 rotateY、perspective，加上 z-index 切換當作主要實踐概念。\n題外話：製作期間突然好奇如果是設計師會怎麼做，得知有個叫 Flip PDF Pro 的軟體，拿來當關鍵字查發現製作翻頁書網頁的應用蠻多的，只是我需要的是造輪子的方法。\n另外也被建議說可以從 PPT 過場動畫的方向去想，也是我上面查 CSS 範例的想法來源；\nfigma 翻頁動畫– 這個例子是一格一格的排出來 也有看到蠻多 youtube 影片是教用 Adobe After Effect 做 Animation library for React React 強大的生態系，有好多很棒的 animation library 可以選，這也是我選擇用 React 製作的原因：\nFramer Motion– 官網的互動範例看起來很好上手 react-spring– 使用在這個例子，完美的呈現了我想要的效果 那個例子的原始碼實踐中看來有複雜的轉換…我理解不能，所以沒有 fork 直接使用。他也用了 use-gesture，所以我後續也選這個做 drag-n-drop 應用。\n純 JS 也有關於動畫的套件，比如：\nGSAP Three.js Vercel 這一篇文章分享他們怎麼用 three.js 做出 Next conf 的活動頁面。\n這兩個 lib 的進入門檻都不低，又 react-spring 有人做出過我想要的效果，因此我也選擇了它。\n使用 react-spring 實踐翻頁動畫 首先參考了 react-spring 官網的這個例子做為轉場實踐的基底；除了 rotateY，opacity 變化能讓翻轉效果看起來更自然。\n關於 config 屬性的作用，引用自 Getting started with react-spring: physics, API, performance - Apptension Blog\nMass (when mass is higher, the element needs more velocity to be moved and more time to stop) Friction (higher friction reduces velocity and bounciness) Tension (higher tension reduces the impact of friction). 確保單頁的效果可以之後，我就把它封成一個元件– FlippablePage。\n接著是放複數功能頁形成一本書，先透過 position 屬性讓各功能頁脫離預設的排版，堆疊在一起，然後調整 z-index；前面的頁數 z-index 為 x 從 0 算起，元件中使用邏輯為\n尚未翻頁 = $100 - x$ 翻頁後 = $10 + x$ 聰明的你應該會發現，當 x = 45，也就是頁數來到 46 頁時，這個算法會出現問題，但因為我的應用不會到這個頁數，也應該能用 virtual list 的方式避免這個問題，所以沒關係\n這邊遇到一個問題，如果把 z-index 傳入 useSpring，在正反面調換時，會產生延遲，所以改直接給進 animated.div 的 style 屬性中。\n在製作前以及過程中使用盡量少的元素來達成想要的動畫效果，因為曾被社群中群友的提醒，在 React 的機制中操作動畫，可能會產生預期外的效能問題\n到此，已經有翻頁書的樣子了。\n使用 🖐️use-gesture 實踐拖拉翻頁 參考 use-gesture 官網的這個範例，提供了跟 useSpring 一起使用的作法。\n接著就慢慢試怎麼樣的屬性和邏輯呈現出來的翻頁效果可以接受，又不會太複雜。\n一個小插曲是要注意圖片載入速度，會影響翻頁動畫的流暢度(會卡住)\n最後，打開封面後，書本寬度改變，一來會蓋到邊界超出畫面，二來沒有置中，所以在 FlippablePage 加入一個 onFlipped 屬性透過 useEffect 來觸發 callback，做 translateX 的改變。\n",
-  "wordCount" : "271",
+  "articleBody": "近期想透過「翻頁」這個互動方式來做一個 web 小遊戲，過程中發現意外地不好實現。\n這篇文章需要讀者對 React 這個前端框架及 CSS 的 transition 屬性的應用有基本的了解，成果及原始碼是建立於這兩個技術之上的，內文會大略地對實踐的方式說明，但不會詳細地提及所使用的框架及函式庫確切 API 的功能及用法。\nTL;DR 成果: https://codesandbox.io/s/page-flippable-book-5h5ktm?file=/src/Page.tsx\n實踐方式 透過 position: relative/absolute 來堆疊書頁的正反面 用 z-index 切換堆疊的順序 react-spring 控制 rotateY、opacity 做翻頁轉場 配合 perspective 屬性改變視角增添立體感 use-gesture 加入拖曳翻頁功能 讓套件再次偉大 首先我想到的是有沒有現成的(免費)翻頁書效果套件可以用，\nturn.js– 建立在 jQuery 之上的套件，快十年沒更新了，考量後續擴充功能可能有困難，暫不考慮。 StPageFlip– 效果很擬真，從 demo 看起來使用體驗流暢；而且有 React 版本，但是，從 commits 看來有兩年沒更新了，以 front-end 的迭代速度加上，擔心搭 React 18 會不會出現不明的坑因此沒有使用。 後續又看了幾個套件(比較新的)好像也是搭在這些套件上實踐出來，覺得難以在短期理解其運作方式，怕未來不好改。\n純 CSS 的現成範例 Notebook page flip animation on scrimba– 程式碼很單純，效果簡單，但能夠接受；嘗試了一陣子，發現在呈現次頁的內容上，一旦有多頁，雖然做得到，但程式碼可讀性不是那麼好，擔心後續增加應用，改動起來會有問題，而且試做的是動畫的版本，實際上我需要的是手動觸發。 這邊，我認為應用 transform 有搞頭，又看到 MDN 裡的範例有 matrix (最近剛好在看線性代數的教學影片)，拿這個網站沙盤推演了一下，我以為能透過操作scaleX 和 skewY 的矩陣轉換來做出翻頁效果殊不知…\n這個作法下 backface-visibility: hidden 不管用；也沒有 rotate 能用，翻頁效果有奇怪的抖動。\nSee the Pen page-flip animation with matrix by YPChen (@allieschen)\ron CodePen.\rBook page flip animation on Codepen– 實踐單純，效果也不錯，嘗試讀改了一下程式碼，發現有些可以簡化的地方，主要的問題在 position: relative/absolute 堆疊使用有點複雜，還用上了 overflow: hidden 遮蓋。 從這個例子中，我確信了可以用 rotateY、perspective，加上 z-index 切換當作主要實踐概念。\n題外話：製作期間突然好奇如果是設計師會怎麼做，得知有個叫 Flip PDF Pro 的軟體，拿來當關鍵字查發現製作翻頁書網頁的應用蠻多的，只是我需要的是造輪子的方法。\n另外也被建議說可以從 PPT 過場動畫的方向去想，也是我上面查 CSS 範例的想法來源；\nfigma 翻頁動畫– 這個例子是一格一格的排出來 也有看到蠻多 youtube 影片是教用 Adobe After Effect 做 Animation library for React React 強大的生態系，有好多很棒的 animation library 可以選，這也是我選擇用 React 製作的原因：\nFramer Motion– 官網的互動範例看起來很好上手 react-spring– 使用在這個例子，完美的呈現了我想要的效果 那個例子的原始碼實踐中看來有複雜的轉換…我理解不能，所以沒有 fork 直接使用。他也用了 use-gesture，所以我後續也選這個做 drag-n-drop 應用。\n純 JS 也有關於動畫的套件，比如：\nGSAP Three.js Vercel 這一篇文章分享他們怎麼用 three.js 做出 Next conf 的活動頁面。\n這兩個 lib 的進入門檻都不低，又 react-spring 有人做出過我想要的效果，因此我也選擇了它。\n使用 react-spring 實踐翻頁動畫 首先參考了 react-spring 官網的這個例子做為轉場實踐的基底，並把頁面與圖面的動畫分開；也就是，翻頁與圖片變化是分開的 useSpring 管理：\nrotateY– 翻頁效果都靠它 opacity– 讓翻轉效果看起來更自然 然後是不在 useSpring 管理的：\nz-index– 正反面圖片的變化是它 transform: perspective– 這個提供視角的變化，讓翻頁效果從消失點延伸，視覺上更擬真 transformOrigin– 改變翻頁的軸心 // @/App.tsx import { useState } from \"react\"; import { useSpring, animated } from \"@react-spring/web\"; const [flipped, setFlipped] = useState(false); const pageStyle = useSpring({ rotateY: 0, config: { mass: 5, tension: 500, friction: 150 }, touchAction: \"none\" }); return ( \u003canimated.div style={{ ...pageStyle, transformOrigin: \"left\", transform: \"perspective(600px)\", zIndex: flipped ? 10 + zIndex : 100 - zIndex }} className=\"page\" \u003e ...the pictures \u003c/animated.div\u003e ) 關於 config 屬性的作用，引用自 Getting started with react-spring: physics, API, performance - Apptension Blog\nMass (when mass is higher, the element needs more velocity to be moved and more time to stop) Friction (higher friction reduces velocity and bounciness) Tension (higher tension reduces the impact of friction). 確保單頁的效果可以之後，我就把它封成一個元件– FlippablePage。\n接著是放複數功能頁形成一本書，先透過 position 屬性讓各功能頁脫離預設的排版，堆疊在一起，然後調整 z-index；前面的頁數 z-index 為 x 從 0 算起，元件中使用邏輯為\n尚未翻頁 = $100 - x$ 翻頁後 = $10 + x$ 聰明的你應該會發現，當 x = 45，也就是頁數來到 46 頁時，這個算法會出現問題，但因為我的應用不會到這個頁數，也應該能用 virtual list 的方式避免這個問題，所以沒關係\n這邊遇到一個問題，如果把 z-index 傳入 useSpring，在正反面調換時，會產生延遲，所以改直接給進 animated.div 的 style 屬性中。\n在製作前以及過程中使用盡量少的元素來達成想要的動畫效果，因為曾被社群中群友的提醒，在 React 的機制中操作動畫，可能會產生預期外的效能問題\n到此，已經有翻頁書的樣子了。\n使用 🖐️use-gesture 實踐拖拉翻頁 參考 use-gesture 官網的這個範例，提供了跟 useSpring 一起使用的作法。\n接著就慢慢試怎麼樣的屬性和邏輯呈現出來的翻頁效果可以接受，又不會太複雜😵‍💫\n注意為了拿 useSpring 的 api 物件給進 useDrag 裡操作，參數會從物件改為一個箭頭函式\nimport { useState } from \"react\"; import { useDrag } from \"@use-gesture/react\"; const [flipped, setFlipped] = useState(false); const [pageStyle, api] = useSpring(() =\u003e ({ rotateY: 0, config: { mass: 5, tension: 500, friction: 150 }, touchAction: \"none\" })); const bind = useDrag(({ movement: [movX], cancel, dragging }) =\u003e { // console.log(movX, pageStyle.rotateY.get()); const currentRY = pageStyle.rotateY.get(); if (currentRY \u003e -60) { api.start({ rotateY: 0 }); setFlipped(false); } if (currentRY \u003c= -60 \u0026\u0026 (movX \u003c 0 || !dragging)) { api.start({ rotateY: -180 }); setFlipped(true); } else if (dragging \u0026\u0026 currentRY \u003c= 0) { api.start({ rotateY: currentRY + movX }); } }); 一個小插曲是要注意圖片載入速度，會影響翻頁動畫的流暢度(會卡住)\n最後，打開封面後，書本寬度改變，一來會蓋到邊界超出畫面，二來沒有置中，所以在 FlippablePage 加入一個 onFlipped 屬性透過 useEffect 來觸發 callback– onFlipped，做 translateX 的改變。\n",
+  "wordCount" : "469",
   "inLanguage": "en",
   "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2023-09-19T23:29:44+08:00",
   "dateModified": "2023-09-19T23:29:44+08:00",
@@ -284,7 +284,11 @@
 </ul>
 <p>這邊，我認為應用 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform"><code>transform</code></a> 有搞頭，又看到 MDN 裡的範例有 <code>matrix</code> (最近剛好在看<a href="https://www.3blue1brown.com/topics/linear-algebra">線性代數</a>的教學影片)，拿<a href="http://www.eion.com.tw/Blogger/?Pid=1168">這個網站</a>沙盤推演了一下，我以為能透過操作<code>scaleX</code> 和 <code>skewY</code> 的矩陣轉換來做出翻頁效果殊不知&hellip;</p>
 <p>這個作法下 <code>backface-visibility: hidden</code> 不管用；也沒有 rotate 能用，翻頁效果有奇怪的抖動。</p>
-<!-- raw HTML omitted -->
+<iframe height="300" style="width: 100%;" scrolling="no" title="page-flip animation with matrix" src="https://codepen.io/allieschen/embed/NWOQxwx?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/allieschen/pen/NWOQxwx">
+  page-flip animation with matrix</a> by YPChen (<a href="https://codepen.io/allieschen">@allieschen</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
 <ul>
 <li><a href="https://codepen.io/pizzabote/pen/xxxXmXN">Book page flip animation</a> on Codepen&ndash; 實踐單純，效果也不錯，嘗試讀改了一下程式碼，發現有些可以簡化的地方，主要的問題在 <code>position: relative/absolute</code> 堆疊使用有點複雜，還用上了 <code>overflow: hidden</code> 遮蓋。</li>
 </ul>
@@ -315,8 +319,42 @@
 </blockquote>
 <p>這兩個 lib 的進入門檻都不低，又 react-spring 有人做出過我想要的效果，因此我也選擇了它。</p>
 <h2 id="使用-react-spring-實踐翻頁動畫">使用 react-spring 實踐翻頁動畫<a hidden class="anchor" aria-hidden="true" href="#使用-react-spring-實踐翻頁動畫">#</a></h2>
-<p>首先參考了 react-spring 官網的<a href="https://codesandbox.io/s/cju2d?file=/src/App.tsx">這個例子</a>做為轉場實踐的基底；除了 <code>rotateY</code>，<code>opacity</code> 變化能讓翻轉效果看起來更自然。</p>
-<blockquote>
+<p>首先參考了 react-spring 官網的<a href="https://codesandbox.io/s/cju2d?file=/src/App.tsx">這個例子</a>做為轉場實踐的基底，並把頁面與圖面的動畫分開；也就是，翻頁與圖片變化是分開的 <code>useSpring</code> 管理：</p>
+<ul>
+<li><code>rotateY</code>&ndash; 翻頁效果都靠它</li>
+<li><code>opacity</code>&ndash; 讓翻轉效果看起來更自然</li>
+</ul>
+<p>然後是不在 <code>useSpring</code> 管理的：</p>
+<ul>
+<li><code>z-index</code>&ndash; 正反面圖片的變化是它</li>
+<li><code>transform: perspective</code>&ndash; 這個提供視角的變化，讓翻頁效果從消失點延伸，視覺上更擬真</li>
+<li><code>transformOrigin</code>&ndash; 改變翻頁的軸心</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// @/App.tsx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useState</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;react&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useSpring</span>, <span style="color:#a6e22e">animated</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@react-spring/web&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">flipped</span>, <span style="color:#a6e22e">setFlipped</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pageStyle</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useSpring</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rotateY</span>: <span style="color:#66d9ef">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">config</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">mass</span>: <span style="color:#66d9ef">5</span>, <span style="color:#a6e22e">tension</span>: <span style="color:#66d9ef">500</span>, <span style="color:#a6e22e">friction</span>: <span style="color:#66d9ef">150</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">touchAction</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;none&#34;</span>
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">animated.div</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span>{{
+</span></span><span style="display:flex;"><span>        ...<span style="color:#a6e22e">pageStyle</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">transformOrigin</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;left&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">transform</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;perspective(600px)&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">zIndex</span>: <span style="color:#66d9ef">flipped</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">zIndex</span> : <span style="color:#66d9ef">100</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">zIndex</span>
+</span></span><span style="display:flex;"><span>      }}
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      ...<span style="color:#a6e22e">the</span> <span style="color:#a6e22e">pictures</span>
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">animated.div</span>&gt;
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><blockquote>
 <p>關於 config 屬性的作用，引用自 <a href="https://www.apptension.com/blog-posts/getting-started-with-react-spring-spring-physics-api-performance">Getting started with react-spring: physics, API, performance - Apptension Blog</a></p>
 <ul>
 <li>Mass (when mass is higher, the element needs more velocity to be moved and more time to stop)</li>
@@ -340,11 +378,37 @@
 <p>到此，已經有翻頁書的樣子了。</p>
 <h2 id="使用-use-gesture-實踐拖拉翻頁">使用 🖐️use-gesture 實踐拖拉翻頁<a hidden class="anchor" aria-hidden="true" href="#使用-use-gesture-實踐拖拉翻頁">#</a></h2>
 <p>參考 use-gesture 官網的<a href="https://use-gesture.netlify.app/docs/state/#movement-and-offset">這個範例</a>，提供了跟 <code>useSpring</code> 一起使用的作法。</p>
-<p>接著就慢慢試怎麼樣的屬性和邏輯呈現出來的翻頁效果可以接受，又不會太複雜。</p>
+<p>接著就慢慢試怎麼樣的屬性和邏輯呈現出來的翻頁效果可以接受，又不會太複雜😵‍💫</p>
 <blockquote>
+<p>注意為了拿 <code>useSpring</code> 的 api 物件給進 <code>useDrag</code> 裡操作，參數會從物件改為一個箭頭函式</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useState</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;react&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useDrag</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@use-gesture/react&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">flipped</span>, <span style="color:#a6e22e">setFlipped</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">pageStyle</span>, <span style="color:#a6e22e">api</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useSpring</span>(() <span style="color:#f92672">=&gt;</span> ({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rotateY</span>: <span style="color:#66d9ef">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">config</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">mass</span>: <span style="color:#66d9ef">5</span>, <span style="color:#a6e22e">tension</span>: <span style="color:#66d9ef">500</span>, <span style="color:#a6e22e">friction</span>: <span style="color:#66d9ef">150</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">touchAction</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;none&#34;</span>
+</span></span><span style="display:flex;"><span>}));
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bind</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useDrag</span>(({ <span style="color:#a6e22e">movement</span><span style="color:#f92672">:</span> [<span style="color:#a6e22e">movX</span>], <span style="color:#a6e22e">cancel</span>, <span style="color:#a6e22e">dragging</span> }) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// console.log(movX, pageStyle.rotateY.get());
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">currentRY</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">pageStyle</span>.<span style="color:#a6e22e">rotateY</span>.<span style="color:#66d9ef">get</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">currentRY</span> <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">60</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">start</span>({ <span style="color:#a6e22e">rotateY</span>: <span style="color:#66d9ef">0</span> });
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setFlipped</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">currentRY</span> <span style="color:#f92672">&lt;=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">60</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">movX</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">dragging</span>)) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">start</span>({ <span style="color:#a6e22e">rotateY</span><span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">180</span> });
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setFlipped</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">dragging</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">currentRY</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">start</span>({ <span style="color:#a6e22e">rotateY</span>: <span style="color:#66d9ef">currentRY</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">movX</span> });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><blockquote>
 <p>一個小插曲是要注意圖片載入速度，會影響翻頁動畫的流暢度(會卡住)</p>
 </blockquote>
-<p>最後，打開封面後，書本寬度改變，一來會蓋到邊界超出畫面，二來沒有置中，所以在 <code>FlippablePage</code> 加入一個 <code>onFlipped</code> 屬性透過 <code>useEffect</code> 來觸發 callback，做 <code>translateX</code> 的改變。</p>
+<p>最後，打開封面後，書本寬度改變，一來會蓋到邊界超出畫面，二來沒有置中，所以在 <code>FlippablePage</code> 加入一個 <code>onFlipped</code> 屬性透過 <code>useEffect</code> 來觸發 callback&ndash; <code>onFlipped</code>，做 <code>translateX</code> 的改變。</p>
 
 
   </div>
