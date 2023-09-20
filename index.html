@@ -219,7 +219,7 @@
     <p>近期想透過「翻頁」這個互動方式來做一個 web 小遊戲，過程中發現意外地不好實現。
 這篇文章需要讀者對 React 這個前端框架及 CSS 的 transition 屬性的應用有基本的了解，成果及原始碼是建立於這兩個技術之上的，內文會大略地對實踐的方式說明，但不會詳細地提及所使用的框架及函式庫確切 API 的功能及用法。
 TL;DR 成果: https://codesandbox.io/s/page-flippable-book-5h5ktm?file=/src/Page.tsx
-實踐方式 透過 position: relative/absolute 來堆疊書頁的正反面 用 z-index 切換堆疊的順序 react-spring 控制 rotateY、opacity 做翻頁轉場 配合 perspective 屬性改變視角增添立體感 use-gesture 加入拖曳翻頁功能 讓套件再次偉大 首先我想到的是有沒有現成的(免費)翻頁書效果套件可以用，
+- 透過 `position: relative/absolute` 來堆疊書頁的正反面- 用 `z-index` 切換堆疊的順序- [react-spring](https://www.react-spring.dev/) 控制 `rotateY`、`opacity` 做翻頁轉場- 配合 [`perspective`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/perspective) 屬性改變視角增添立體感- [use-gesture](https://use-gesture.netlify.app/) 加入拖曳翻頁功能讓套件再次偉大 首先我想到的是有沒有現成的(免費)翻頁書效果套件可以用，
 turn.js– 建立在 jQuery 之上的套件，快十年沒更新了，考量後續擴充功能可能有困難，暫不考慮。 StPageFlip– 效果很擬真，從 demo 看起來使用體驗流暢；而且有 React 版本，但是，從 commits 看來有兩年沒更新了，以 front-end 的迭代速度加上，擔心搭 React 18 會不會出現不明的坑因此沒有使用。 後續又看了幾個套件(比較新的)好像也是搭在這些套件上實踐出來，覺得難以在短期理解其運作方式，怕未來不好改。
 純 CSS 的現成範例 Notebook page flip animation on scrimba– 程式碼很單純，效果簡單，但能夠接受；嘗試了一陣子，發現在呈現次頁的內容上，一旦有多頁，雖然做得到，但程式碼可讀性不是那麼好，擔心後續增加應用，改動起來會有問題，而且試做的是動畫的版本，實際上我需要的是手動觸發。 這邊，我認為應用 transform 有搞頭，又看到 MDN 裡的範例有 matrix (最近剛好在看線性代數的教學影片)，拿這個網站沙盤推演了一下，我以為能透過操作scaleX 和 skewY 的矩陣轉換來做出翻頁效果殊不知…...</p>
   </div>
