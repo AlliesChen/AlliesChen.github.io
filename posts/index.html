@@ -188,6 +188,26 @@
 </header>
 
 <article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/images/a_computer_programmer.jpg" alt="a computer grammer sitting on before a white board">
+</figure>
+  <header class="entry-header">
+    <h2>開始 CS61B 學習資料結構及演算法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>因為剛開始要啟動這個課程的資源時繞了一點路，想簡單分享一下：
+可以上哪個版本？ 怎麼提交作業？ 前言 CS61B 是 UC Berkeley 在電腦科學的「入門課」，關於它的討論在 PTT、一畝三分地等論壇，或是直接 google 都可以找到學習心得的分享，就不多在此贅述這門課程的特點。
+課程以英文以及 Java 程式語言來教學，但不要求有 Java 基礎，課程中會逐步帶到。反倒是因為此課有前置課程– CS61A，以 Python 程式語言教學電腦科學基礎的課程，在 CS61B 中會常聽到教授以 Python 作為對比來幫助理解。
+延伸閱讀：CS61A 跟 CS61B 的差別
+可以上哪個版本？ 首先可以打開瀏覽器，搜尋：CS61B，就能看到最新一季的課程頁面；以這篇文章撰寫的時間是 CS61B Spring 2024，在看到網頁中 Course Info 這個頁面的最下面，有個 “Auditing CS61B” 的條目– 提到目前可以使用的 “public” autograder 是 Spring 2021。這門課程是透過 Gradescope 的服務來做自動化評分，而此頁提供的課程碼– MB7ZPY，開啟的畫面如下圖。
+上圖中，可以看到還有個 CS61B Spring 2019，那就是非 “public” 的課程碼開啟的– 如果是直接從課程網站的 week 1 開始跟著做，基本上影片都能看，直到跟著 Lab 1 的教學到了註冊 Gradescope 並開始了第一個提交才會發現…提交會失敗呀😅。
+怎麼提交作業？ 先回到有公開評分器的 CS61B SP21 的頁面，跟著 Lab 1 的說明：...</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-03-13 20:34:04 +0800 CST'>March 13, 2024</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to 開始 CS61B 學習資料結構及演算法" href="https://AlliesChen.github.io/posts/start_cs61b/"></a>
+</article>
+
+<article class="post-entry"> 
 <figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/images/a_child_waves_hand_in_spring.jpg" alt="">
 </figure>
   <header class="entry-header">
@@ -362,33 +382,6 @@ type Foo = { one: number; two: number }; type Bar = { three: number; four: numbe
   <footer class="entry-footer"><span title='2022-08-17 21:43:18 +0800 CST'>August 17, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
   <a class="entry-link" aria-label="post link to TypeScript：Union被判為Intersection" href="https://AlliesChen.github.io/posts/unexpected_intersection_type/"></a>
 </article>
-
-<article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
-  <header class="entry-header">
-    <h2>使用`.d.ts` 檔給JavaScript加入型別檢查
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>前言：
-因為目前專案都是使用 JavaScript(文章中簡稱JS) &#43; Vue 2 寫的，很多事發生在window底下，要知道某個變數是什麼、從何而來，又要去哪裡是件極度痛苦的事。因此開始尋找不用改寫原始程式邏輯，又能夠應用TypeScript(文章中簡稱TS)方式。
-.d.ts – declaration file JSDoc Triple-slash directives 這篇文章要應用這三樣幫.js檔案套上TS型別裝甲；第一個是實際會存在的檔案，後兩個則是檔案內的註解。
-TL;DR &lt;declaration&gt;請替換成你的檔案名稱
-在JS檔案中加入/// &lt;reference path=&#34;&lt;declaration&gt;.d.ts&#34;&gt; 在&lt;declaration&gt;.d.ts這個檔案內編寫TS定義 把定義的名稱透過JSDoc的語法註解到JS檔案中 .d.ts型別宣告檔 這個檔案是給TypeScript使用的，如果是用VSCode，不用安裝也可以用滑鼠去指JS檔案中的變數，會看到型別註解。
-但要編譯.ts的檔案就還是要安裝TS，請參考官方頁面 – TypeScript: How to set up TypeScript
-在 About “*.d.ts” in TypeScript - Stack Overflow 這個回答中提到：
-The “.d.ts” file is used to provide typescript type information about an API that’s written in JavaScript.
-這個.d.ts的副檔名呢，簡單來說，就是我們JavaScript的型別參照檔案。
-使用同樣來自該則回答內舉例的檔案及資料夾結構：
-|- src/
-|- |- thing.js
-|- |- thing.d.ts
-|- |- index....</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-07-23 20:20:03 +0800 CST'>July 23, 2022</span>&nbsp;·&nbsp;Yu-Pung</footer>
-  <a class="entry-link" aria-label="post link to 使用`.d.ts` 檔給JavaScript加入型別檢查" href="https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="next" href="https://AlliesChen.github.io/posts/page/2/">Next »</a>
@@ -397,7 +390,7 @@ The “.d.ts” file is used to provide typescript type information about an API
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>&copy; 2024 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

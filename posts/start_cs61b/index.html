@@ -5,9 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>WTM - D2 workshop 活動心得 | YP&#39;s Dev Memo</title>
-<meta name="keywords" content="murmur">
-<meta name="description" content="Reflecting on WTM D2 Workshop">
+<title>開始 CS61B 學習資料結構及演算法 | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="first">
+<meta name="description" content="選擇哪個版本？怎麼啟用自動評分，開始 CS61B 的學習！">
 <meta name="author" content="Yu-Pang">
 <link rel="canonical" href="https://canonical.url/to/page">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
@@ -91,18 +91,18 @@
   });
 </script>
  
-<meta property="og:title" content="WTM - D2 workshop 活動心得" />
-<meta property="og:description" content="Reflecting on WTM D2 Workshop" />
+<meta property="og:title" content="開始 CS61B 學習資料結構及演算法" />
+<meta property="og:description" content="選擇哪個版本？怎麼啟用自動評分，開始 CS61B 的學習！" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://AlliesChen.github.io/posts/wtm_d2_workshop/" />
-<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-09-26T19:58:58&#43;08:00" />
-<meta property="article:modified_time" content="2022-09-26T19:58:58&#43;08:00" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/start_cs61b/" />
+<meta property="og:image" content="https://AlliesChen.github.io/images/a_computer_programmer.jpg" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-13T20:34:04&#43;08:00" />
+<meta property="article:modified_time" content="2024-03-13T20:34:04&#43;08:00" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
-<meta name="twitter:title" content="WTM - D2 workshop 活動心得"/>
-<meta name="twitter:description" content="Reflecting on WTM D2 Workshop"/>
+<meta name="twitter:image" content="https://AlliesChen.github.io/images/a_computer_programmer.jpg" />
+<meta name="twitter:title" content="開始 CS61B 學習資料結構及演算法"/>
+<meta name="twitter:description" content="選擇哪個版本？怎麼啟用自動評分，開始 CS61B 的學習！"/>
 
 
 <script type="application/ld+json">
@@ -119,8 +119,8 @@
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "WTM - D2 workshop 活動心得",
-      "item": "https://AlliesChen.github.io/posts/wtm_d2_workshop/"
+      "name": "開始 CS61B 學習資料結構及演算法",
+      "item": "https://AlliesChen.github.io/posts/start_cs61b/"
     }
   ]
 }
@@ -129,24 +129,24 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "WTM - D2 workshop 活動心得",
-  "name": "WTM - D2 workshop 活動心得",
-  "description": "Reflecting on WTM D2 Workshop",
+  "headline": "開始 CS61B 學習資料結構及演算法",
+  "name": "開始 CS61B 學習資料結構及演算法",
+  "description": "選擇哪個版本？怎麼啟用自動評分，開始 CS61B 的學習！",
   "keywords": [
-    "murmur"
+    "first"
   ],
-  "articleBody": "活動表訂從9:40到17:30，實際製作應該是5個小時左右，當天是一組四個組員，兩個工程師搭兩個設計師。\n題目是 WTM 官網註冊頁及首頁，我只做了首頁…另一位工程師除了註冊頁，還能給大家開發及設計的建議，希望自己也能慢慢朝這個方向邁進。\n這次實作要的技術東西都看過，都沒自己深入想過、做過😅，沒能好好的判斷作法，寫個筆記警惕一下自己：\nWeb Vitals 載入造成的版面位移，忘了寫個預設值的情況下可能影響web指標中的累積佈局偏移(CLS)，而且使用者要點東西的時候版面跳掉應該是蠻差的體驗。\nReact React 18 的 useEffect 在 render 時會跑兩次，原因參考這篇文章。\n正常在元件中使用 setTimeout 來觸發 re-render 拿 state 不會有更新位址的問題，想太多了 - 寫了個例子。這個作法我用來實踐題目中輪播圖功能。\n會有事的是在Line群上看到群友提出的這個情境；在useEffect中使用setTimeout必須配合 useRef 來更新 re-render 後的 state 位址，才能穩定的每秒倒數並考慮更新的 state - 該情境可行的解法。\n至於不會穩定的每秒倒數則是我嘗試想解題時的這個例子；每次觸發按鈕確實更新了 log 中的 state，但計時也會跟著重置，連按的情況下就會等最後一下按完開始算一秒才有 log。😥\nTailwind CSS Tailwind CSS 預設的 utilities 想用自訂值只要個加方框…\n透過CDN引入一樣可以寫 configure, utilities 和用官方 plugin，作法參考官方文件。我應用這個在漢堡選單的展開，寫了個影格及動畫。\n關於codesandbox 不知道怎麼解，但純記錄下來：\n嘗試了在 codesandbox 用非CDN的方式引入 Tailwind CSS，看了幾個設定好的環境，不是把 stylesheet 整個輸出出來，就是要改Node.js做環境，但我只是想要不顯示scrollbar…。\n環境跑 HMR 時好像會讓 useEffect 變得怪怪的，有狀態殘留、重複觸發，但重整後又沒事了，也可能是我的寫法不安全造成的？🤔\n沒有確認好展示時要用的環境，雖然開發時有跟工程夥伴說好用codesandbox的mobile preview為基準開發，但它這個preview就算是用內建的open in new window，版面也會變得不同，也沒再跟全部組員確認demo時會用什麼環境，結果就有很重要的東西跑板了…\n不知道為什麼做著做著中原本抓的到的svg就抓不到了…把那個檔案改個名字又正常了。\nMurmur 輪播圖的功能不知道一開始我怎麼寫的，useEffect 的安全機制讓 state 一直以2為間距在跳，搞不懂機制的情況下後面在 transform 跟 transition 間的設定卡了很久…該學習用 Swiper 了。\nreact-router 也是更新的很勤，google要怎麼達成history.pushState() 的效果看到要用 useHistory ，試了一下一直報錯說沒有這個函式，才又發現 v6 開始變成 useNavigate。\n",
-  "wordCount" : "91",
+  "articleBody": "因為剛開始要啟動這個課程的資源時繞了一點路，想簡單分享一下：\n可以上哪個版本？ 怎麼提交作業？ 前言 CS61B 是 UC Berkeley 在電腦科學的「入門課」，關於它的討論在 PTT、一畝三分地等論壇，或是直接 google 都可以找到學習心得的分享，就不多在此贅述這門課程的特點。\n課程以英文以及 Java 程式語言來教學，但不要求有 Java 基礎，課程中會逐步帶到。反倒是因為此課有前置課程– CS61A，以 Python 程式語言教學電腦科學基礎的課程，在 CS61B 中會常聽到教授以 Python 作為對比來幫助理解。\n延伸閱讀：CS61A 跟 CS61B 的差別\n可以上哪個版本？ 首先可以打開瀏覽器，搜尋：CS61B，就能看到最新一季的課程頁面；以這篇文章撰寫的時間是 CS61B Spring 2024，在看到網頁中 Course Info 這個頁面的最下面，有個 “Auditing CS61B” 的條目– 提到目前可以使用的 “public” autograder 是 Spring 2021。這門課程是透過 Gradescope 的服務來做自動化評分，而此頁提供的課程碼– MB7ZPY，開啟的畫面如下圖。\n上圖中，可以看到還有個 CS61B Spring 2019，那就是非 “public” 的課程碼開啟的– 如果是直接從課程網站的 week 1 開始跟著做，基本上影片都能看，直到跟著 Lab 1 的教學到了註冊 Gradescope 並開始了第一個提交才會發現…提交會失敗呀😅。\n怎麼提交作業？ 先回到有公開評分器的 CS61B SP21 的頁面，跟著 Lab 1 的說明：\nclone 下 starter files\n完成指定功能的撰寫\n推上 github repo；整包 starter files 一起推就好，不用分資料夾開\n進到 Gradescope CS 61B Spring 2021 課程中上選 Lab 1，再選擇你推上的 github repo，並選擇 branch “main” (現在預設名稱，過去則為 “master”)\n等待評分完成✨\n如果對於完成這個流程還是不太清楚，有前輩們也寫過更詳細的步驟及截圖可以參考：\n[cs61b] 建立作業github repo並clone官方starter code＋註冊gradescope | Yun-Chi Pang (yunchipang.github.io) CS61B autograder排坑篇 - 知乎 (zhihu.com) 以上，感謝您的閱讀，希望能看到更多人加入學習這門課~\n",
+  "wordCount" : "113",
   "inLanguage": "en",
-  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-09-26T19:58:58+08:00",
-  "dateModified": "2022-09-26T19:58:58+08:00",
+  "image":"https://AlliesChen.github.io/images/a_computer_programmer.jpg","datePublished": "2024-03-13T20:34:04+08:00",
+  "dateModified": "2024-03-13T20:34:04+08:00",
   "author":{
     "@type": "Person",
     "name": "Yu-Pang"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://AlliesChen.github.io/posts/wtm_d2_workshop/"
+    "@id": "https://AlliesChen.github.io/posts/start_cs61b/"
   },
   "publisher": {
     "@type": "Organization",
@@ -230,12 +230,12 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
     <h1 class="post-title">
-      WTM - D2 workshop 活動心得
+      開始 CS61B 學習資料結構及演算法
     </h1>
     <div class="post-description">
-      Reflecting on WTM D2 Workshop
+      選擇哪個版本？怎麼啟用自動評分，開始 CS61B 的學習！
     </div>
-    <div class="post-meta"><span title='2022-09-26 19:58:58 +0800 CST'>September 26, 2022</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/wtm_d2_workshop.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+    <div class="post-meta"><span title='2024-03-13 20:34:04 +0800 CST'>March 13, 2024</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/start_cs61b.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
 
 </div>
   </header> <div class="toc">
@@ -246,79 +246,67 @@
 
         <div class="inner"><nav id="TableOfContents">
   <ul>
-    <li><a href="#web-vitals">Web Vitals</a></li>
-    <li><a href="#react">React</a></li>
-    <li><a href="#tailwind-css">Tailwind CSS</a></li>
-    <li><a href="#關於codesandbox">關於codesandbox</a></li>
-    <li><a href="#murmur">Murmur</a></li>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#可以上哪個版本">可以上哪個版本？</a></li>
+    <li><a href="#怎麼提交作業">怎麼提交作業？</a></li>
   </ul>
 </nav>
         </div>
     </details>
 </div>
 
-  <div class="post-content"><p>活動表訂從9:40到17:30，實際製作應該是5個小時左右，當天是一組四個組員，兩個工程師搭兩個設計師。</p>
-<p>題目是 WTM 官網註冊頁及首頁，我只做了首頁&hellip;另一位工程師除了註冊頁，還能給大家開發及設計的建議，希望自己也能慢慢朝這個方向邁進。</p>
-<p>這次實作要的技術東西都看過，都沒自己深入想過、做過😅，沒能好好的判斷作法，寫個筆記警惕一下自己：</p>
-<h2 id="web-vitals">Web Vitals<a hidden class="anchor" aria-hidden="true" href="#web-vitals">#</a></h2>
-<p><code>&lt;img&gt;</code>載入造成的版面位移，忘了寫個預設值的情況下可能影響<a href="https://web.dev/vitals/">web指標</a>中的累積佈局偏移(CLS)，而且使用者要點東西的時候版面跳掉應該是蠻差的體驗。</p>
-<h2 id="react">React<a hidden class="anchor" aria-hidden="true" href="#react">#</a></h2>
+  <div class="post-content"><p>因為剛開始要啟動這個課程的資源時繞了一點路，想簡單分享一下：</p>
+<ul>
+<li>可以上哪個版本？</li>
+<li>怎麼提交作業？</li>
+</ul>
+<h2 id="前言">前言<a hidden class="anchor" aria-hidden="true" href="#前言">#</a></h2>
+<p>CS61B 是 UC Berkeley 在電腦科學的「入門課」，關於它的討論在 PTT、一畝三分地等論壇，或是直接 google 都可以找到學習心得的分享，就不多在此贅述這門課程的特點。</p>
+<p>課程以英文以及 Java 程式語言來教學，但不要求有 Java 基礎，課程中會逐步帶到。反倒是因為此課有前置課程&ndash; CS61A，以 Python 程式語言教學電腦科學基礎的課程，在 CS61B 中會常聽到教授以 Python 作為對比來幫助理解。</p>
+<p>延伸閱讀：<a href="https://csdiy.wiki/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/CS61A/">CS61A 跟 CS61B 的差別</a></p>
+<h2 id="可以上哪個版本">可以上哪個版本？<a hidden class="anchor" aria-hidden="true" href="#可以上哪個版本">#</a></h2>
+<p>首先可以打開瀏覽器，搜尋：CS61B，就能看到最新一季的課程頁面；以這篇文章撰寫的時間是 <strong>CS61B Spring 2024</strong>，在看到網頁中 <a href="https://sp24.datastructur.es/policies/#auditing-cs61b">Course Info</a> 這個頁面的最下面，有個 &ldquo;Auditing CS61B&rdquo; 的條目&ndash; 提到目前可以使用的 &ldquo;public&rdquo; autograder 是 Spring 2021。這門課程是透過 <a href="https://www.gradescope.com/">Gradescope</a> 的服務來做自動化評分，而此頁提供的課程碼&ndash; <em>MB7ZPY</em>，開啟的畫面如下圖。</p>
+<p><img loading="lazy" src="/images/start_cs61b_gradescope_page_screenshot.jpg" alt="start_cs61b_gradescope_page_screenshot.jpg"  />
+</p>
+<p>上圖中，可以看到還有個 CS61B Spring 2019，那就是非 &ldquo;public&rdquo; 的課程碼開啟的&ndash; 如果是直接從課程網站的 week 1 開始跟著做，基本上影片都能看，直到跟著 <a href="https://sp24.datastructur.es/labs/lab01/">Lab 1</a> 的教學到了註冊 Gradescope 並開始了第一個提交才會發現&hellip;提交會失敗呀😅。</p>
+<h2 id="怎麼提交作業">怎麼提交作業？<a hidden class="anchor" aria-hidden="true" href="#怎麼提交作業">#</a></h2>
+<p>先回到有公開評分器的 <a href="https://sp21.datastructur.es/materials/lab/lab1/lab1">CS61B SP21 的頁面</a>，跟著 Lab 1 的說明：</p>
 <ol>
 <li>
-<p>React 18 的 <code>useEffect</code> 在 render 時會跑兩次，原因參考<a href="https://blog.bitsrc.io/react-v18-0-useeffect-bug-why-do-effects-run-twice-39babecede93">這篇文章</a>。</p>
+<p>clone 下 starter files</p>
 </li>
 <li>
-<p>正常在元件中使用 <code>setTimeout</code> 來觸發 re-render 拿 state 不會有更新位址的問題，想太多了 - <a href="https://codepen.io/allieschen/pen/WNJXwBq">寫了個例子</a>。這個作法我用來實踐題目中輪播圖功能。</p>
-<p>會有事的是在Line群上看到群友提出的<a href="https://codepen.io/huibizhang/pen/rNdPpJx?editors=0011">這個情境</a>；在useEffect中使用setTimeout必須配合 <code>useRef</code> 來更新 re-render 後的 state 位址，才能穩定的每秒倒數並考慮更新的 state - <a href="https://codepen.io/huibizhang/pen/yLKZvNO?editors=0011">該情境可行的解法</a>。</p>
-<p>至於不會穩定的每秒倒數則是我嘗試想解題時的<a href="https://codepen.io/allieschen/pen/poLGpGv">這個例子</a>；每次觸發按鈕確實更新了 log 中的 state，但計時也會跟著重置，連按的情況下就會等最後一下按完開始算一秒才有 log。😥</p>
+<p>完成指定功能的撰寫</p>
+</li>
+<li>
+<p>推上 github repo；整包 starter files 一起推就好，不用分資料夾開</p>
+</li>
+<li>
+<p>進到 Gradescope  CS 61B Spring 2021 課程中上選 Lab 1，再選擇你推上的 github repo，並選擇 branch &ldquo;main&rdquo; (現在預設名稱，過去則為 &ldquo;master&rdquo;)</p>
+</li>
+<li>
+<p>等待評分完成✨</p>
 </li>
 </ol>
-<h2 id="tailwind-css">Tailwind CSS<a hidden class="anchor" aria-hidden="true" href="#tailwind-css">#</a></h2>
-<ol>
-<li>
-<p>Tailwind CSS 預設的 utilities 想用<a href="https://tailwindcss.com/docs/width#arbitrary-values">自訂值</a>只要個加方框&hellip;</p>
-</li>
-<li>
-<p>透過CDN引入一樣可以寫 configure, utilities 和用官方 plugin，作法參考<a href="https://tailwindcss.com/docs/installation/play-cdn">官方文件</a>。我應用這個在漢堡選單的展開，寫了個影格及動畫。</p>
-</li>
-</ol>
-<h2 id="關於codesandbox">關於codesandbox<a hidden class="anchor" aria-hidden="true" href="#關於codesandbox">#</a></h2>
-<p>不知道怎麼解，但純記錄下來：</p>
-<ol>
-<li>
-<p>嘗試了在 codesandbox 用非CDN的方式引入 Tailwind CSS，看了幾個設定好的環境，不是把 stylesheet 整個輸出出來，就是要改Node.js做環境，但我只是想要不顯示scrollbar&hellip;。</p>
-</li>
-<li>
-<p>環境跑 HMR 時好像會讓 <code>useEffect</code> 變得怪怪的，有狀態殘留、重複觸發，但重整後又沒事了，也可能是我的寫法不安全造成的？🤔</p>
-</li>
-<li>
-<p>沒有確認好展示時要用的環境，雖然開發時有跟工程夥伴說好用codesandbox的mobile preview為基準開發，但它這個preview就算是用內建的open in new window，版面也會變得不同，也沒再跟全部組員確認demo時會用什麼環境，結果就有很重要的東西跑板了&hellip;</p>
-</li>
-<li>
-<p>不知道為什麼做著做著<code>&lt;img&gt;</code>中原本抓的到的svg就抓不到了&hellip;把那個檔案改個名字又正常了。</p>
-</li>
-</ol>
-<h2 id="murmur">Murmur<a hidden class="anchor" aria-hidden="true" href="#murmur">#</a></h2>
-<p>輪播圖的功能不知道一開始我怎麼寫的，<code>useEffect</code> 的安全機制讓 <code>state</code> 一直以2為間距在跳，搞不懂機制的情況下後面在 <code>transform</code> 跟 <code>transition</code> 間的設定卡了很久&hellip;該學習用 <a href="https://swiperjs.com/">Swiper</a> 了。</p>
-<p>react-router 也是更新的很勤，google要怎麼達成<code>history.pushState()</code> 的效果看到要用 <code>useHistory</code> ，試了一下一直報錯說沒有這個函式，才又發現 v6 開始變成 <code>useNavigate</code>。</p>
+<p>如果對於完成這個流程還是不太清楚，有前輩們也寫過更詳細的步驟及截圖可以參考：</p>
+<ul>
+<li>[<a href="https://yunchipang.github.io/ucberkeley-cs61b-sp18-getting-started.html">cs61b] 建立作業github repo並clone官方starter code＋註冊gradescope | Yun-Chi Pang (yunchipang.github.io)</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/115229260">CS61B autograder排坑篇 - 知乎 (zhihu.com)</a></li>
+</ul>
+<p>以上，感謝您的閱讀，希望能看到更多人加入學習這門課~</p>
 
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://AlliesChen.github.io/tags/murmur/">murmur</a></li>
+      <li><a href="https://AlliesChen.github.io/tags/first/">first</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://AlliesChen.github.io/posts/derivative/">
-    <span class="title">« Prev</span>
-    <br>
-    <span>Derivative</span>
-  </a>
-  <a class="next" href="https://AlliesChen.github.io/posts/unexpected_intersection_type/">
+  <a class="next" href="https://AlliesChen.github.io/posts/page-flip_animation_with_css/">
     <span class="title">Next »</span>
     <br>
-    <span>TypeScript：Union被判為Intersection</span>
+    <span>透過 CSS 製作書本翻頁效果</span>
   </a>
 </nav>
 

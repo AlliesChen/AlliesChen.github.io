@@ -6,7 +6,16 @@
     <description>Recent content in Posts on YP&#39;s Dev Memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Tue, 19 Sep 2023 23:29:44 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Mar 2024 20:34:04 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>開始 CS61B 學習資料結構及演算法</title>
+      <link>https://AlliesChen.github.io/posts/start_cs61b/</link>
+      <pubDate>Wed, 13 Mar 2024 20:34:04 +0800</pubDate>
+      
+      <guid>https://AlliesChen.github.io/posts/start_cs61b/</guid>
+      <description>選擇哪個版本？怎麼啟用自動評分，開始 CS61B 的學習！</description>
+    </item>
+    
     <item>
       <title>透過 CSS 製作書本翻頁效果</title>
       <link>https://AlliesChen.github.io/posts/page-flip_animation_with_css/</link>
