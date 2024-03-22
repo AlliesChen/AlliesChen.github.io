@@ -10,7 +10,7 @@
 <meta name="description" content="Posts - YP&#39;s Dev Memo">
 <meta name="author" content="">
 <link rel="canonical" href="https://AlliesChen.github.io/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
@@ -19,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://AlliesChen.github.io/posts/index.xml">
+<link rel="alternate" hreflang="en" href="https://AlliesChen.github.io/posts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -36,7 +37,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -55,41 +56,16 @@
         }
 
     </style>
-</noscript> <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css"
-  integrity="sha384-bYdxxUwYipFNohQlHt0bjN/LCpueqWz13HufFEV1SUatKs1cm4L6fFgCi1jT643X"
-  crossorigin="anonymous"
-/>
-<script
-  defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js"
-  integrity="sha384-Qsn9KnoKISj6dI8g7p1HBlNpVx0I8p1SvlwOldgi3IorMle61nQy4zEahWYtljaz"
-  crossorigin="anonymous"
-></script>
-<script
-  defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js"
-  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
-  crossorigin="anonymous"
-></script>
+</noscript>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      
-      
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false },
-        { left: "\\(", right: "\\)", display: false },
-        { left: "\\[", right: "\\]", display: true },
-      ],
-      
-      throwOnError: false,
-    });
-  });
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)']]                  
+    }
+  };
 </script>
- 
 <meta property="og:title" content="Posts" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
@@ -157,8 +133,8 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://AlliesChen.github.io/categories/" title="categories">
-                    <span>categories</span>
+                <a href="https://AlliesChen.github.io/archives/" title="archives">
+                    <span>archives</span>
                 </a>
             </li>
             <li>
@@ -191,7 +167,7 @@
 <figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/images/a_computer_programmer.jpg" alt="a computer grammer sitting on before a white board">
 </figure>
   <header class="entry-header">
-    <h2>開始 CS61B 學習資料結構及演算法
+    <h2 class="entry-hint-parent">開始 CS61B 學習資料結構及演算法
     </h2>
   </header>
   <div class="entry-content">
@@ -211,7 +187,7 @@
 <figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/images/a_child_waves_hand_in_spring.jpg" alt="">
 </figure>
   <header class="entry-header">
-    <h2>透過 CSS 製作書本翻頁效果
+    <h2 class="entry-hint-parent">透過 CSS 製作書本翻頁效果
     </h2>
   </header>
   <div class="entry-content">
@@ -227,10 +203,8 @@ turn.js– 建立在 jQuery 之上的套件，快十年沒更新了，考量後�
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
   <header class="entry-header">
-    <h2>有趣的 TypeScript 型別用法與機制 Part 2
+    <h2 class="entry-hint-parent">有趣的 TypeScript 型別用法與機制 Part 2
     </h2>
   </header>
   <div class="entry-content">
@@ -245,10 +219,8 @@ Levels of Language 貫穿該系列文章的第一個重點；language of values 
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
   <header class="entry-header">
-    <h2>如何避免 React 重新渲染元件
+    <h2 class="entry-hint-parent">如何避免 React 重新渲染元件
     </h2>
   </header>
   <div class="entry-content">
@@ -267,10 +239,8 @@ React.memo 問題 1 及問題 2 是針對 React.memo 的應用，
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
   <header class="entry-header">
-    <h2>Debounce 和 Throttle
+    <h2 class="entry-hint-parent">Debounce 和 Throttle
     </h2>
   </header>
   <div class="entry-content">
@@ -283,10 +253,8 @@ Live demo and source code on stackblitz </p>
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
   <header class="entry-header">
-    <h2>有趣的 TypeScript 型別用法與機制
+    <h2 class="entry-hint-parent">有趣的 TypeScript 型別用法與機制
     </h2>
   </header>
   <div class="entry-content">
@@ -300,10 +268,8 @@ const beverageOrder = new Map&lt;string, number&gt;(); beverageOrder.set(&#39;co
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
   <header class="entry-header">
-    <h2>JWT簡介 - 使用Node.js
+    <h2 class="entry-hint-parent">JWT簡介 - 使用Node.js
     </h2>
   </header>
   <div class="entry-content">
@@ -322,10 +288,8 @@ atob(&#39;eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MD
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
   <header class="entry-header">
-    <h2>Derivative
+    <h2 class="entry-hint-parent">Derivative
     </h2>
   </header>
   <div class="entry-content">
@@ -338,10 +302,8 @@ atob(&#39;eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MD
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
   <header class="entry-header">
-    <h2>WTM - D2 workshop 活動心得
+    <h2 class="entry-hint-parent">WTM - D2 workshop 活動心得
     </h2>
   </header>
   <div class="entry-content">
@@ -365,10 +327,8 @@ Tailwind CSS Tailwind CSS 預設的 utilities 想用自訂值只要個加方框�
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
   <header class="entry-header">
-    <h2>TypeScript：Union被判為Intersection
+    <h2 class="entry-hint-parent">TypeScript：Union被判為Intersection
     </h2>
   </header>
   <div class="entry-content">
@@ -384,7 +344,8 @@ type Foo = { one: number; two: number }; type Bar = { three: number; four: numbe
 </article>
 <footer class="page-footer">
   <nav class="pagination">
-    <a class="next" href="https://AlliesChen.github.io/posts/page/2/">Next »</a>
+    <a class="next" href="https://AlliesChen.github.io/posts/page/2/">Next&nbsp;&nbsp;»
+    </a>
   </nav>
 </footer>
     </main>

@@ -6,15 +6,14 @@
     <description>Recent content in Backend on YP&#39;s Dev Memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Sat, 29 Oct 2022 23:47:11 +0800</lastBuildDate><atom:link href="https://AlliesChen.github.io/tags/backend/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 29 Oct 2022 23:47:11 +0800</lastBuildDate>
+    <atom:link href="https://AlliesChen.github.io/tags/backend/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>JWT簡介 - 使用Node.js</title>
       <link>https://AlliesChen.github.io/posts/jwt_with_node_js/</link>
       <pubDate>Sat, 29 Oct 2022 23:47:11 +0800</pubDate>
-      
       <guid>https://AlliesChen.github.io/posts/jwt_with_node_js/</guid>
       <description>What is JWT and how to use it with Node.js?</description>
     </item>
-    
   </channel>
 </rss>

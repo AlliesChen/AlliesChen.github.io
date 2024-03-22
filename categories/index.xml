@@ -5,6 +5,7 @@
     <link>https://AlliesChen.github.io/categories/</link>
     <description>Recent content in Categories on YP&#39;s Dev Memo</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-tw</language><atom:link href="https://AlliesChen.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-tw</language>
+    <atom:link href="https://AlliesChen.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

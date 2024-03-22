@@ -10,9 +10,7 @@
 <meta name="description" content="配合 react-spring, use-gesture 操作 CSS 來做翻頁動畫">
 <meta name="author" content="Yu-Pang">
 <link rel="canonical" href="https://canonical.url/to/page">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.c5ad9f205171fab820252a87a0292578dcaa85c950f40ab21addf6cb9611c26a.css" integrity="" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
-    onload="hljs.initHighlightingOnLoad();"></script>
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
@@ -20,6 +18,7 @@
 <link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://AlliesChen.github.io/posts/page-flip_animation_with_css/">
 <noscript>
     <style>
         #theme-toggle,
@@ -37,7 +36,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -56,48 +55,23 @@
         }
 
     </style>
-</noscript> <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css"
-  integrity="sha384-bYdxxUwYipFNohQlHt0bjN/LCpueqWz13HufFEV1SUatKs1cm4L6fFgCi1jT643X"
-  crossorigin="anonymous"
-/>
-<script
-  defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js"
-  integrity="sha384-Qsn9KnoKISj6dI8g7p1HBlNpVx0I8p1SvlwOldgi3IorMle61nQy4zEahWYtljaz"
-  crossorigin="anonymous"
-></script>
-<script
-  defer
-  src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js"
-  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
-  crossorigin="anonymous"
-></script>
+</noscript>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      
-      
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false },
-        { left: "\\(", right: "\\)", display: false },
-        { left: "\\[", right: "\\]", display: true },
-      ],
-      
-      throwOnError: false,
-    });
-  });
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)']]                  
+    }
+  };
 </script>
- 
 <meta property="og:title" content="透過 CSS 製作書本翻頁效果" />
 <meta property="og:description" content="配合 react-spring, use-gesture 操作 CSS 來做翻頁動畫" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://AlliesChen.github.io/posts/page-flip_animation_with_css/" />
 <meta property="og:image" content="https://AlliesChen.github.io/images/a_child_waves_hand_in_spring.jpg" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-09-19T23:29:44&#43;08:00" />
-<meta property="article:modified_time" content="2023-09-19T23:29:44&#43;08:00" />
+<meta property="article:published_time" content="2023-09-19T23:29:44+08:00" />
+<meta property="article:modified_time" content="2023-09-19T23:29:44+08:00" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://AlliesChen.github.io/images/a_child_waves_hand_in_spring.jpg" />
@@ -135,8 +109,8 @@
   "keywords": [
     "CSS", "Animation"
   ],
-  "articleBody": "近期想透過「翻頁」這個互動方式來做一個 web 小遊戲，過程中發現意外地不好實現。\n這篇文章需要讀者對 React 這個前端框架及 CSS 的 transition 屬性的應用有基本的了解，成果及原始碼是建立於這兩個技術之上的，內文會大略地對實踐的方式說明，但不會詳細地提及所使用的框架及函式庫確切 API 的功能及用法。\nTL;DR 成果: https://codesandbox.io/s/page-flippable-book-5h5ktm?file=/src/Page.tsx\n透過 translateZ 做出書頁的正反面 2023/9/22 基於前端社群網友的建議，我把原先用 opacity 變換做出的頁面正反面，換成靜態、單純加在 CSS class– back 中的 translateZ，另外，為了讓它能正確作用，也需要在 page 這個 CSS class 中加入 transform-style: preserve-3d，如此一來，應該多少能減輕瀏覽器的運算負擔。\n透過 position: relative/absolute 來堆疊書頁的上下一頁 用 z-index 切換堆疊的順序 react-spring 控制 rotateY 做翻頁轉場 配合 perspective 屬性改變視角增添立體感 use-gesture 加入拖曳翻頁功能 讓套件再次偉大 首先我想到的是有沒有現成的(免費)翻頁書效果套件可以用，\nturn.js– 建立在 jQuery 之上的套件，快十年沒更新了，考量後續擴充功能可能有困難，暫不考慮。 StPageFlip– 效果很擬真，從 demo 看起來使用體驗流暢；而且有 React 版本，但是，從 commits 看來有兩年沒更新了，以 front-end 的迭代速度加上，擔心搭 React 18 會不會出現不明的坑因此沒有使用。 後續又看了幾個套件(比較新的)好像也是搭在這些套件上實踐出來，覺得難以在短期理解其運作方式，怕未來不好改。\n純 CSS 的現成範例 Notebook page flip animation on scrimba– 程式碼很單純，效果簡單，但能夠接受；嘗試了一陣子，發現在呈現次頁的內容上，一旦有多頁，雖然做得到，但程式碼可讀性不是那麼好，擔心後續增加應用，改動起來會有問題，而且試做的是動畫的版本，實際上我需要的是手動觸發。 這邊，我認為應用 transform 有搞頭，又看到 MDN 裡的範例有 matrix (最近剛好在看線性代數的教學影片)，拿這個網站沙盤推演了一下，我以為能透過操作scaleX 和 skewY 的矩陣轉換來做出翻頁效果殊不知…\n這個作法下 backface-visibility: hidden 不管用；也沒有 rotate 能用，翻頁效果有奇怪的抖動。\nDemo: https://codepen.io/allieschen/pen/NWOQxwx\nSee the Pen page-flip animation with matrix by YPChen (@allieschen)\ron CodePen.\rBook page flip animation on Codepen– 實踐單純，效果也不錯，嘗試讀改了一下程式碼，發現有些可以簡化的地方，主要的問題在 position: relative/absolute 堆疊使用有點複雜，還用上了 overflow: hidden 遮蓋。 從這個例子中，我確信了可以用 rotateY、perspective，加上 z-index 切換當作主要實踐概念。\n題外話：製作期間突然好奇如果是設計師會怎麼做，得知有個叫 Flip PDF Pro 的軟體，拿來當關鍵字查發現製作翻頁書網頁的應用蠻多的，只是我需要的是造輪子的方法。\n另外也被建議說可以從 PPT 過場動畫的方向去想，也是我上面查 CSS 範例的想法來源；\nfigma 翻頁動畫– 這個例子是一格一格的排出來 也有看到蠻多 youtube 影片是教用 Adobe After Effect 做 Animation library for React React 強大的生態系，有好多很棒的 animation library 可以選，這也是我選擇用 React 製作的原因：\nFramer Motion– 官網的互動範例看起來很好上手 react-spring– 使用在這個例子，完美的呈現了我想要的效果 那個例子的原始碼實踐中看來有複雜的轉換…我理解不能，所以沒有 fork 直接使用。他也用了 use-gesture，所以我後續也選這個做 drag-n-drop 應用。\n純 JS 也有關於動畫的套件，比如：\nGSAP Three.js Vercel 這一篇文章分享他們怎麼用 three.js 做出 Next conf 的活動頁面。\n這兩個 lib 的進入門檻都不低，又 react-spring 有人做出過我想要的效果，因此我也選擇了它。\n使用 react-spring 實踐翻頁動畫 首先參考了 react-spring 官網的這個例子做為轉場實踐的基底，並把頁面與圖面的動畫分開；也就是，翻頁與圖片變化是分開的 useSpring 管理：\nrotateY– 翻頁效果都靠它 然後是不在 useSpring 管理的 CSS 屬性，這裡要注意，他們要在 pageStyle 前，不然會沒有效果：\nz-index– 書本的上下一頁正確堆疊的關鍵是它 transformOrigin– 改變翻頁的軸心 transform: perspective– 這個提供視角的變化，讓翻頁效果從消失點延伸，視覺上更擬真 // @/App.tsx import { useState } from \"react\"; import { useSpring, animated } from \"@react-spring/web\"; const [flipped, setFlipped] = useState(false); const pageStyle = useSpring({ rotateY: 0, config: { mass: 5, tension: 500, friction: 150 }, touchAction: \"none\" }); return ( \u003canimated.div style={{ zIndex: flipped ? 10 + zIndex : 100 - zIndex, transformOrigin: \"left\", transform: \"perspective(600px)\", ...pageStyle }} className=\"page\" \u003e ...the pictures \u003c/animated.div\u003e ) 關於 config 屬性的作用，引用自 Getting started with react-spring: physics, API, performance - Apptension Blog\nMass (when mass is higher, the element needs more velocity to be moved and more time to stop) Friction (higher friction reduces velocity and bounciness) Tension (higher tension reduces the impact of friction). 確保單頁的效果可以之後，我就把它封成一個元件– FlippablePage。\n接著是放複數功能頁形成一本書，先透過 position 屬性讓各功能頁脫離預設的排版，堆疊在一起，然後調整 z-index；前面的頁數 z-index 為 x 從 0 算起，元件中使用邏輯為\n尚未翻頁 = $100 - x$ 翻頁後 = $10 + x$ 聰明的你應該會發現，當 x = 45，也就是頁數來到 46 頁時，這個算法會出現問題，但因為我的應用不會到這個頁數，也應該能用 virtual list 的方式避免這個問題，所以沒關係\n這邊遇到一個問題，如果把 z-index 傳入 useSpring，在正反面調換時，會產生延遲，所以改直接給進 animated.div 的 style 屬性中。\n在製作前以及過程中使用盡量少的元素來達成想要的動畫效果，因為曾被社群中群友的提醒，在 React 的機制中操作動畫，可能會產生預期外的效能問題\n到此，已經有翻頁書的樣子了。\n使用 🖐️use-gesture 實踐拖拉翻頁 參考 use-gesture 官網的這個範例，提供了跟 useSpring 一起使用的作法。\n接著就慢慢試怎麼樣的屬性和邏輯呈現出來的翻頁效果可以接受，又不會太複雜😵‍💫\n注意為了拿 useSpring 的 api 物件給進 useDrag 裡操作，參數會從物件改為一個箭頭函式\nimport { useState } from \"react\"; import { useDrag } from \"@use-gesture/react\"; const [flipped, setFlipped] = useState(false); const [pageStyle, api] = useSpring(() =\u003e ({ rotateY: 0, config: { mass: 5, tension: 500, friction: 150 }, touchAction: \"none\" })); const bind = useDrag(({ movement: [movX], cancel, dragging }) =\u003e { // console.log(movX, pageStyle.rotateY.get()); const currentRY = pageStyle.rotateY.get(); if (currentRY \u003e -60) { api.start({ rotateY: 0 }); setFlipped(false); } if (currentRY \u003c= -60 \u0026\u0026 (movX \u003c 0 || !dragging)) { api.start({ rotateY: -180 }); setFlipped(true); } else if (dragging \u0026\u0026 currentRY \u003c= 0) { api.start({ rotateY: currentRY + movX }); } }); 一個小插曲是要注意圖片載入速度，會影響翻頁動畫的流暢度(會卡住)\n最後，打開封面後，書本寬度改變，一來會蓋到邊界超出畫面，二來沒有置中，所以在 FlippablePage 加入一個 onFlipped 屬性透過 useEffect 來觸發 callback– onFlipped，做 translateX 的改變。\n",
-  "wordCount" : "491",
+  "articleBody": "近期想透過「翻頁」這個互動方式來做一個 web 小遊戲，過程中發現意外地不好實現。\n這篇文章需要讀者對 React 這個前端框架及 CSS 的 transition 屬性的應用有基本的了解，成果及原始碼是建立於這兩個技術之上的，內文會大略地對實踐的方式說明，但不會詳細地提及所使用的框架及函式庫確切 API 的功能及用法。\nTL;DR 成果: https://codesandbox.io/s/page-flippable-book-5h5ktm?file=/src/Page.tsx\n透過 translateZ 做出書頁的正反面 2023/9/22 基於前端社群網友的建議，我把原先用 opacity 變換做出的頁面正反面，換成靜態、單純加在 CSS class– back 中的 translateZ，另外，為了讓它能正確作用，也需要在 page 這個 CSS class 中加入 transform-style: preserve-3d，如此一來，應該多少能減輕瀏覽器的運算負擔。\n透過 position: relative/absolute 來堆疊書頁的上下一頁 用 z-index 切換堆疊的順序 react-spring 控制 rotateY 做翻頁轉場 配合 perspective 屬性改變視角增添立體感 use-gesture 加入拖曳翻頁功能 讓套件再次偉大 首先我想到的是有沒有現成的(免費)翻頁書效果套件可以用，\nturn.js– 建立在 jQuery 之上的套件，快十年沒更新了，考量後續擴充功能可能有困難，暫不考慮。 StPageFlip– 效果很擬真，從 demo 看起來使用體驗流暢；而且有 React 版本，但是，從 commits 看來有兩年沒更新了，以 front-end 的迭代速度加上，擔心搭 React 18 會不會出現不明的坑因此沒有使用。 後續又看了幾個套件(比較新的)好像也是搭在這些套件上實踐出來，覺得難以在短期理解其運作方式，怕未來不好改。\n純 CSS 的現成範例 Notebook page flip animation on scrimba– 程式碼很單純，效果簡單，但能夠接受；嘗試了一陣子，發現在呈現次頁的內容上，一旦有多頁，雖然做得到，但程式碼可讀性不是那麼好，擔心後續增加應用，改動起來會有問題，而且試做的是動畫的版本，實際上我需要的是手動觸發。 這邊，我認為應用 transform 有搞頭，又看到 MDN 裡的範例有 matrix (最近剛好在看線性代數的教學影片)，拿這個網站沙盤推演了一下，我以為能透過操作scaleX 和 skewY 的矩陣轉換來做出翻頁效果殊不知…\n這個作法下 backface-visibility: hidden 不管用；也沒有 rotate 能用，翻頁效果有奇怪的抖動。\nDemo: https://codepen.io/allieschen/pen/NWOQxwx\nBook page flip animation on Codepen– 實踐單純，效果也不錯，嘗試讀改了一下程式碼，發現有些可以簡化的地方，主要的問題在 position: relative/absolute 堆疊使用有點複雜，還用上了 overflow: hidden 遮蓋。 從這個例子中，我確信了可以用 rotateY、perspective，加上 z-index 切換當作主要實踐概念。\n題外話：製作期間突然好奇如果是設計師會怎麼做，得知有個叫 Flip PDF Pro 的軟體，拿來當關鍵字查發現製作翻頁書網頁的應用蠻多的，只是我需要的是造輪子的方法。\n另外也被建議說可以從 PPT 過場動畫的方向去想，也是我上面查 CSS 範例的想法來源；\nfigma 翻頁動畫– 這個例子是一格一格的排出來 也有看到蠻多 youtube 影片是教用 Adobe After Effect 做 Animation library for React React 強大的生態系，有好多很棒的 animation library 可以選，這也是我選擇用 React 製作的原因：\nFramer Motion– 官網的互動範例看起來很好上手 react-spring– 使用在這個例子，完美的呈現了我想要的效果 那個例子的原始碼實踐中看來有複雜的轉換…我理解不能，所以沒有 fork 直接使用。他也用了 use-gesture，所以我後續也選這個做 drag-n-drop 應用。\n純 JS 也有關於動畫的套件，比如：\nGSAP Three.js Vercel 這一篇文章分享他們怎麼用 three.js 做出 Next conf 的活動頁面。\n這兩個 lib 的進入門檻都不低，又 react-spring 有人做出過我想要的效果，因此我也選擇了它。\n使用 react-spring 實踐翻頁動畫 首先參考了 react-spring 官網的這個例子做為轉場實踐的基底，並把頁面與圖面的動畫分開；也就是，翻頁與圖片變化是分開的 useSpring 管理：\nrotateY– 翻頁效果都靠它 然後是不在 useSpring 管理的 CSS 屬性，這裡要注意，他們要在 pageStyle 前，不然會沒有效果：\nz-index– 書本的上下一頁正確堆疊的關鍵是它 transformOrigin– 改變翻頁的軸心 transform: perspective– 這個提供視角的變化，讓翻頁效果從消失點延伸，視覺上更擬真 // @/App.tsx import { useState } from \"react\"; import { useSpring, animated } from \"@react-spring/web\"; const [flipped, setFlipped] = useState(false); const pageStyle = useSpring({ rotateY: 0, config: { mass: 5, tension: 500, friction: 150 }, touchAction: \"none\" }); return ( \u003canimated.div style={{ zIndex: flipped ? 10 + zIndex : 100 - zIndex, transformOrigin: \"left\", transform: \"perspective(600px)\", ...pageStyle }} className=\"page\" \u003e ...the pictures \u003c/animated.div\u003e ) 關於 config 屬性的作用，引用自 Getting started with react-spring: physics, API, performance - Apptension Blog\nMass (when mass is higher, the element needs more velocity to be moved and more time to stop) Friction (higher friction reduces velocity and bounciness) Tension (higher tension reduces the impact of friction). 確保單頁的效果可以之後，我就把它封成一個元件– FlippablePage。\n接著是放複數功能頁形成一本書，先透過 position 屬性讓各功能頁脫離預設的排版，堆疊在一起，然後調整 z-index；前面的頁數 z-index 為 x 從 0 算起，元件中使用邏輯為\n尚未翻頁 = $100 - x$ 翻頁後 = $10 + x$ 聰明的你應該會發現，當 x = 45，也就是頁數來到 46 頁時，這個算法會出現問題，但因為我的應用不會到這個頁數，也應該能用 virtual list 的方式避免這個問題，所以沒關係\n這邊遇到一個問題，如果把 z-index 傳入 useSpring，在正反面調換時，會產生延遲，所以改直接給進 animated.div 的 style 屬性中。\n在製作前以及過程中使用盡量少的元素來達成想要的動畫效果，因為曾被社群中群友的提醒，在 React 的機制中操作動畫，可能會產生預期外的效能問題\n到此，已經有翻頁書的樣子了。\n使用 🖐️use-gesture 實踐拖拉翻頁 參考 use-gesture 官網的這個範例，提供了跟 useSpring 一起使用的作法。\n接著就慢慢試怎麼樣的屬性和邏輯呈現出來的翻頁效果可以接受，又不會太複雜😵‍💫\n注意為了拿 useSpring 的 api 物件給進 useDrag 裡操作，參數會從物件改為一個箭頭函式\nimport { useState } from \"react\"; import { useDrag } from \"@use-gesture/react\"; const [flipped, setFlipped] = useState(false); const [pageStyle, api] = useSpring(() =\u003e ({ rotateY: 0, config: { mass: 5, tension: 500, friction: 150 }, touchAction: \"none\" })); const bind = useDrag(({ movement: [movX], cancel, dragging }) =\u003e { // console.log(movX, pageStyle.rotateY.get()); const currentRY = pageStyle.rotateY.get(); if (currentRY \u003e -60) { api.start({ rotateY: 0 }); setFlipped(false); } if (currentRY \u003c= -60 \u0026\u0026 (movX \u003c 0 || !dragging)) { api.start({ rotateY: -180 }); setFlipped(true); } else if (dragging \u0026\u0026 currentRY \u003c= 0) { api.start({ rotateY: currentRY + movX }); } }); 一個小插曲是要注意圖片載入速度，會影響翻頁動畫的流暢度(會卡住)\n最後，打開封面後，書本寬度改變，一來會蓋到邊界超出畫面，二來沒有置中，所以在 FlippablePage 加入一個 onFlipped 屬性透過 useEffect 來觸發 callback– onFlipped，做 translateX 的改變。\n",
+  "wordCount" : "479",
   "inLanguage": "en",
   "image":"https://AlliesChen.github.io/images/a_child_waves_hand_in_spring.jpg","datePublished": "2023-09-19T23:29:44+08:00",
   "dateModified": "2023-09-19T23:29:44+08:00",
@@ -201,8 +175,8 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://AlliesChen.github.io/categories/" title="categories">
-                    <span>categories</span>
+                <a href="https://AlliesChen.github.io/archives/" title="archives">
+                    <span>archives</span>
                 </a>
             </li>
             <li>
@@ -229,7 +203,7 @@
 <article class="post-single">
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
-    <h1 class="post-title">
+    <h1 class="post-title entry-hint-parent">
       透過 CSS 製作書本翻頁效果
     </h1>
     <div class="post-description">
@@ -238,7 +212,11 @@
     <div class="post-meta"><span title='2023-09-19 23:29:44 +0800 CST'>September 19, 2023</span>&nbsp;·&nbsp;Yu-Pang&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/page-flip_animation_with_CSS.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
 
 </div>
-  </header> <div class="toc">
+  </header> 
+<figure class="entry-cover"><img loading="eager" src="https://AlliesChen.github.io/images/a_child_waves_hand_in_spring.jpg" alt="">
+        <p><!-- raw HTML omitted -->
+</p>
+</figure><div class="toc">
     <details >
         <summary accesskey="c" title="(Alt + C)">
             <span class="details">Table of Contents</span>
@@ -247,7 +225,7 @@
         <div class="inner"><nav id="TableOfContents">
   <ul>
     <li><a href="#tldr">TL;DR</a></li>
-    <li><a href="#讓套件再次偉大">讓套件再次偉大</a></li>
+    <li><a href="#讓套件再次偉大"><del>讓套件再次偉大</del></a></li>
     <li><a href="#純-css-的現成範例">純 CSS 的現成範例</a></li>
     <li><a href="#animation-library-for-react">Animation library for React</a></li>
     <li><a href="#使用-react-spring-實踐翻頁動畫">使用 react-spring 實踐翻頁動畫</a></li>
@@ -262,17 +240,12 @@
 <p>這篇文章需要讀者對 React 這個前端框架及 CSS 的 transition 屬性的應用有基本的了解，成果及原始碼是建立於這兩個技術之上的，內文會大略地對實踐的方式說明，但不會詳細地提及所使用的框架及函式庫確切 API 的功能及用法。</p>
 <h2 id="tldr">TL;DR<a hidden class="anchor" aria-hidden="true" href="#tldr">#</a></h2>
 <p>成果: <a href="https://codesandbox.io/s/page-flippable-book-5h5ktm?file=/src/Page.tsx">https://codesandbox.io/s/page-flippable-book-5h5ktm?file=/src/Page.tsx</a></p>
-<iframe src="https://codesandbox.io/embed/page-flippable-book-5h5ktm?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="page-flippable book"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<!-- raw HTML omitted -->
 <ul>
 <li>透過 <code>translateZ</code> 做出書頁的正反面</li>
 </ul>
 <blockquote>
-<p><u>2023/9/22</u>
+<p><!-- raw HTML omitted -->2023/9/22<!-- raw HTML omitted -->
 基於前端社群網友的建議，我把原先用 <code>opacity</code> 變換做出的頁面正反面，換成靜態、單純加在 CSS class&ndash; <code>back</code> 中的 <code>translateZ</code>，另外，為了讓它能正確作用，也需要在 <code>page</code> 這個 CSS class 中加入 <code>transform-style: preserve-3d</code>，如此一來，應該多少能減輕瀏覽器的運算負擔。</p>
 </blockquote>
 <ul>
@@ -296,11 +269,7 @@
 <p>這邊，我認為應用 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform"><code>transform</code></a> 有搞頭，又看到 MDN 裡的範例有 <code>matrix</code> (最近剛好在看<a href="https://www.3blue1brown.com/topics/linear-algebra">線性代數</a>的教學影片)，拿<a href="http://www.eion.com.tw/Blogger/?Pid=1168">這個網站</a>沙盤推演了一下，我以為能透過操作<code>scaleX</code> 和 <code>skewY</code> 的矩陣轉換來做出翻頁效果殊不知&hellip;</p>
 <p>這個作法下 <code>backface-visibility: hidden</code> 不管用；也沒有 rotate 能用，翻頁效果有奇怪的抖動。</p>
 <p>Demo: <a href="https://codepen.io/allieschen/pen/NWOQxwx">https://codepen.io/allieschen/pen/NWOQxwx</a></p>
-<iframe height="300" style="width: 100%;" scrolling="no" title="page-flip animation with matrix" src="https://codepen.io/allieschen/embed/NWOQxwx?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/allieschen/pen/NWOQxwx">
-  page-flip animation with matrix</a> by YPChen (<a href="https://codepen.io/allieschen">@allieschen</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+<!-- raw HTML omitted -->
 <ul>
 <li><a href="https://codepen.io/pizzabote/pen/xxxXmXN">Book page flip animation</a> on Codepen&ndash; 實踐單純，效果也不錯，嘗試讀改了一下程式碼，發現有些可以簡化的地方，主要的問題在 <code>position: relative/absolute</code> 堆疊使用有點複雜，還用上了 <code>overflow: hidden</code> 遮蓋。</li>
 </ul>

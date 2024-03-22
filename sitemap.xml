@@ -2,16 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://AlliesChen.github.io/tags/japan/</loc>
+    <lastmod>2024-03-21T07:54:23+08:00</lastmod>
+  </url><url>
+    <loc>https://AlliesChen.github.io/tags/</loc>
+    <lastmod>2024-03-21T07:54:23+08:00</lastmod>
+  </url><url>
+    <loc>https://AlliesChen.github.io/tags/travel/</loc>
+    <lastmod>2024-03-21T07:54:23+08:00</lastmod>
+  </url><url>
+    <loc>https://AlliesChen.github.io/</loc>
+    <lastmod>2024-03-21T07:54:23+08:00</lastmod>
+  </url><url>
+    <loc>https://AlliesChen.github.io/before_going_to_japan/</loc>
+    <lastmod>2024-03-21T07:54:23+08:00</lastmod>
+  </url><url>
     <loc>https://AlliesChen.github.io/tags/first/</loc>
     <lastmod>2024-03-13T20:34:04+08:00</lastmod>
   </url><url>
     <loc>https://AlliesChen.github.io/posts/</loc>
-    <lastmod>2024-03-13T20:34:04+08:00</lastmod>
-  </url><url>
-    <loc>https://AlliesChen.github.io/tags/</loc>
-    <lastmod>2024-03-13T20:34:04+08:00</lastmod>
-  </url><url>
-    <loc>https://AlliesChen.github.io/</loc>
     <lastmod>2024-03-13T20:34:04+08:00</lastmod>
   </url><url>
     <loc>https://AlliesChen.github.io/posts/start_cs61b/</loc>
@@ -77,14 +86,16 @@
     <loc>https://AlliesChen.github.io/posts/use_d_ts_file_for_js_type_checking/</loc>
     <lastmod>2022-07-23T20:20:03+08:00</lastmod>
   </url><url>
-    <loc>https://AlliesChen.github.io/posts/web-dev-terms/</loc>
+    <loc>https://AlliesChen.github.io/posts/web-dev_terms/</loc>
     <lastmod>2023-06-22T14:51:00+08:00</lastmod>
   </url><url>
     <loc>https://AlliesChen.github.io/tags/hugo/</loc>
     <lastmod>2022-07-16T13:59:00+08:00</lastmod>
   </url><url>
-    <loc>https://AlliesChen.github.io/posts/deploy-hugo-website-on-github/</loc>
+    <loc>https://AlliesChen.github.io/posts/deploy_hugo_website_on_github/</loc>
     <lastmod>2022-07-16T13:59:00+08:00</lastmod>
+  </url><url>
+    <loc>https://AlliesChen.github.io/archives/</loc>
   </url><url>
     <loc>https://AlliesChen.github.io/categories/</loc>
   </url>

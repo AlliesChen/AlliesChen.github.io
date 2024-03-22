@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>使用 Hugo 產生一個部落格並部署在 GitHub 上 | YP&#39;s Dev Memo</title>
+<meta name="keywords" content="Hugo">
+<meta name="description" content="想做一個部落格來放點什麼？">
+<meta name="author" content="Yu-Pung">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://AlliesChen.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://AlliesChen.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://AlliesChen.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://AlliesChen.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://AlliesChen.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://AlliesChen.github.io/posts/deploy_hugo_website_on_github/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)']]                  
+    }
+  };
+</script>
+<meta property="og:title" content="使用 Hugo 產生一個部落格並部署在 GitHub 上" />
+<meta property="og:description" content="想做一個部落格來放點什麼？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://AlliesChen.github.io/posts/deploy_hugo_website_on_github/" />
+<meta property="og:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-16T13:59:00+08:00" />
+<meta property="article:modified_time" content="2022-07-16T13:59:00+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://AlliesChen.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="使用 Hugo 產生一個部落格並部署在 GitHub 上"/>
+<meta name="twitter:description" content="想做一個部落格來放點什麼？"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://AlliesChen.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "使用 Hugo 產生一個部落格並部署在 GitHub 上",
+      "item": "https://AlliesChen.github.io/posts/deploy_hugo_website_on_github/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "使用 Hugo 產生一個部落格並部署在 GitHub 上",
+  "name": "使用 Hugo 產生一個部落格並部署在 GitHub 上",
+  "description": "想做一個部落格來放點什麼？",
+  "keywords": [
+    "Hugo"
+  ],
+  "articleBody": "Hugo? “Hugo is a static HTML and CSS website generator written in Go.” – Hugo’s GitHub\n簡單來說，你只要照著操作指南進行，就能產出部署網站需要的檔案。\nHTML 和 CSS 是標籤語言，分別做為網頁的文字骨架及渲染設定。 Go 是一種程式語言。 建立 首先我參考了這篇文章：Hugo 搭配 Github page 架設靜態部落格 | JCYH Develop Blog，以及文章內提到的參考文章，步驟上蠻清楚的，但因為我的作業系統是Windows：\n另外要依照官方的安裝指南操作，也推薦跟著指南中的影片進行。\n取得.exe檔後，要在C:\\下創建Hugo\\bin\\，並把解壓縮的檔案放到bin資料夾內。 透過 Windows key + R 叫出執行視窗，輸入 cmd 叫出Command shell並移動到創建的bin資料夾下。 輸入 hugo version 可以確認Hugo是否有安裝成功。 要把 hugo 這個指令增加到Windows環境變數 (environment variable) - PATH 中。 新增這個位址 C:\\Hugo\\bin – 也就是我們創建來放Hugo相關檔案也是網站文章的資料夾。 在cmd用 echo %PATH% 可以看到PATH中現有的變數，有看到hugo被加入就是成功，或也可以離開 C:\\Hugo\\bin ，然後輸入 hugo version ，看到資訊就是成功了。(如果不行可以先關掉cmd再重開打指令確認) cmd 在 C:\\Hugo\\ 下輸入 hugo new site ，folder name的名字可以取自己喜歡的，我採用與參考的文章相同的名稱：website-hugo。 套用主題 這裡應該與作業系統無關，要幫我們的網站套用佈景主題，可以到 Hugo主題庫 選擇自己喜歡的，步驟上同參考文章，但一樣有遇到一些情況：\n參考文章內提到要把下載下來主題的 static、layouts 換成主題資料夾內的，但我使用的主題 PaperMod 沒有 static 只有 layouts ，這部份就只要取代 layouts 就好。\n要記得看選擇的主題的 GitHub 說明來確認如何使用及操作；我一開始想用 Doks 這個主題，但他似乎有用到Node.js npm，我不能在我的網站資料夾下 (C:\\Hugo\\website-hugo) 使用 hugo server -D 來啟動本地端伺服器(測試用)。\n另一方面，在 config.toml ，或是 config.yml（也是取決於選擇的主題設定），那個 theme: ，是取決於抓下來的主題資料夾的名稱的，像 Doks 這個主題我 clone 下來是得到 my-doks-site（可以改名），然後是用 toml 格式，我就要寫 theme = \"my-doks-site\"。\n使用模板文章 可能也取決於下載的主題，我使用的佈景主題 PaperMod 的文章模板；將這個內容複製並依照文章指示放到 archetypes/post.md 內，就可以用 hugo new --kind post .md 這個指令在 content 資料夾下產生檔案，再移到 posts 資料夾內就可以在網站中看到了。\n他有一些設定要注意，像是 date，要把 UTC 的時區寫正確，像台灣是 +08:00 ，如果沒寫的話，好像會被認為是未來貼文，所以就不會顯示在網站上。（待測試：感覺可以用來預約發文？）\n--- title: \"my post title\" date: 2022-07-16T16:00:00+08:00 # weight: 1 ShowReadingTime: false ShowWordCount: false --- 另外像 weight ，如果是1就是置頂，預設是註解掉的(不使用這個參數)。\n然後，可能因為我用的是中文， ShowReadingTime 和 ShowWordCount 這兩個顯示的數值不太可靠，所以我把它們改為false（不顯示）。\n部份設定像 weight，可以在官網 Front Matter 的主題找到更詳細的說明。（因為有些是主題客製的，就要參考主題的文件說明了）\n部署到GitHub 推送部份就如參考文章中所述，但一樣有遇到問題：\nGitHub 頁面開起來沒有吃到 stylesheet，就是純文字，看了 console 發現有跳錯誤： Failed to find a valid digest in the 'integrity' attribute for resource css with computed SHA-256 integrity hugo\n這邊借助 Google 大神，找到了這個辦法。\n另外，我有用參考文章中提及的另一篇參考所寫到，再開一個 GitHub repo ，放 build 到 public 前的原始檔案；因為 PaperMod 這個主題的模板文章，可以在各篇文章標題作者旁用一個 Suggest Change 的連結，目的就如字面上所示，但因為 public 做出來都是 html了，連過去也不好閱讀和發 pull request ，乾脆再開一個放原始的 .md 檔們。\n在 public 外的這個資料夾，我新增了 .gitignore ，把 public 和 themes 排除在推送的內容外，因為 public 的內容已經在 blog 部署的 repo 上了，而 themes 的內容都是抓下來的，沒必要推上去。 加入 LaTeX 支援 參考 Mathematics in Markdown | Hugo (gohugo.io) 官方的說明，但 Step 3 的部份需要配合使用的主題改做法，以 PaperMod 來說，如果照官方作法，會把取代掉 PaperMod 的 baseof.html，結果就是沒有內容 (body) 了。\n在 themes/PaperMod/layouts/_default/ 下看到 baseof.html，會發現 head 的來源是上一層的 partials 下的 head.html，打開檔案可以發現裡面會引入資料夾同一層的 extend_head.html 檔案中說明了這個就是用來加東西到 裡的。\n於是回到最外層，在 layouts/partials/ 下建立一個同名檔案 extend_head.html 並放入官方文件裡的內容：\n{{ if .Param \"math\" }}\r{{ partialCached \"math.html\" . }}\r{{ end }} 完成🎉\n深入學習 Hugo - Static Site Generator | Tutorial - YouTube – 這個影片清單有更多關於 Hugo 設定的說明。\n題外話：Markdown編輯器 因為 Hugo 使用的檔案格式是 .md (markdown)，除了 VSCode 可以編輯外，我也會使用 MarkText 以及 Obsidian 這兩款編輯器；介面比 VSCode 更像個文件編輯器， MarkText 用來開單個檔案，因為 Obsidian 需要透過指定資料夾的方式才能開檔案，但也因此 Obsidian 很適合建立及管理文件庫，端看使用習慣。\n",
+  "wordCount" : "326",
+  "inLanguage": "en",
+  "image":"https://AlliesChen.github.io/%3Cimage%20path/url%3E","datePublished": "2022-07-16T13:59:00+08:00",
+  "dateModified": "2022-07-16T13:59:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Yu-Pung"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://AlliesChen.github.io/posts/deploy_hugo_website_on_github/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "YP's Dev Memo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://AlliesChen.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://AlliesChen.github.io/" accesskey="h" title="YP&#39;s Dev Memo (Alt + H)">YP&#39;s Dev Memo</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://AlliesChen.github.io/archives/" title="archives">
+                    <span>archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://AlliesChen.github.io/tags/" title="tags">
+                    <span>tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/AlliesChen" title="github">
+                    <span>github</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://AlliesChen.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://AlliesChen.github.io/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      使用 Hugo 產生一個部落格並部署在 GitHub 上
+    </h1>
+    <div class="post-description">
+      想做一個部落格來放點什麼？
+    </div>
+    <div class="post-meta"><span title='2022-07-16 13:59:00 +0800 CST'>July 16, 2022</span>&nbsp;·&nbsp;Yu-Pung&nbsp;|&nbsp;<a href="https://github.com/AlliesChen/website-hugo/blob/main/content/posts/deploy_hugo_website_on_github.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#hugo">Hugo?</a></li>
+    <li><a href="#建立">建立</a></li>
+    <li><a href="#套用主題">套用主題</a></li>
+    <li><a href="#使用模板文章">使用模板文章</a></li>
+    <li><a href="#部署到github">部署到GitHub</a></li>
+    <li><a href="#加入-latex-支援">加入 LaTeX 支援</a></li>
+    <li><a href="#深入學習">深入學習</a></li>
+    <li><a href="#題外話markdown編輯器">題外話：Markdown編輯器</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="hugo">Hugo?<a hidden class="anchor" aria-hidden="true" href="#hugo">#</a></h2>
+<blockquote>
+<p>&ldquo;Hugo is a static HTML and CSS website generator written in Go.&rdquo;
+&ndash; <a href="https://github.com/gohugoio/hugo">Hugo&rsquo;s GitHub</a></p>
+</blockquote>
+<p>簡單來說，你只要照著操作指南進行，就能產出部署網站需要的檔案。</p>
+<ul>
+<li>HTML 和 CSS 是標籤語言，分別做為網頁的文字骨架及渲染設定。</li>
+<li><a href="https://go.dev/">Go</a> 是一種程式語言。</li>
+</ul>
+<h2 id="建立">建立<a hidden class="anchor" aria-hidden="true" href="#建立">#</a></h2>
+<p>首先我參考了這篇文章：<a href="https://jcyh0120.github.io/posts/blog-with-hugo-and-github-page/">Hugo 搭配 Github page 架設靜態部落格 | JCYH Develop Blog</a>，以及文章內提到的參考文章，步驟上蠻清楚的，但因為我的作業系統是<em>Windows</em>：</p>
+<p>另外要依照官方的<a href="https://gohugo.io/getting-started/installing/#windows">安裝指南</a>操作，也推薦跟著指南中的<a href="https://youtu.be/G7umPCU-8xc">影片</a>進行。</p>
+<ol>
+<li>取得.exe檔後，要在C:\下創建Hugo\bin\，並把解壓縮的檔案放到bin資料夾內。
+<ul>
+<li>透過 <code>Windows key + R</code> 叫出執行視窗，輸入 <code>cmd</code> 叫出Command shell並移動到創建的bin資料夾下。</li>
+<li>輸入 <code>hugo version</code> 可以確認Hugo是否有安裝成功。</li>
+</ul>
+</li>
+<li>要把 <code>hugo</code> 這個指令增加到Windows環境變數 (environment variable) - <code>PATH</code> 中。
+<ul>
+<li>新增這個位址 <code>C:\Hugo\bin</code> &ndash; 也就是我們創建來放Hugo相關檔案也是網站文章的資料夾。</li>
+<li>在cmd用 <code>echo %PATH%</code> 可以看到PATH中現有的變數，有看到hugo被加入就是成功，或也可以離開 <code>C:\Hugo\bin</code> ，然後輸入 <code>hugo version</code> ，看到資訊就是成功了。(如果不行可以先關掉cmd再重開打指令確認)</li>
+<li>cmd 在 <code>C:\Hugo\</code> 下輸入 <code>hugo new site &lt;folder_name&gt;</code> ，folder name的名字可以取自己喜歡的，我採用與參考的文章相同的名稱：website-hugo。</li>
+</ul>
+</li>
+</ol>
+<h2 id="套用主題">套用主題<a hidden class="anchor" aria-hidden="true" href="#套用主題">#</a></h2>
+<p>這裡應該與作業系統無關，要幫我們的網站套用佈景主題，可以到 <a href="https://themes.gohugo.io/">Hugo主題庫</a> 選擇自己喜歡的，步驟上同參考文章，但一樣有遇到一些情況：</p>
+<ul>
+<li>
+<p>參考文章內提到要把下載下來主題的 static、layouts 換成主題資料夾內的，但我使用的主題 <a href="https://adityatelange.github.io/hugo-PaperMod/">PaperMod</a> 沒有 static 只有 layouts ，這部份就只要取代 layouts 就好。</p>
+</li>
+<li>
+<p>要記得看選擇的主題的 GitHub 說明來確認如何使用及操作；我一開始想用 Doks 這個主題，但他似乎有用到Node.js npm，我不能在我的網站資料夾下 (<code>C:\Hugo\website-hugo</code>) 使用 <code>hugo server -D</code> 來啟動本地端伺服器(測試用)。</p>
+</li>
+<li>
+<p>另一方面，在 config.toml ，或是 config.yml（也是取決於選擇的主題設定），那個 <code>theme: &lt;theme_name&gt;</code> ，是取決於抓下來的主題資料夾的名稱的，像 Doks 這個主題我 clone 下來是得到 my-doks-site（可以改名），然後是用 toml 格式，我就要寫 <code>theme = &quot;my-doks-site&quot;</code>。</p>
+</li>
+</ul>
+<h2 id="使用模板文章">使用模板文章<a hidden class="anchor" aria-hidden="true" href="#使用模板文章">#</a></h2>
+<p>可能也取決於下載的主題，我使用的佈景主題 PaperMod 的<a href="https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-installation/#sample-pagemd">文章模板</a>；將這個內容複製並依照文章指示放到 archetypes/post.md 內，就可以用 <code>hugo new --kind post &lt;filename&gt;.md</code> 這個指令在 content 資料夾下產生檔案，再移到 posts 資料夾內就可以在網站中看到了。</p>
+<p>他有一些設定要注意，像是 date，要把 UTC 的時區寫正確，像台灣是 <code>+08:00</code> ，如果沒寫的話，好像會被認為是未來貼文，所以就不會顯示在網站上。（待測試：感覺可以用來預約發文？）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>title: &#34;my post title&#34;
+</span></span><span style="display:flex;"><span>date: 2022-07-16T16:00:00+08:00
+</span></span><span style="display:flex;"><span># weight: 1
+</span></span><span style="display:flex;"><span>ShowReadingTime: false
+</span></span><span style="display:flex;"><span>ShowWordCount: false
+</span></span><span style="display:flex;"><span>---
+</span></span></code></pre></div><p>另外像 <code>weight</code> ，如果是1就是置頂，預設是註解掉的(不使用這個參數)。</p>
+<p>然後，可能因為我用的是中文， <code>ShowReadingTime</code> 和 <code>ShowWordCount</code> 這兩個顯示的數值不太可靠，所以我把它們改為false（不顯示）。</p>
+<blockquote>
+<p>部份設定像 weight，可以在官網 <a href="https://gohugo.io/content-management/front-matter/">Front Matter</a> 的主題找到更詳細的說明。（因為有些是主題客製的，就要參考主題的文件說明了）</p>
+</blockquote>
+<h2 id="部署到github">部署到GitHub<a hidden class="anchor" aria-hidden="true" href="#部署到github">#</a></h2>
+<p>推送部份就如參考文章中所述，但一樣有遇到問題：</p>
+<p>GitHub 頁面開起來沒有吃到 stylesheet，就是純文字，看了 console 發現有跳錯誤： <code>Failed to find a valid digest in the 'integrity' attribute for resource css with computed SHA-256 integrity hugo</code></p>
+<p>這邊借助 Google 大神，找到了<a href="https://stackoverflow.com/a/73070453/18972098">這個辦法</a>。</p>
+<p>另外，我有用參考文章中提及的另一篇參考所寫到，再開一個 GitHub repo ，放 build 到 public 前的原始檔案；因為 PaperMod 這個主題的模板文章，可以在各篇文章標題作者旁用一個 Suggest Change 的連結，目的就如字面上所示，但因為 public 做出來都是 html了，連過去也不好閱讀和發 pull request ，乾脆再開一個放原始的 .md 檔們。</p>
+<ul>
+<li>在 public 外的這個資料夾，我新增了 <code>.gitignore</code> ，把 public 和 themes 排除在推送的內容外，因為 public 的內容已經在 blog 部署的 repo 上了，而 themes 的內容都是抓下來的，沒必要推上去。</li>
+</ul>
+<h2 id="加入-latex-支援">加入 LaTeX 支援<a hidden class="anchor" aria-hidden="true" href="#加入-latex-支援">#</a></h2>
+<p>參考 <a href="https://gohugo.io/content-management/mathematics/">Mathematics in Markdown | Hugo (gohugo.io)</a> 官方的說明，但 Step 3 的部份需要配合使用的主題改做法，以 PaperMod 來說，如果照官方作法，會把取代掉 PaperMod 的 baseof.html，結果就是沒有內容 (body) 了。</p>
+<p>在 themes/PaperMod/layouts/_default/ 下看到 baseof.html，會發現 head 的來源是上一層的 partials 下的 head.html，打開檔案可以發現裡面會引入資料夾同一層的 extend_head.html 檔案中說明了這個就是用來加東西到 &lt;head&gt; 裡的。</p>
+<p>於是回到最外層，在 layouts/partials/ 下建立一個同名檔案 extend_head.html 並放入官方文件裡的內容：</p>
+<pre tabindex="0"><code>{{ if .Param &#34;math&#34; }}
+    {{ partialCached &#34;math.html&#34; . }}
+{{ end }}
+</code></pre><p>完成🎉</p>
+<h2 id="深入學習">深入學習<a hidden class="anchor" aria-hidden="true" href="#深入學習">#</a></h2>
+<p><a href="https://www.youtube.com/playlist?list=PLLAZ4kZ9dFpOnyRlyS-liKL5ReHDcj4G3">Hugo - Static Site Generator | Tutorial - YouTube</a> &ndash; 這個影片清單有更多關於 Hugo 設定的說明。</p>
+<h2 id="題外話markdown編輯器">題外話：Markdown編輯器<a hidden class="anchor" aria-hidden="true" href="#題外話markdown編輯器">#</a></h2>
+<p>因為 Hugo 使用的檔案格式是 .md (markdown)，除了 VSCode 可以編輯外，我也會使用 <a href="https://github.com/marktext/marktext">MarkText</a> 以及 <a href="https://obsidian.md/">Obsidian</a> 這兩款編輯器；介面比 VSCode 更像個文件編輯器， MarkText 用來開單個檔案，因為 Obsidian 需要透過指定資料夾的方式才能開檔案，但也因此 Obsidian 很適合建立及管理文件庫，端看使用習慣。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://AlliesChen.github.io/tags/hugo/">Hugo</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://AlliesChen.github.io/posts/web-dev_terms/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>那些網頁開發的名詞</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://AlliesChen.github.io/">YP&#39;s Dev Memo</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
