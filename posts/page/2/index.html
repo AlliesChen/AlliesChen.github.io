@@ -165,6 +165,23 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">TypeScript：Union被判為Intersection
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章的撰寫緣由是我在React中某一元件要傳入兩種不同的物件陣列：
+interface UserInfo { generalInfo: GeneralInfoTemplate; educationExps: Array&lt;EducationExpInfoTemplate&gt;; practicalExps: Array&lt;PracticalExpInfoTemplate&gt;; } type UserInfoKeys = Exclude&lt;keyof UserInfo, &#34;generalInfo&#34;&gt;; interface Props { block: UserInfoKeys; blockKey: string; setInputs: React.Dispatch&lt;React.SetStateAction&lt;UserInfo[UserInfoKeys]&gt;&gt;; setAppUserData: React.Dispatch&lt;React.SetStateAction&lt;UserInfo&gt;&gt;; } 簡單來說，我想把const [state, setState] = React.useState()這類的setState用props傳給子元件，然後這個setState是設置UserInfo物件中的educationExps「或」praticalExps用的，結果當我使用setInputs把這兩種之一的值傳進時報錯了。
+這個錯誤，也是簡單來說，他說我educationExps沒有praticalExps的屬性，praticalExps沒有educationExps屬性…(怎麼聯集變交互比對了？)
+我把這個狀況另外寫個測試重現出來如下：
+CodeSandbox連結(問題)
+type Foo = { one: number; two: number }; type Bar = { three: number; four: number }; type Foobar = Foo | Bar; interface Props { value: Foobar; setValue: React.Dispatch&lt;React.SetStateAction&lt;Foobar&gt;&gt;; } /** This will be used in App component below */ function Beep(props: Props) { const boop = Object....</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-08-17 21:43:18 +0800 CST'>August 17, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to TypeScript：Union被判為Intersection" href="https://AlliesChen.github.io/posts/unexpected_intersection_type/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">使用`.d.ts` 檔給JavaScript加入型別檢查
     </h2>
   </header>

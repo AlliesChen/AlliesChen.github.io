@@ -164,6 +164,32 @@
 </header>
 
 <article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">日本旅遊行前規劃
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>技術ぎじゅつを学まなぶ以外いがいにも、時々休憩を取るために何か他のことをするべきです。今回はコンサートを聴きに日本に行きます。
+まずは、日本政府観光局（JNTO） - Japan National Tourism Organization のウェブページを参考します。
+(切回中文模式)
+規劃行程 JNTO 有很多實用的資訊並整理成單元方便瀏覽：日本旅遊計劃 | Travel Japan（日本觀光局）
+台灣人入境日本免簽證，但還是需要填寫入境資訊，在出發前先到 Visit Japan Web | Digital Agency Services 登錄相關訊息。詳細填寫的步驟可以參考 Visit Japan Web教學》2024日本入境辦理入境手續/QR Code/注意事項 (kkday.com)。
+Visit Japan Web 也可以申請免稅的 QR Code，方法可參考 日本退稅攻略》最高退稅10%！2024退稅流程手續/計算方式教學 (kkday.com)
+保險 我參考了這兩篇文章：
+出遊必看！2023 熱門海外旅遊保險推薦與比較（旅平險、不便險、綜合保險） - InsKeeper 保險管家
+《整理包》2024最新旅平險&#43;不便險比較，10間公司哪家最推薦？ (polida.com.tw)
+幸運的是這次旅程我並沒有遇到需要使用它們的情況，但也就無法分享實際要用到時公司的服務如何。
+訂房 我使用了 Agoda，操作蠻簡便的，規定期間內退訂沒有壓力，但要注意的是，瀏覽的幣別會直接關連到結帳幣別，結帳可以選擇：
+預先付款 延遲付款 到店付款 若選擇延遲付款，到時結帳的匯率並不是單純的銀行匯率：#其他 Agoda訂房盡量不要使用延遲付款！（有建議解決方法） - 旅遊 forum | Dcard。
+買機票 如果要買聯航，可以等等看不定期的機票特價，雖然時間可能比較多晚去早回的航班，但半價的折扣確實吸引人；當然犧牲的是座位空間與服務；像是機上餐、託運行李這些服務都是要另外加價的。
+如果要搭聯航，要意識到機上可能沒有 Wi-Fi 可用
+報到 行程確認單上的注意事項一定要看清楚；人生第一次搭飛機，透過電子機票 &#43; 線上預辦登機的方式，並且沒有托運行李的需求，完全自助的情況下，讓我沒注意到要在起飛時間前 1 小時就到登機門前預備…(寫在行程確認的注意事項)。如果有託運的話，在櫃台服務人會貼心提醒有這件事，至少從日本回來的時候我是有被提醒的。</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-03-21 07:54:23 +0800 CST'>March 21, 2024</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to 日本旅遊行前規劃" href="https://AlliesChen.github.io/posts/before_going_to_japan/"></a>
+</article>
+
+<article class="post-entry"> 
 <figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/images/a_computer_programmer.jpg" alt="a computer grammer sitting on before a white board">
 </figure>
   <header class="entry-header">
@@ -184,7 +210,7 @@
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/images/a_child_waves_hand_in_spring.jpg" alt="">
+<figure class="entry-cover"><img loading="lazy" src="https://AlliesChen.github.io/images/a_magic_book_with_page_flipped_and_glowing_inside_on_a_table_in_a_classroom.jpg" alt="">
 </figure>
   <header class="entry-header">
     <h2 class="entry-hint-parent">透過 CSS 製作書本翻頁效果
@@ -193,8 +219,8 @@
   <div class="entry-content">
     <p>近期想透過「翻頁」這個互動方式來做一個 web 小遊戲，過程中發現意外地不好實現。
 這篇文章需要讀者對 React 這個前端框架及 CSS 的 transition 屬性的應用有基本的了解，成果及原始碼是建立於這兩個技術之上的，內文會大略地對實踐的方式說明，但不會詳細地提及所使用的框架及函式庫確切 API 的功能及用法。
-TL;DR 成果: https://codesandbox.io/s/page-flippable-book-5h5ktm?file=/src/Page.tsx
-透過 translateZ 做出書頁的正反面 2023/9/22 基於前端社群網友的建議，我把原先用 opacity 變換做出的頁面正反面，換成靜態、單純加在 CSS class– back 中的 translateZ，另外，為了讓它能正確作用，也需要在 page 這個 CSS class 中加入 transform-style: preserve-3d，如此一來，應該多少能減輕瀏覽器的運算負擔。
+TL;DR Repo | Live demo
+透過 CSS 的 translateZ 做出書頁的正反面 .back { transform: translateZ(-1px); } 2023/9/22 基於前端社群網友的建議，我把原先用 opacity 變換做出的頁面正反面，換成靜態、單純加在 CSS class– back 中的 translateZ，另外，為了讓它能正確作用，也需要在 page 這個 CSS class 中加入 transform-style: preserve-3d，如此一來，應該多少能減輕瀏覽器的運算負擔。
 透過 position: relative/absolute 來堆疊書頁的上下一頁 用 z-index 切換堆疊的順序 react-spring 控制 rotateY 做翻頁轉場 配合 perspective 屬性改變視角增添立體感 use-gesture 加入拖曳翻頁功能 讓套件再次偉大 首先我想到的是有沒有現成的(免費)翻頁書效果套件可以用，
 turn.js– 建立在 jQuery 之上的套件，快十年沒更新了，考量後續擴充功能可能有困難，暫不考慮。 StPageFlip– 效果很擬真，從 demo 看起來使用體驗流暢；而且有 React 版本，但是，從 commits 看來有兩年沒更新了，以 front-end 的迭代速度加上，擔心搭 React 18 會不會出現不明的坑因此沒有使用。 後續又看了幾個套件(比較新的)好像也是搭在這些套件上實踐出來，覺得難以在短期理解其運作方式，怕未來不好改。...</p>
   </div>
@@ -324,23 +350,6 @@ Tailwind CSS Tailwind CSS 預設的 utilities 想用自訂值只要個加方框�
   </div>
   <footer class="entry-footer"><span title='2022-09-26 19:58:58 +0800 CST'>September 26, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
   <a class="entry-link" aria-label="post link to WTM - D2 workshop 活動心得" href="https://AlliesChen.github.io/posts/wtm_d2_workshop/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">TypeScript：Union被判為Intersection
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>這篇文章的撰寫緣由是我在React中某一元件要傳入兩種不同的物件陣列：
-interface UserInfo { generalInfo: GeneralInfoTemplate; educationExps: Array&lt;EducationExpInfoTemplate&gt;; practicalExps: Array&lt;PracticalExpInfoTemplate&gt;; } type UserInfoKeys = Exclude&lt;keyof UserInfo, &#34;generalInfo&#34;&gt;; interface Props { block: UserInfoKeys; blockKey: string; setInputs: React.Dispatch&lt;React.SetStateAction&lt;UserInfo[UserInfoKeys]&gt;&gt;; setAppUserData: React.Dispatch&lt;React.SetStateAction&lt;UserInfo&gt;&gt;; } 簡單來說，我想把const [state, setState] = React.useState()這類的setState用props傳給子元件，然後這個setState是設置UserInfo物件中的educationExps「或」praticalExps用的，結果當我使用setInputs把這兩種之一的值傳進時報錯了。
-這個錯誤，也是簡單來說，他說我educationExps沒有praticalExps的屬性，praticalExps沒有educationExps屬性…(怎麼聯集變交互比對了？)
-我把這個狀況另外寫個測試重現出來如下：
-CodeSandbox連結(問題)
-type Foo = { one: number; two: number }; type Bar = { three: number; four: number }; type Foobar = Foo | Bar; interface Props { value: Foobar; setValue: React.Dispatch&lt;React.SetStateAction&lt;Foobar&gt;&gt;; } /** This will be used in App component below */ function Beep(props: Props) { const boop = Object....</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-08-17 21:43:18 +0800 CST'>August 17, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
-  <a class="entry-link" aria-label="post link to TypeScript：Union被判為Intersection" href="https://AlliesChen.github.io/posts/unexpected_intersection_type/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
