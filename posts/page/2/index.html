@@ -165,6 +165,45 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Derivative
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>這篇文章是我學習 MIT 18.01SC Session 1 及 Session 2 做的學習筆記，希望能夠幫助閱眾更容易地吸收課程中的內容。
+這篇主要會輔助說明課程中導數的用途(查資料歸納出來的)，並說明 EXAMPLE 2 裡提到要用二項式定理細部來看是怎麼來的。 EXAMPLE 1 因為課程講義和課程影片中就蠻清楚了，就不多做筆記了。
+這篇文章會涉及到 導數(derivative) 二項式定理(binomial theorem) 基礎知識需求 切線(tangent line)和割線(secant line) – 參考：math is fun 斜率(slope) – 參考：math is fun 線性方程式(linear equation) – 參考：math is fun 組合(combination)與排列(permutation) – 參考：math is fun 前言 關於導數 (derivative) 的概念 18.01SC 講的簡明扼要，但又舉了很多深度的例子啟發思考。切得更細，以及更多小練習題，可以看 Khan Academy - Differential Calculus 下的 Unit: Derivatives: definition and basic rules，從 Average vs. instantaneous rate of change 這段到 Derivative definition 該段的 Formal definition of the derivative as a limit。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-10-22 00:53:05 +0800 CST'>October 22, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to Derivative" href="https://AlliesChen.github.io/posts/derivative/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">WTM - D2 workshop 活動心得
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>活動表訂從9:40到17:30，實際製作應該是5個小時左右，當天是一組四個組員，兩個工程師搭兩個設計師。
+題目是 WTM 官網註冊頁及首頁，我只做了首頁…另一位工程師除了註冊頁，還能給大家開發及設計的建議，希望自己也能慢慢朝這個方向邁進。
+這次實作要的技術東西都看過，都沒自己深入想過、做過😅，沒能好好的判斷作法，寫個筆記警惕一下自己：
+Web Vitals &lt;img&gt;載入造成的版面位移，忘了寫個預設值的情況下可能影響web指標中的累積佈局偏移(CLS)，而且使用者要點東西的時候版面跳掉應該是蠻差的體驗。
+React React 18 的 useEffect 在 render 時會跑兩次，原因參考這篇文章。
+正常在元件中使用 setTimeout 來觸發 re-render 拿 state 不會有更新位址的問題，想太多了 - 寫了個例子。這個作法我用來實踐題目中輪播圖功能。
+會有事的是在Line群上看到群友提出的這個情境；在useEffect中使用setTimeout必須配合 useRef 來更新 re-render 後的 state 位址，才能穩定的每秒倒數並考慮更新的 state - 該情境可行的解法。
+至於不會穩定的每秒倒數則是我嘗試想解題時的這個例子；每次觸發按鈕確實更新了 log 中的 state，但計時也會跟著重置，連按的情況下就會等最後一下按完開始算一秒才有 log。😥
+Tailwind CSS Tailwind CSS 預設的 utilities 想用自訂值只要個加方框…
+透過CDN引入一樣可以寫 configure, utilities 和用官方 plugin，作法參考官方文件。我應用這個在漢堡選單的展開，寫了個影格及動畫。
+關於codesandbox 不知道怎麼解，但純記錄下來：
+嘗試了在 codesandbox 用非CDN的方式引入 Tailwind CSS，看了幾個設定好的環境，不是把 stylesheet 整個輸出出來，就是要改Node.js做環境，但我只是想要不顯示scrollbar…。
+環境跑 HMR 時好像會讓 useEffect 變得怪怪的，有狀態殘留、重複觸發，但重整後又沒事了，也可能是我的寫法不安全造成的？🤔
+沒有確認好展示時要用的環境，雖然開發時有跟工程夥伴說好用codesandbox的mobile preview為基準開發，但它這個preview就算是用內建的open in new window，版面也會變得不同，也沒再跟全部組員確認demo時會用什麼環境，結果就有很重要的東西跑板了…...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-09-26 19:58:58 +0800 CST'>September 26, 2022</span>&nbsp;·&nbsp;Yu-Pang</footer>
+  <a class="entry-link" aria-label="post link to WTM - D2 workshop 活動心得" href="https://AlliesChen.github.io/posts/wtm_d2_workshop/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">TypeScript：Union被判為Intersection
     </h2>
   </header>

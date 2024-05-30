@@ -6,8 +6,15 @@
     <description>Recent content on YP&#39;s Dev Memo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 21 Mar 2024 07:54:23 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 30 Mar 2024 22:33:03 +0800</lastBuildDate>
     <atom:link href="https://AlliesChen.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy_a_go_serverless_func_4_form_w_htmx</title>
+      <link>https://AlliesChen.github.io/posts/deploy_a_go_serverless_func_4_form_w_htmx/</link>
+      <pubDate>Sat, 30 Mar 2024 22:33:03 +0800</pubDate>
+      <guid>https://AlliesChen.github.io/posts/deploy_a_go_serverless_func_4_form_w_htmx/</guid>
+      <description>Desc Text.</description>
+    </item>
     <item>
       <title>日本旅遊行前規劃</title>
       <link>https://AlliesChen.github.io/posts/before_going_to_japan/</link>
@@ -28,6 +35,13 @@
       <pubDate>Tue, 19 Sep 2023 23:29:44 +0800</pubDate>
       <guid>https://AlliesChen.github.io/posts/page-flip_animation_with_css/</guid>
       <description>配合 react-spring, use-gesture 操作 CSS 來做翻頁動畫</description>
+    </item>
+    <item>
+      <title>Break_vues_reactivity</title>
+      <link>https://AlliesChen.github.io/posts/break_vues_reactivity/</link>
+      <pubDate>Tue, 28 Feb 2023 16:50:44 +0800</pubDate>
+      <guid>https://AlliesChen.github.io/posts/break_vues_reactivity/</guid>
+      <description>Desc Text.</description>
     </item>
     <item>
       <title>有趣的 TypeScript 型別用法與機制 Part 2</title>
